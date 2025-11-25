@@ -1,0 +1,34 @@
+[
+  {
+    "content": {
+      "languageListLabel": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Language list",
+          "es": "Lista de idiomas",
+          "fr": "Liste de langues"
+        }
+      },
+      "localeSwitcherLabel": {
+        "fields": [
+          "language",
+          "language",
+          "language"
+        ],
+        "nodeType": "insertion",
+        "insertion": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "Select language {{language}}",
+            "es": "Seleccionar idioma {{language}}",
+            "fr": "Sélectionner la langue {{language}}"
+          }
+        }
+      }
+    },
+    "key": "locale-switcher",
+    "localId": "locale-switcher::local::src\\components\\locale-switcher.content.ts",
+    "location": "local",
+    "filePath": "src\\components\\locale-switcher.content.ts"
+  }
+]

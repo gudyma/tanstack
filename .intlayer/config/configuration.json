@@ -1,0 +1,124 @@
+{
+  "internationalization": {
+    "locales": [
+      "en",
+      "fr",
+      "es"
+    ],
+    "requiredLocales": [
+      "en",
+      "fr",
+      "es"
+    ],
+    "strictMode": "inclusive",
+    "defaultLocale": "en"
+  },
+  "routing": {
+    "mode": "prefix-no-default",
+    "storage": [
+      "cookie",
+      "header"
+    ],
+    "basePath": ""
+  },
+  "content": {
+    "fileExtensions": [
+      ".content.ts",
+      ".content.js",
+      ".content.cjs",
+      ".content.cjx",
+      ".content.mjs",
+      ".content.mjx",
+      ".content.json",
+      ".content.tsx",
+      ".content.jsx"
+    ],
+    "baseDir": "D:\\web\\mira-web",
+    "excludedPath": [
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/build/**",
+      "**/.intlayer/**",
+      "**/.next/**",
+      "**/.nuxt/**",
+      "**/.expo/**",
+      "**/.vercel/**",
+      "**/.turbo/**",
+      "**/.tanstack/**"
+    ],
+    "watch": true,
+    "contentDir": [
+      "D:\\web\\mira-web"
+    ],
+    "moduleAugmentationDir": "D:\\web\\mira-web\\.intlayer\\types",
+    "unmergedDictionariesDir": "D:\\web\\mira-web\\.intlayer\\unmerged_dictionary",
+    "remoteDictionariesDir": "D:\\web\\mira-web\\.intlayer\\remote_dictionary",
+    "dictionariesDir": "D:\\web\\mira-web\\.intlayer\\dictionary",
+    "dynamicDictionariesDir": "D:\\web\\mira-web\\.intlayer\\dynamic_dictionary",
+    "fetchDictionariesDir": "D:\\web\\mira-web\\.intlayer\\fetch_dictionary",
+    "typesDir": "D:\\web\\mira-web\\.intlayer\\types",
+    "mainDir": "D:\\web\\mira-web\\.intlayer\\main",
+    "configDir": "D:\\web\\mira-web\\.intlayer\\config",
+    "cacheDir": "D:\\web\\mira-web\\.intlayer\\cache",
+    "watchedFilesPattern": [
+      "/**/*.content.ts",
+      "/**/*.content.js",
+      "/**/*.content.cjs",
+      "/**/*.content.cjx",
+      "/**/*.content.mjs",
+      "/**/*.content.mjx",
+      "/**/*.content.json",
+      "/**/*.content.tsx",
+      "/**/*.content.jsx"
+    ],
+    "watchedFilesPatternWithPath": [
+      "D:/web/mira-web/**/*.content.ts",
+      "D:/web/mira-web/**/*.content.js",
+      "D:/web/mira-web/**/*.content.cjs",
+      "D:/web/mira-web/**/*.content.cjx",
+      "D:/web/mira-web/**/*.content.mjs",
+      "D:/web/mira-web/**/*.content.mjx",
+      "D:/web/mira-web/**/*.content.json",
+      "D:/web/mira-web/**/*.content.tsx",
+      "D:/web/mira-web/**/*.content.jsx"
+    ],
+    "outputFilesPatternWithPath": "D:/web/mira-web/.intlayer/dictionary/**/*.json"
+  },
+  "editor": {
+    "applicationURL": "",
+    "editorURL": "http://localhost:8000",
+    "cmsURL": "https://intlayer.org",
+    "backendURL": "https://back.intlayer.org",
+    "port": 8000,
+    "enabled": true,
+    "dictionaryPriorityStrategy": "local_first",
+    "liveSync": true,
+    "liveSyncPort": 4000,
+    "liveSyncURL": "http://localhost:4000"
+  },
+  "log": {
+    "mode": "default",
+    "prefix": "\u001b[38;5;239m[intlayer] \u001b[0m"
+  },
+  "ai": {},
+  "build": {
+    "importMode": "static",
+    "traversePattern": [
+      "**/*.{js,ts,mjs,cjs,jsx,tsx,mjx,cjx,vue,svelte,svte}",
+      "!**/node_modules/**"
+    ],
+    "outputFormat": [
+      "cjs",
+      "esm"
+    ],
+    "cache": true
+  },
+  "dictionary": {
+    "fill": true
+  },
+  "metadata": {
+    "name": "Intlayer",
+    "version": "7.3.0",
+    "doc": "https://intlayer.org/docs"
+  }
+}

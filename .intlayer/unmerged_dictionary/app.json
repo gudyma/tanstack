@@ -1,0 +1,90 @@
+[
+  {
+    "content": {
+      "links": {
+        "about": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "About",
+            "es": "Acerca de",
+            "fr": "À propos"
+          }
+        },
+        "home": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "Home",
+            "es": "Inicio",
+            "fr": "Accueil"
+          }
+        }
+      },
+      "meta": {
+        "description": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "This is an example of using Intlayer with TanStack Router",
+            "es": "Este es un ejemplo de uso de Intlayer con TanStack Router",
+            "fr": "Ceci est un exemple d'utilisation d'Intlayer avec TanStack Router"
+          }
+        }
+      },
+      "title": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Welcome to Intlayer + TanStack Router",
+          "es": "Bienvenido a Intlayer + TanStack Router",
+          "fr": "Bienvenue à Intlayer + TanStack Router"
+        }
+      }
+    },
+    "key": "app",
+    "localId": "app::local::src\\contents\\index.content.ts",
+    "location": "local",
+    "filePath": "src\\contents\\index.content.ts"
+  },
+  {
+    "content": {
+      "links": {
+        "about": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "About",
+            "es": "Acerca de",
+            "fr": "À propos"
+          }
+        },
+        "home": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "Home",
+            "es": "Inicio",
+            "fr": "Accueil"
+          }
+        }
+      },
+      "meta": {
+        "description": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "This is an example of using Intlayer with TanStack Router",
+            "es": "Este es un ejemplo de uso de Intlayer con TanStack Router",
+            "fr": "Ceci est un exemple d'utilisation d'Intlayer avec TanStack Router"
+          }
+        }
+      },
+      "title": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Welcome to Intlayer + TanStack Router",
+          "es": "Bienvenido a Intlayer + TanStack Router",
+          "fr": "Bienvenue à Intlayer + TanStack Router"
+        }
+      }
+    },
+    "key": "app",
+    "localId": "app::local::src\\contents\\page.content.ts",
+    "location": "local",
+    "filePath": "src\\contents\\page.content.ts"
+  }
+]
