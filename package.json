@@ -9,7 +9,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
-    "build": "vite build",
+    "build": "bun --bun vite build",
     "start": "bun run .output/server/index.mjs"
   },
   "dependencies": {

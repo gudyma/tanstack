@@ -10,29 +10,28 @@ WORKDIR /app
 COPY package.json tsconfig.json intlayer.config.ts vite.config.ts ./
 
 # Install dependencies using Bun
-RUN bun install
+RUN bun install --production --verbose
 
 # Copy source code
-COPY src ./src
+COPY . .
 
 # Build TypeScript project
-RUN bun run build
+RUN bun build --compile --minify --outfile mira-app
 
 # ==========================
 # Stage 2: Runtime Stage
 # ==========================
-FROM oven/bun:alpine AS runner
+FROM gcr.io/distroless/base-debian12:nonroot AS runner
 
-# Set working directory
+ENV NODE_ENV=production
+
+ARG BUILD_APP_PORT=3000
+ENV APP_PORT=${BUILD_APP_PORT}
+EXPOSE ${APP_PORT}
+
 WORKDIR /app
 
-# Copy only runtime essentials from build stage
-COPY --from=builder /app/package.json ./
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/.output ./.output
+# Copy the compiled executable from the build stage
+COPY --from=builder /app/mira-app .
 
-# Expose application port
-EXPOSE 3000
-
-# Run the compiled output
-CMD ["bun", "run", ".output/server/index.mjs"]
+ENTRYPOINT ["./mira-app"]
