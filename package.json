@@ -9,7 +9,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
-    "build": "vite build"
+    "build": "vite build",
+    "start": "bun run .output/server/index.mjs"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.4",
