@@ -37,7 +37,6 @@ export default {
     }
   },
   "localIds": [
-    "app::local::src\\contents\\index.content.ts",
-    "app::local::src\\contents\\page.content.ts"
+    "app::local::src\\contents\\index.content.ts"
   ]
 } as const;
