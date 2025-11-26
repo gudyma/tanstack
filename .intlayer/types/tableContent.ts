@@ -1,42 +1,30 @@
 /* eslint-disable */
 export default {
-  "key": "app",
+  "key": "tableContent",
   "content": {
     "nodeType": "translation",
     "translation": {
       "en": {
-        "links": {
-          "about": "About",
-          "home": "Home"
-        },
         "meta": {
           "description": "This is an example of using Intlayer with TanStack Router"
         },
-        "title": "Welcome to Intlayer + TanStack Router"
+        "title": "Welcome to Intlayer + TanStack Router TABLE"
       },
       "fr": {
-        "links": {
-          "about": "À propos",
-          "home": "Accueil"
-        },
         "meta": {
           "description": "Ceci est un exemple d'utilisation d'Intlayer avec TanStack Router"
         },
-        "title": "Bienvenue à Intlayer + TanStack Router"
+        "title": "Bienvenue à Intlayer + TanStack Router TABLE"
       },
       "es": {
-        "links": {
-          "about": "Acerca de",
-          "home": "Inicio"
-        },
         "meta": {
           "description": "Este es un ejemplo de uso de Intlayer con TanStack Router"
         },
-        "title": "Bienvenido a Intlayer + TanStack Router"
+        "title": "Bienvenido a Intlayer + TanStack Router TABLE"
       }
     }
   },
   "localIds": [
-    "app::local::src\\contents\\index.content.ts"
+    "tableContent::local::src\\contents\\table.content.ts"
   ]
 } as const;

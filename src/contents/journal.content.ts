@@ -12,12 +12,12 @@ const appContent = {
       }),
     },
     title: t({
-      en: "Welcome to Intlayer + TanStack Router",
-      es: "Bienvenido a Intlayer + TanStack Router",
-      fr: "Bienvenue à Intlayer + TanStack Router",
+      en: "Welcome to Intlayer + TanStack Router JOURNAL",
+      es: "Bienvenido a Intlayer + TanStack Router JOURNAL",
+      fr: "Bienvenue à Intlayer + TanStack Router JOURNAL",
     }),
   },
-  key: "indexContent",
+  key: "journalContent",
 } satisfies Dictionary;
 
 export default appContent;

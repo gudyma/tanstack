@@ -14,6 +14,26 @@ export default {
           ],
           "nodeType": "insertion",
           "insertion": "Select language {{language}}"
+        },
+        "dockTankLabel": {
+          "fields": [],
+          "nodeType": "insertion",
+          "insertion": "Tank"
+        },
+        "dockTableLabel": {
+          "fields": [],
+          "nodeType": "insertion",
+          "insertion": "Table"
+        },
+        "dockJournalLabel": {
+          "fields": [],
+          "nodeType": "insertion",
+          "insertion": "Journal"
+        },
+        "dockMoreLabel": {
+          "fields": [],
+          "nodeType": "insertion",
+          "insertion": "More"
         }
       },
       "fr": {
@@ -26,6 +46,26 @@ export default {
           ],
           "nodeType": "insertion",
           "insertion": "Sélectionner la langue {{language}}"
+        },
+        "dockTankLabel": {
+          "fields": [],
+          "nodeType": "insertion",
+          "insertion": "Tankeur"
+        },
+        "dockTableLabel": {
+          "fields": [],
+          "nodeType": "insertion",
+          "insertion": "Tableur"
+        },
+        "dockJournalLabel": {
+          "fields": [],
+          "nodeType": "insertion",
+          "insertion": "Journaluor"
+        },
+        "dockMoreLabel": {
+          "fields": [],
+          "nodeType": "insertion",
+          "insertion": "tankeur"
         }
       },
       "es": {
@@ -38,11 +78,32 @@ export default {
           ],
           "nodeType": "insertion",
           "insertion": "Seleccionar idioma {{language}}"
+        },
+        "dockTankLabel": {
+          "fields": [],
+          "nodeType": "insertion",
+          "insertion": "Tanke"
+        },
+        "dockTableLabel": {
+          "fields": [],
+          "nodeType": "insertion",
+          "insertion": "Tables"
+        },
+        "dockJournalLabel": {
+          "fields": [],
+          "nodeType": "insertion",
+          "insertion": "Journale"
+        },
+        "dockMoreLabel": {
+          "fields": [],
+          "nodeType": "insertion",
+          "insertion": "Tanke"
         }
       }
     }
   },
   "localIds": [
-    "locale-switcher::local::src\\components\\locale-switcher.content.ts"
+    "locale-switcher::local::src\\components\\locale-switcher.content.ts",
+    "locale-switcher::local::src\\components\\navigation-dock.content.ts"
   ]
 } as const;

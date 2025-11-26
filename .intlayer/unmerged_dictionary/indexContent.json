@@ -1,24 +1,6 @@
 [
   {
     "content": {
-      "links": {
-        "about": {
-          "nodeType": "translation",
-          "translation": {
-            "en": "About",
-            "es": "Acerca de",
-            "fr": "À propos"
-          }
-        },
-        "home": {
-          "nodeType": "translation",
-          "translation": {
-            "en": "Home",
-            "es": "Inicio",
-            "fr": "Accueil"
-          }
-        }
-      },
       "meta": {
         "description": {
           "nodeType": "translation",
@@ -38,8 +20,8 @@
         }
       }
     },
-    "key": "app",
-    "localId": "app::local::src\\contents\\index.content.ts",
+    "key": "indexContent",
+    "localId": "indexContent::local::src\\contents\\index.content.ts",
     "location": "local",
     "filePath": "src\\contents\\index.content.ts"
   }

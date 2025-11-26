@@ -30,5 +30,61 @@
     "localId": "locale-switcher::local::src\\components\\locale-switcher.content.ts",
     "location": "local",
     "filePath": "src\\components\\locale-switcher.content.ts"
+  },
+  {
+    "content": {
+      "dockTankLabel": {
+        "fields": [],
+        "nodeType": "insertion",
+        "insertion": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "Tank",
+            "es": "Tanke",
+            "fr": "Tankeur"
+          }
+        }
+      },
+      "dockTableLabel": {
+        "fields": [],
+        "nodeType": "insertion",
+        "insertion": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "Table",
+            "es": "Tables",
+            "fr": "Tableur"
+          }
+        }
+      },
+      "dockJournalLabel": {
+        "fields": [],
+        "nodeType": "insertion",
+        "insertion": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "Journal",
+            "es": "Journale",
+            "fr": "Journaluor"
+          }
+        }
+      },
+      "dockMoreLabel": {
+        "fields": [],
+        "nodeType": "insertion",
+        "insertion": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "More",
+            "es": "Tanke",
+            "fr": "tankeur"
+          }
+        }
+      }
+    },
+    "key": "locale-switcher",
+    "localId": "locale-switcher::local::src\\components\\navigation-dock.content.ts",
+    "location": "local",
+    "filePath": "src\\components\\navigation-dock.content.ts"
   }
 ]
