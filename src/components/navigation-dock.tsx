@@ -21,7 +21,7 @@ import {
   getPrefix,
 } from "intlayer";
 import type { FC } from "react";
-import { setLocaleInStorage, useIntlayer, useLocale } from "react-intlayer";
+import { useIntlayer, useLocale } from "react-intlayer";
 import { LocalizedLink, type To } from "./localized-link";
 
 export function NavigationDock(props: any) {
@@ -29,7 +29,7 @@ export function NavigationDock(props: any) {
     useIntlayer("locale-switcher");
   const { pathname } = useLocation();
 
-  const { availableLocales, locale } = useLocale();
+  const { locale } = useLocale();
 
   const pathWithoutLocale = getPathWithoutLocale(pathname);
 
@@ -40,12 +40,11 @@ export function NavigationDock(props: any) {
           <LocalizedLink
             to={"/tank" as To}
             className={cn(
-              buttonVariants({ variant: "dock", size: "icon" }),
-              `h-12 w-16 rounded-xl${
-                props.currentPath === pathWithoutLocale
-                  ? " bg-primary/10 shadow-xl dark:bg-accent-foreground/10"
-                  : ""
-              }`,
+              buttonVariants({ variant: "ghost", size: "icon" }),
+              "h-12 w-16 rounded-xl",
+              "/tank" === pathWithoutLocale
+                ? " bg-primary/10 shadow-xl dark:bg-accent-foreground/10"
+                : "",
             )}
           >
             <div className="flex flex-col items-center justify-center">
@@ -60,12 +59,11 @@ export function NavigationDock(props: any) {
           <LocalizedLink
             to={"/table" as To}
             className={cn(
-              buttonVariants({ variant: "dock", size: "icon" }),
-              `h-12 w-16 rounded-xl${
-                props.currentPath === pathWithoutLocale
-                  ? " bg-primary/10 shadow-xl dark:bg-accent-foreground/10"
-                  : ""
-              }`,
+              buttonVariants({ variant: "ghost", size: "icon" }),
+              "h-12 w-16 rounded-xl",
+              "/table" === pathWithoutLocale
+                ? " bg-primary/10 shadow-xl dark:bg-accent-foreground/10"
+                : "",
             )}
           >
             <div className="flex flex-col items-center justify-center">
@@ -80,12 +78,11 @@ export function NavigationDock(props: any) {
           <LocalizedLink
             to={"/journal" as To}
             className={cn(
-              buttonVariants({ variant: "dock", size: "icon" }),
-              `h-12 w-16 rounded-xl${
-                props.currentPath === pathWithoutLocale
-                  ? " bg-primary/10 shadow-xl dark:bg-accent-foreground/10"
-                  : ""
-              }`,
+              buttonVariants({ variant: "ghost", size: "icon" }),
+              "h-12 w-16 rounded-xl",
+              "/journal" === pathWithoutLocale
+                ? " bg-primary/10 shadow-xl dark:bg-accent-foreground/10"
+                : "",
             )}
           >
             <div className="flex flex-col items-center justify-center">
@@ -101,7 +98,7 @@ export function NavigationDock(props: any) {
           <DockIcon
             key="More"
             className={cn(
-              buttonVariants({ variant: "dock", size: "icon" }),
+              buttonVariants({ variant: "ghost", size: "icon" }),
               `h-12 w-16 rounded-xl`,
             )}
           >

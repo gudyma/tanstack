@@ -7,14 +7,12 @@ const appContent = {
     meta: {
       description: t({
         en: "This is an example of using Intlayer with TanStack Router",
-        es: "Este es un ejemplo de uso de Intlayer con TanStack Router",
-        fr: "Ceci est un exemple d'utilisation d'Intlayer avec TanStack Router",
+        uk: "Приклад TanStack Router",
       }),
     },
     title: t({
       en: "Welcome to Intlayer + TanStack Router TABLE",
-      es: "Bienvenido a Intlayer + TanStack Router TABLE",
-      fr: "Bienvenue à Intlayer + TanStack Router TABLE",
+      uk: "Привіт + TanStack Router TABLE",
     }),
   },
   key: "tableContent",

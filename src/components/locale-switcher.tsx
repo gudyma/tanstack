@@ -18,7 +18,7 @@ export const LocaleSwitcher: FC = () => {
   const pathWithoutLocale = getPathWithoutLocale(pathname);
 
   return (
-    <ol className="divide-text/20 divide-y divide-dashed rounded-2xl bg-cyan-600 overflow-y-auto p-1 absolute top-10 right-10">
+    <ol className="divide-text/20 divide-y divide-dashed rounded-2xl overflow-y-auto p-1 absolute top-10 right-10">
       {availableLocales.map((localeEl) => (
         <li className="py-1" key={localeEl}>
           <LocalizedLink
@@ -30,13 +30,10 @@ export const LocaleSwitcher: FC = () => {
             params={{ locale: getPrefix(localeEl).localePrefix }}
             to={pathWithoutLocale as To}
           >
-            <div className="flex flex-row items-center hover:bg-cyan-700 text-white rounded-md justify-between gap-3 px-2 py-1">
+            <div className="flex flex-row items-center hover:bg-muted  rounded-md justify-between gap-3 px-2 py-1">
               <div className="flex flex-col text-nowrap">
                 <span dir={getHTMLTextDir(localeEl)} lang={localeEl}>
-                  {getLocaleName(localeEl)}
-                </span>
-                <span className="text-neutral text-xs">
-                  {getLocaleName(localeEl, localeEl)}
+                  {getLocaleName(localeEl)}{" "}
                 </span>
               </div>
               <span className="text-neutral text-sm text-nowrap">

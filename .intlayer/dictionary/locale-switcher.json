@@ -3,11 +3,41 @@
   "content": {
     "nodeType": "translation",
     "translation": {
+      "uk": {
+        "languageListLabel": "Cписок мов",
+        "localeSwitcherLabel": {
+          "fields": [
+            "language",
+            "language"
+          ],
+          "nodeType": "insertion",
+          "insertion": "Оберіть мову {{language}}"
+        },
+        "dockTankLabel": {
+          "fields": [],
+          "nodeType": "insertion",
+          "insertion": "Резервуар"
+        },
+        "dockTableLabel": {
+          "fields": [],
+          "nodeType": "insertion",
+          "insertion": "Таблиця"
+        },
+        "dockJournalLabel": {
+          "fields": [],
+          "nodeType": "insertion",
+          "insertion": "Журнал"
+        },
+        "dockMoreLabel": {
+          "fields": [],
+          "nodeType": "insertion",
+          "insertion": "Інше"
+        }
+      },
       "en": {
         "languageListLabel": "Language list",
         "localeSwitcherLabel": {
           "fields": [
-            "language",
             "language",
             "language"
           ],
@@ -33,70 +63,6 @@
           "fields": [],
           "nodeType": "insertion",
           "insertion": "More"
-        }
-      },
-      "fr": {
-        "languageListLabel": "Liste de langues",
-        "localeSwitcherLabel": {
-          "fields": [
-            "language",
-            "language",
-            "language"
-          ],
-          "nodeType": "insertion",
-          "insertion": "Sélectionner la langue {{language}}"
-        },
-        "dockTankLabel": {
-          "fields": [],
-          "nodeType": "insertion",
-          "insertion": "Tankeur"
-        },
-        "dockTableLabel": {
-          "fields": [],
-          "nodeType": "insertion",
-          "insertion": "Tableur"
-        },
-        "dockJournalLabel": {
-          "fields": [],
-          "nodeType": "insertion",
-          "insertion": "Journaluor"
-        },
-        "dockMoreLabel": {
-          "fields": [],
-          "nodeType": "insertion",
-          "insertion": "tankeur"
-        }
-      },
-      "es": {
-        "languageListLabel": "Lista de idiomas",
-        "localeSwitcherLabel": {
-          "fields": [
-            "language",
-            "language",
-            "language"
-          ],
-          "nodeType": "insertion",
-          "insertion": "Seleccionar idioma {{language}}"
-        },
-        "dockTankLabel": {
-          "fields": [],
-          "nodeType": "insertion",
-          "insertion": "Tanke"
-        },
-        "dockTableLabel": {
-          "fields": [],
-          "nodeType": "insertion",
-          "insertion": "Tables"
-        },
-        "dockJournalLabel": {
-          "fields": [],
-          "nodeType": "insertion",
-          "insertion": "Journale"
-        },
-        "dockMoreLabel": {
-          "fields": [],
-          "nodeType": "insertion",
-          "insertion": "Tanke"
         }
       }
     }

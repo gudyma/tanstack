@@ -15,15 +15,13 @@ declare module 'intlayer' {
   }
 
   interface __DeclaredLocalesRegistry {
+    "uk": 1;
     "en": 1;
-    "fr": 1;
-    "es": 1;
   }
 
   interface __RequiredLocalesRegistry {
+    "uk": 1;
     "en": 1;
-    "fr": 1;
-    "es": 1;
   }
 
   interface __StrictModeRegistry { mode: 'inclusive' }

@@ -1,17 +1,15 @@
 {
   "internationalization": {
     "locales": [
-      "en",
-      "fr",
-      "es"
+      "uk",
+      "en"
     ],
     "requiredLocales": [
-      "en",
-      "fr",
-      "es"
+      "uk",
+      "en"
     ],
     "strictMode": "inclusive",
-    "defaultLocale": "en"
+    "defaultLocale": "uk"
   },
   "routing": {
     "mode": "prefix-no-default",

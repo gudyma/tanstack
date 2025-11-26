@@ -4,23 +4,17 @@ export default {
   "content": {
     "nodeType": "translation",
     "translation": {
+      "uk": {
+        "meta": {
+          "description": "Приклад TanStack Router"
+        },
+        "title": "Привіт + TanStack Router JOURNAL"
+      },
       "en": {
         "meta": {
           "description": "This is an example of using Intlayer with TanStack Router"
         },
         "title": "Welcome to Intlayer + TanStack Router JOURNAL"
-      },
-      "fr": {
-        "meta": {
-          "description": "Ceci est un exemple d'utilisation d'Intlayer avec TanStack Router"
-        },
-        "title": "Bienvenue à Intlayer + TanStack Router JOURNAL"
-      },
-      "es": {
-        "meta": {
-          "description": "Este es un ejemplo de uso de Intlayer con TanStack Router"
-        },
-        "title": "Bienvenido a Intlayer + TanStack Router JOURNAL"
       }
     }
   },

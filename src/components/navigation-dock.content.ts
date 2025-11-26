@@ -5,29 +5,25 @@ const localeSwitcherContent = {
     dockTankLabel: insert(
       t({
         en: "Tank",
-        es: "Tanke",
-        fr: "Tankeur",
+        uk: "Резервуар",
       }),
     ),
     dockTableLabel: insert(
       t({
         en: "Table",
-        es: "Tables",
-        fr: "Tableur",
+        uk: "Таблиця",
       }),
     ),
     dockJournalLabel: insert(
       t({
         en: "Journal",
-        es: "Journale",
-        fr: "Journaluor",
+        uk: "Журнал",
       }),
     ),
     dockMoreLabel: insert(
       t({
         en: "More",
-        es: "Tanke",
-        fr: "tankeur",
+        uk: "Інше",
       }),
     ),
   },

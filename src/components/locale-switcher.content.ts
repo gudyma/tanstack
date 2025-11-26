@@ -4,14 +4,12 @@ const localeSwitcherContent = {
   content: {
     languageListLabel: t({
       en: "Language list",
-      es: "Lista de idiomas",
-      fr: "Liste de langues",
+      uk: "Cписок мов",
     }),
     localeSwitcherLabel: insert(
       t({
         en: "Select language {{language}}",
-        es: "Seleccionar idioma {{language}}",
-        fr: "Sélectionner la langue {{language}}",
+        uk: "Оберіть мову {{language}}",
       }),
     ),
   },

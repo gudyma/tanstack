@@ -5,13 +5,11 @@
         "nodeType": "translation",
         "translation": {
           "en": "Language list",
-          "es": "Lista de idiomas",
-          "fr": "Liste de langues"
+          "uk": "Cписок мов"
         }
       },
       "localeSwitcherLabel": {
         "fields": [
-          "language",
           "language",
           "language"
         ],
@@ -20,8 +18,7 @@
           "nodeType": "translation",
           "translation": {
             "en": "Select language {{language}}",
-            "es": "Seleccionar idioma {{language}}",
-            "fr": "Sélectionner la langue {{language}}"
+            "uk": "Оберіть мову {{language}}"
           }
         }
       }
@@ -40,8 +37,7 @@
           "nodeType": "translation",
           "translation": {
             "en": "Tank",
-            "es": "Tanke",
-            "fr": "Tankeur"
+            "uk": "Резервуар"
           }
         }
       },
@@ -52,8 +48,7 @@
           "nodeType": "translation",
           "translation": {
             "en": "Table",
-            "es": "Tables",
-            "fr": "Tableur"
+            "uk": "Таблиця"
           }
         }
       },
@@ -64,8 +59,7 @@
           "nodeType": "translation",
           "translation": {
             "en": "Journal",
-            "es": "Journale",
-            "fr": "Journaluor"
+            "uk": "Журнал"
           }
         }
       },
@@ -76,8 +70,7 @@
           "nodeType": "translation",
           "translation": {
             "en": "More",
-            "es": "Tanke",
-            "fr": "tankeur"
+            "uk": "Інше"
           }
         }
       }
