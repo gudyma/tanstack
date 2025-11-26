@@ -33,6 +33,8 @@ import EditableTable from "@/components/editable-table";
 
 import { ModeToggle } from "@/components/mode-toggle";
 import ReportsSelection from "@/components/report-selection";
+import { LocaleSwitcher } from "@/components/locale-switcher";
+import { Label } from "@/components/ui/label";
 
 interface TankDrawerProps {
   values?: any;
@@ -41,11 +43,7 @@ interface TankDrawerProps {
 function TankDrawerElements({ values }: { values?: any }) {
   return (
     <div className="flex-col w-full h-full overflow-auto">
-      <Accordion
-        type="multiple"
-        className="w-full pt-4"
-        defaultValue={["density"]}
-      >
+      <Accordion type="multiple" className="w-full" defaultValue={["density"]}>
         <AccordionItem value="density">
           <AccordionTrigger className="text-md">
             Налаштування густини продукту
@@ -65,7 +63,8 @@ function TankDrawerElements({ values }: { values?: any }) {
             Додаткові налаштування
           </AccordionTrigger>
           <AccordionContent className="flex flex-col gap-4 text-balance">
-            <ModeToggle />
+            <Label>Оберіть мову</Label>
+            <LocaleSwitcher />
           </AccordionContent>
         </AccordionItem>
       </Accordion>
@@ -89,6 +88,9 @@ export default function MoreDrawer({
         >
           {children}
         </DialogTrigger>
+        <DialogHeader className="p-0 m-0">
+          <ModeToggle />
+        </DialogHeader>
         <DialogContent className="sm:max-w-[800px] h-2/3">
           <TankDrawerElements />
         </DialogContent>
@@ -103,7 +105,10 @@ export default function MoreDrawer({
       >
         {children}
       </DrawerTrigger>
-      <DrawerContent className="p-2">
+      <DrawerHeader className="p-0 m-0">
+        <ModeToggle />
+      </DrawerHeader>
+      <DrawerContent className="px-2">
         <TankDrawerElements />
         <DrawerFooter className="pt-2">
           <DrawerClose asChild>

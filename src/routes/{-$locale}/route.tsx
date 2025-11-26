@@ -1,7 +1,7 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { IntlayerProvider, useLocale } from "react-intlayer";
-import { LocaleSwitcher } from "@/components/locale-switcher";
 import { useI18nHTMLAttributes } from "@/hooks/useI18nHTMLAttributes";
+import { NavigationDock } from "@/components/navigation-dock";
 
 export const Route = createFileRoute("/{-$locale}")({
   component: RouteComponent,
@@ -16,7 +16,7 @@ function RouteComponent() {
   return (
     <IntlayerProvider locale={locale ?? defaultLocale}>
       <Outlet />
-      <LocaleSwitcher />
+      <NavigationDock />
     </IntlayerProvider>
   );
 }

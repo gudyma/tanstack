@@ -8,7 +8,6 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import appCss from "@/style.css?url";
-import { NavigationDock } from "@/components/navigation-dock";
 
 export const Route = createRootRoute({
   head: () => ({
@@ -67,9 +66,7 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
             }}
           />
           {children}
-          <NavigationDock />
         </div>
-
         <Scripts />
       </body>
     </html>

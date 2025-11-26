@@ -8,6 +8,8 @@ import {
 import type { FC } from "react";
 import { setLocaleInStorage, useIntlayer, useLocale } from "react-intlayer";
 import { LocalizedLink, type To } from "./localized-link";
+import { cn } from "@/lib/utils";
+import { CheckIcon } from "lucide-react";
 
 export const LocaleSwitcher: FC = () => {
   const { localeSwitcherLabel } = useIntlayer("locale-switcher");
@@ -18,7 +20,7 @@ export const LocaleSwitcher: FC = () => {
   const pathWithoutLocale = getPathWithoutLocale(pathname);
 
   return (
-    <ol className="divide-text/20 divide-y divide-dashed rounded-2xl overflow-y-auto p-1 absolute top-10 right-10">
+    <ol className="divide-text/20 divide-y divide-dashed rounded-2xl overflow-y-auto p-1">
       {availableLocales.map((localeEl) => (
         <li className="py-1" key={localeEl}>
           <LocalizedLink
@@ -30,9 +32,21 @@ export const LocaleSwitcher: FC = () => {
             params={{ locale: getPrefix(localeEl).localePrefix }}
             to={pathWithoutLocale as To}
           >
-            <div className="flex flex-row items-center hover:bg-muted  rounded-md justify-between gap-3 px-2 py-1">
+            <div
+              className={cn(
+                "flex flex-row items-center hover:bg-muted rounded-md justify-between gap-3 px-2 py-1",
+                localeEl === locale ? "border" : "",
+              )}
+            >
               <div className="flex flex-col text-nowrap">
-                <span dir={getHTMLTextDir(localeEl)} lang={localeEl}>
+                <span
+                  className="flex flex-row"
+                  dir={getHTMLTextDir(localeEl)}
+                  lang={localeEl}
+                >
+                  {localeEl === locale ? (
+                    <CheckIcon size={20} className="mr-2" />
+                  ) : null}
                   {getLocaleName(localeEl)}{" "}
                 </span>
               </div>
