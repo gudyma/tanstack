@@ -69,7 +69,7 @@ export default {
     }
   },
   "localIds": [
-    "locale-switcher::local::src\\components\\locale-switcher.content.ts",
-    "locale-switcher::local::src\\components\\navigation-dock.content.ts"
+    "locale-switcher::local::src\\contents\\locale-switcher.content.ts",
+    "locale-switcher::local::src\\contents\\navigation-dock.content.ts"
   ]
 } as const;

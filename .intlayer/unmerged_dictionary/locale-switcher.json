@@ -24,9 +24,9 @@
       }
     },
     "key": "locale-switcher",
-    "localId": "locale-switcher::local::src\\components\\locale-switcher.content.ts",
+    "localId": "locale-switcher::local::src\\contents\\locale-switcher.content.ts",
     "location": "local",
-    "filePath": "src\\components\\locale-switcher.content.ts"
+    "filePath": "src\\contents\\locale-switcher.content.ts"
   },
   {
     "content": {
@@ -76,8 +76,8 @@
       }
     },
     "key": "locale-switcher",
-    "localId": "locale-switcher::local::src\\components\\navigation-dock.content.ts",
+    "localId": "locale-switcher::local::src\\contents\\navigation-dock.content.ts",
     "location": "local",
-    "filePath": "src\\components\\navigation-dock.content.ts"
+    "filePath": "src\\contents\\navigation-dock.content.ts"
   }
 ]

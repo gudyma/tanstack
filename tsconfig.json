@@ -4,6 +4,8 @@
     "moduleResolution": "Bundler",
     "module": "ESNext",
     "target": "ES2022",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "strictNullChecks": true,
     "baseUrl": ".",
