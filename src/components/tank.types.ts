@@ -5,6 +5,18 @@ export interface TankSettingsForm {
   mass_threshold: number | null;
 }
 
+export interface Tank {
+  park: string;
+  park_id: string;
+  value: string;
+  label: string;
+}
+
+export interface TankParameterData {
+  parameter: string;
+  timestamp: Date;
+}
+
 export interface TankMeasurement {
   id: string;
   value?: string | number | null;

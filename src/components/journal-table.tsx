@@ -23,6 +23,7 @@ import { getJournalColumns } from "@/i18n/dictionaries/get-dictionary";
 import TankComponent from "@/components/tank-component";
 import { type TankMeasurement } from "@/components/tank.types";
 import { toast } from "sonner";
+import { ColumnVisibilityMenu } from "@/components/column-visibility-menu";
 
 async function fetchTankData(tank: string, datetime: Date) {
   console.log(datetime);
@@ -235,7 +236,8 @@ export default function JournalTable({
           />
         </div>
       </div>
-      <div className="mt-0 collapse w-full flex-none px-16 md:visible md:h-[80vh] md:w-[150px] md:px-2 ">
+      <div className="flex flex-col collapse w-full flex-none px-16 md:visible md:h-[75vh] md:w-[150px] md:px-2 items-center justify-center gap-2">
+        <ColumnVisibilityMenu table={table} />
         <TankComponent
           values={tankData}
           visibility={true}

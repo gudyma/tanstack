@@ -49,7 +49,7 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
         <HeadContent />
       </head>
       <body>
-        <div className="min-h-screen w-full relative bg-background ">
+        <div className="flex h-screen w-full relative bg-background ">
           {/* Cool Blue Glow Top */}
           <div
             className="absolute inset-0 z-0"

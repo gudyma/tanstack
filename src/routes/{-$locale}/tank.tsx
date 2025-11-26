@@ -63,7 +63,7 @@ function RouteComponent() {
   }, []);
 
   return (
-    <div className="flex min-h-screen w-full justify-between flex-col-reverse xl:flex-col">
+    <div className="flex min-h-screen w-full justify-between flex-col-reverse xl:flex-col z-2">
       <div
         className={`grid grid-cols-${cols} grid-rows-${rows} h-full w-full items-center justify-center overflow-auto md:overflow-none px-1 pb-18 xl:pb-0`}
       >

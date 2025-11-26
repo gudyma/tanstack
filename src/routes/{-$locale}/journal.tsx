@@ -21,25 +21,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  addDays,
-  addHours,
-  addMonths,
-  endOfDay,
-  endOfMonth,
-  endOfWeek,
-  startOfDay,
-  startOfMonth,
-  startOfWeek,
-  subDays,
-} from "date-fns";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { DateTimePicker } from "@/components/ui/date-range-picker";
 import { Label } from "@/components/ui/label";
 import HooksAppRange from "@/components/uplot/uplot-react-2";
 import HooksApp from "@/components/uplot/uplot-react-example";
 import JournalTable from "@/components/journal-table";
+import { Tank, TankParameterData } from "@/components/tank.types";
 
 const OPTIONS: Option[] = [
   { label: "Рівень продукту, мм", value: "product_level" },
@@ -90,13 +79,17 @@ function RouteComponent() {
   const [startDate, setStartDate] = useState(yesterday);
   const [endDate, setEndDate] = useState(today);
   const [tank, setTank] = useState("");
-  const [tankList, setTanks] = useState([]);
+  const [tankList, setTanks] = useState<Tank[]>([]);
 
   const [parameters, setParameters] = useState<Option[]>([]);
   const [firstParameterName, setFirstParameterName] = useState<string>();
   const [secondParameterName, setSecondParameterName] = useState<string>();
-  const [firstParameterData, setFirstParameterData] = useState([]);
-  const [secondParameterData, setSecondParameterData] = useState([]);
+  const [firstParameterData, setFirstParameterData] = useState<
+    TankParameterData[]
+  >([]);
+  const [secondParameterData, setSecondParameterData] = useState<
+    TankParameterData[]
+  >([]);
 
   useEffect(() => {
     fetch(`/api/tanks`)
@@ -125,7 +118,7 @@ function RouteComponent() {
           `/api/tankDataByParameter?tank=${tank}&start=${startDate.toISOString()}&end=${endDate.toISOString()}&parameter=${parameters[1]?.value}`,
         )
           .then((res) => (res.ok ? res.json() : Promise.reject()))
-          .then((rows) => {
+          .then((rows: TankParameterData[]) => {
             setSecondParameterData(rows);
           });
         setSecondParameterName(parameters[1]?.label);
@@ -140,7 +133,7 @@ function RouteComponent() {
     graphParametersChange();
   }, [tank, startDate, endDate, parameters]);
 
-  const boxRef = useRef(null);
+  const boxRef = useRef<any>(null);
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
 
@@ -163,7 +156,7 @@ function RouteComponent() {
 
   return (
     <div className="relative my-1 h-full w-full overflow-auto md:mb-0">
-      <div className="fixed top-0 z-50 w-full items-center justify-center border-x-1 border-b-1 bg-muted/60 backdrop-blur-sm">
+      <div className="fixed top-0 z-50 w-full items-center justify-center border-x border-b bg-muted/60 backdrop-blur-sm">
         <div className="flex flex-row flex-wrap items-center justify-center gap-2 px-2 py-2 md:px-4">
           <div className="flex w-full flex-row sm:w-44">
             <Label className="mr-2" htmlFor="tankSelect">
@@ -192,7 +185,7 @@ function RouteComponent() {
               className="w-full text-foreground"
               placeholder="Select start date"
               value={startDate}
-              onChange={(newValue) => setStartDate(newValue)}
+              onChange={(newValue: Date) => setStartDate(newValue)}
             />
           </div>
 
@@ -203,7 +196,7 @@ function RouteComponent() {
               className="w-full text-foreground"
               placeholder="Select end date"
               value={endDate}
-              onChange={(newValue) => setEndDate(newValue)}
+              onChange={(newValue: Date) => setEndDate(newValue)}
             />
           </div>
         </div>
@@ -255,11 +248,11 @@ function RouteComponent() {
                     x={firstParameterData?.map((item) =>
                       Math.floor(new Date(item.timestamp).getTime() / 1000),
                     )}
-                    labely1={firstParameterName}
+                    labely1={firstParameterName ?? ""}
                     y1={firstParameterData?.map((item) =>
                       Number(item.parameter),
                     )}
-                    labely2={secondParameterName}
+                    labely2={secondParameterName ?? ""}
                     y2={secondParameterData?.map((item) =>
                       Number(item.parameter),
                     )}

@@ -34,7 +34,7 @@ export function NavigationDock(props: any) {
   const pathWithoutLocale = getPathWithoutLocale(pathname);
 
   return (
-    <div className="fixed right-0 bottom-2 left-0 z-50 flex items-center justify-center">
+    <div className="fixed right-0 bottom-2 left-0 z-10 flex items-center justify-center">
       <Dock direction="middle" className="space-x-0">
         <DockIcon key="tank" className="">
           <LocalizedLink
