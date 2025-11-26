@@ -29,6 +29,7 @@ export const Route = createRootRoute({
         rel: "stylesheet",
         href: appCss,
       },
+      { rel: "icon", href: "/favicon.svg" },
     ],
   }),
   component: RootComponent,
@@ -49,8 +50,26 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
         <HeadContent />
       </head>
       <body>
-        {children}
-        <NavigationDock />
+        <div className="min-h-screen w-full relative bg-background ">
+          {/* Cool Blue Glow Top */}
+          <div
+            className="absolute inset-0 z-0"
+            style={{
+              backgroundImage: `
+                radial-gradient(
+                  circle at top center,
+                  var(--background-blur),
+                  transparent 70%
+                )
+              `,
+              filter: "blur(80px)",
+              backgroundRepeat: "no-repeat",
+            }}
+          />
+          {children}
+          <NavigationDock />
+        </div>
+
         <Scripts />
       </body>
     </html>
