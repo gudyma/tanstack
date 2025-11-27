@@ -25,7 +25,82 @@ export const Route = createRootRoute({
       },
       {},
     ],
-    links: [{ rel: "icon", href: "/favicon.svg" }],
+    links: [
+      // Standard Favicons
+      {
+        rel: "icon",
+        type: "image/x-icon",
+        href: "/favicon.ico",
+        sizes: "48x48",
+      },
+      {
+        rel: "icon",
+        type: "image/svg+xml",
+        href: "/favicon.svg",
+      },
+
+      // PNG Favicons (Multiple Sizes)
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "16x16",
+        href: "/favicon-16x16.png",
+      },
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "32x32",
+        href: "/favicon-32x32.png",
+      },
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "96x96",
+        href: "/favicon-96x96.png",
+      },
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "192x192",
+        href: "/favicon-192x192.png",
+      },
+      {
+        rel: "icon",
+        type: "image/png",
+        sizes: "512x512",
+        href: "/favicon-512x512.png",
+      },
+
+      // Apple Touch Icons
+      {
+        rel: "apple-touch-icon",
+        sizes: "180x180",
+        href: "/favicon-180x180.png",
+      },
+      {
+        rel: "apple-touch-icon",
+        sizes: "152x152",
+        href: "/favicon-152x152.png",
+      },
+      {
+        rel: "apple-touch-icon",
+        sizes: "120x120",
+        href: "/favicon-120x120.png",
+      },
+
+      // Safari Pinned Tab
+      {
+        rel: "mask-icon",
+        href: "/favicon.svg",
+        color: "#000000",
+      },
+
+      // Web App Manifest
+      {
+        rel: "manifest",
+        href: "/manifest.json",
+      },
+    ],
   }),
   component: RootComponent,
 });
