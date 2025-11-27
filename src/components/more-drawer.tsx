@@ -91,6 +91,7 @@ export default function MoreDrawer({
         <DialogHeader className="p-0 m-0">
           <ModeToggle />
         </DialogHeader>
+        <DialogTitle></DialogTitle>
         <DialogContent className="sm:max-w-[800px] h-2/3">
           <TankDrawerElements />
         </DialogContent>

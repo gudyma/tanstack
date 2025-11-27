@@ -4,6 +4,7 @@ import { useI18nHTMLAttributes } from "@/hooks/useI18nHTMLAttributes";
 import { NavigationDock } from "@/components/navigation-dock";
 
 export const Route = createFileRoute("/{-$locale}")({
+  ssr: "data-only",
   component: RouteComponent,
 });
 

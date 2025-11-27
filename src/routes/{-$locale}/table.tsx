@@ -97,12 +97,21 @@ function RouteComponent() {
   const [columnVisibility, setColumnVisibility] = useState<
     Record<string, boolean>
   >(() => {
-    const stored = localStorage.getItem(VISIBILITY_STORAGE_KEY);
-    if (stored) {
-      return JSON.parse(stored);
+    if (typeof window === "undefined") return;
+    try {
+      const stored = localStorage.getItem(VISIBILITY_STORAGE_KEY);
+      if (stored) {
+        return JSON.parse(stored);
+      }
+      // Default: hide park and product column initially
+      return { park: false, product: false };
+    } catch (error) {
+      console.error(
+        `Error loading localStorage key "${VISIBILITY_STORAGE_KEY}":`,
+        error,
+      );
+      return;
     }
-    // Default: hide park and product column initially
-    return { park: false, product: false };
   });
 
   // Save visibility whenever it changes

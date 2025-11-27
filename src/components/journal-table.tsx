@@ -25,16 +25,8 @@ import { type TankMeasurement } from "@/components/tank.types";
 import { toast } from "sonner";
 import { ColumnVisibilityMenu } from "@/components/column-visibility-menu";
 
-async function fetchTankData(tank: string, datetime: Date) {
-  console.log(datetime);
-  const q = `/api/tankMeasuredData?tank=${tank}&datetime=${datetime}`;
-  console.log(q);
-  console.log("start3 tank fetch");
-  const data = await fetch(q).then((value) => value.json());
-  console.log("start4 tank fetch");
-  console.log(data);
-  return data;
-}
+// Key for localStorage persistence
+const VISIBILITY_STORAGE_KEY = "journal-table-column-visibility";
 
 export default function JournalTable({
   dictionary,
@@ -71,6 +63,34 @@ export default function JournalTable({
     });
   }, [lang]);
 
+  const [columnVisibility, setColumnVisibility] = useState<
+    Record<string, boolean>
+  >(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const stored = localStorage.getItem(VISIBILITY_STORAGE_KEY);
+      if (stored) {
+        return JSON.parse(stored);
+      }
+      // Default: hide park and product column initially
+      return { park: false, product: false };
+    } catch (error) {
+      console.warn(
+        `Error loading localStorage key "${VISIBILITY_STORAGE_KEY}":`,
+        error,
+      );
+      return;
+    }
+  });
+
+  // Save visibility whenever it changes
+  useEffect(() => {
+    localStorage.setItem(
+      VISIBILITY_STORAGE_KEY,
+      JSON.stringify(columnVisibility),
+    );
+  }, [columnVisibility]);
+
   const defaultData = useMemo(() => {
     return [];
   }, []);
@@ -96,6 +116,7 @@ export default function JournalTable({
     enableMultiRowSelection: false,
     onRowSelectionChange: setRowSelection,
     onPaginationChange: setPagination,
+    onColumnVisibilityChange: setColumnVisibility,
     // Pipeline
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),

@@ -386,6 +386,7 @@ export default function TankDrawer({
         >
           {children}
         </DialogTrigger>
+        <DialogTitle></DialogTitle>
         <DialogContent className="sm:max-w-[800px]">
           <DialogHeader className="">
             <DrawerTitle>Tank: {values?.label}</DrawerTitle>

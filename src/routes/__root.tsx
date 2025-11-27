@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-router";
 import { Toaster } from "@/components/ui/sonner";
 import CSS from "@/style.css?url";
+import { hydrateRoot } from "react-dom/client";
 
 const criticalCSS = `
   @font-face{font-family:"Inter Tight";font-style:normal;font-display:swap;font-weight:600;src:url("/assets/inter-tight-cyrillic-600-normal-BERwQ0yl.woff2") format("woff2"),url("/assets/inter-tight-cyrillic-600-normal-BeTasGgk.woff") format("woff");unicode-range:U+301,U+400-45F,U+490-491,U+4B0-4B1,U+2116}@keyframes spin{100%{transform:rotate(360deg)}}@keyframes enter{0%{opacity:var(--tw-enter-opacity,1);transform:translate3d(var(--tw-enter-translate-x,0),var(--tw-enter-translate-y,0),0)scale3d(var(--tw-enter-scale,1),var(--tw-enter-scale,1),var(--tw-enter-scale,1))rotate(var(--tw-enter-rotate,0));filter:blur(var(--tw-enter-blur,0))}}@keyframes exit{100%{opacity:var(--tw-exit-opacity,1);transform:translate3d(var(--tw-exit-translate-x,0),var(--tw-exit-translate-y,0),0)scale3d(var(--tw-exit-scale,1),var(--tw-exit-scale,1),var(--tw-exit-scale,1))rotate(var(--tw-exit-rotate,0));filter:blur(var(--tw-exit-blur,0))}}@keyframes accordion-down{0%{height:0px}100%{height:0px}}@keyframes accordion-up{0%{height:var(--radix-accordion-content-height,var(--bits-accordion-content-height,var(--reka-accordion-content-height,var(--kb-accordion-content-height,var(--ngp-accordion-content-height,auto)))))}}:root{--radius:.625rem;--background:#fff;--foreground:#0a0a0a;--card:#fff;--card-foreground:#0a0a0a;--popover:#fff;--popover-foreground:#0a0a0a;--primary:#171717;--primary-foreground:#fafafa;--secondary:#f5f5f5;--secondary-foreground:#171717;--muted:#f5f5f5;--muted-foreground:#737373;--accent:#f5f5f5;--accent-foreground:#171717;--destructive:#e40014;--border:#e5e5e5;--input:#e5e5e5;--ring:#a1a1a1;--chart-1:#f05100;--chart-2:#009588;--chart-3:#104e64;--chart-4:#fcbb00;--chart-5:#f99c00;--sidebar:#fafafa;--sidebar-foreground:#0a0a0a;--sidebar-primary:#171717;--sidebar-primary-foreground:#fafafa;--sidebar-accent:#f5f5f5;--sidebar-accent-foreground:#171717;--sidebar-border:#e5e5e5;--sidebar-ring:#a1a1a1;--background-blur:#1447e626}:root{font-family:"Inter Tight",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"}
@@ -29,22 +30,11 @@ export const Route = createRootRoute({
       },
       {},
     ],
-    // Inline critical CSS
-    scripts: [
-      {
-        innerHTML: `
-          const s=document.createElement('style');
-          s.textContent=${JSON.stringify(criticalCSS)};
-          document.head.appendChild(s);
-        `,
-      },
-    ],
+
     links: [
       {
-        rel: "preload",
-        onload: "this.onload=null;this.rel='stylesheet'",
+        rel: "stylesheet",
         href: CSS,
-        as: "style",
       },
       // Standard Favicons
       {
@@ -132,13 +122,6 @@ export const Route = createRootRoute({
 });
 
 function RootComponent() {
-  useEffect(() => {
-    // Apply preloaded stylesheet immediately
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = CSS;
-    document.head.appendChild(link);
-  }, []);
   return (
     <RootDocument>
       <Outlet />

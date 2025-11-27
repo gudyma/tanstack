@@ -91,39 +91,51 @@ function RouteComponent() {
     TankParameterData[]
   >([]);
 
+  async function loadTanks() {
+    try {
+      const res = await fetch(`/api/tanks`);
+      if (!res.ok) {
+        console.warn(`HTTP error! Status: ${res.status}`);
+      }
+      const rows = await res.json();
+      setTanks(rows);
+    } catch (error) {
+      toast.warning(`Error loading /api/tanks: ${error}`);
+    }
+  }
+
   useEffect(() => {
-    fetch(`/api/tanks`)
-      .then((res) => (res.ok ? res.json() : Promise.reject()))
-      .then((rows) => {
-        setTanks(rows);
-      });
+    loadTanks();
   }, []);
 
   function graphParametersChange() {
     if (tank && parameters) {
       toast.info("Отримую дані");
-
-      if (parameters[0]?.value) {
-        fetch(
-          `/api/tankDataByParameter?tank=${tank}&start=${startDate.toISOString()}&end=${endDate.toISOString()}&parameter=${parameters[0]?.value}`,
-        )
-          .then((res) => (res.ok ? res.json() : Promise.reject()))
-          .then((rows) => {
-            setFirstParameterData(rows);
-          });
-        setFirstParameterName(parameters[0]?.label);
+      try {
+        if (parameters[0]?.value) {
+          fetch(
+            `/api/tankDataByParameter?tank=${tank}&start=${startDate.toISOString()}&end=${endDate.toISOString()}&parameter=${parameters[0]?.value}`,
+          )
+            .then((res) => (res.ok ? res.json() : Promise.reject()))
+            .then((rows) => {
+              setFirstParameterData(rows);
+            });
+          setFirstParameterName(parameters[0]?.label);
+        }
+        if (parameters[1]?.value) {
+          fetch(
+            `/api/tankDataByParameter?tank=${tank}&start=${startDate.toISOString()}&end=${endDate.toISOString()}&parameter=${parameters[1]?.value}`,
+          )
+            .then((res) => (res.ok ? res.json() : Promise.reject()))
+            .then((rows: TankParameterData[]) => {
+              setSecondParameterData(rows);
+            });
+          setSecondParameterName(parameters[1]?.label);
+        }
+        toast.info("Дані отримано");
+      } catch (error) {
+        toast.warning(`Error loading parameter data :`, error);
       }
-      if (parameters[1]?.value) {
-        fetch(
-          `/api/tankDataByParameter?tank=${tank}&start=${startDate.toISOString()}&end=${endDate.toISOString()}&parameter=${parameters[1]?.value}`,
-        )
-          .then((res) => (res.ok ? res.json() : Promise.reject()))
-          .then((rows: TankParameterData[]) => {
-            setSecondParameterData(rows);
-          });
-        setSecondParameterName(parameters[1]?.label);
-      }
-      toast.info("Дані отримано");
     } else {
       toast.warning("Не обрано резервуар");
     }

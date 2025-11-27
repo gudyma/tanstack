@@ -469,12 +469,6 @@ export default function HooksApp({
   }, [height, width, labely1, labely2]);
 
   const data = useMemo(() => {
-    console.log([
-      // x-values (timestamps)
-      x,
-      y1, // y-values (series 1)
-      y2, // y-values (series 2)
-    ]);
     return [
       // x-values (timestamps)
       x,

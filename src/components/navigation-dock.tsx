@@ -2,8 +2,6 @@
 
 import {
   ChartColumnIncreasing,
-  HomeIcon,
-  SquarePenIcon,
   Table2Icon,
   WarehouseIcon,
   CircleEllipsisIcon,
@@ -20,7 +18,7 @@ import {
   getPathWithoutLocale,
   getPrefix,
 } from "intlayer";
-import type { FC } from "react";
+
 import { useIntlayer, useLocale } from "react-intlayer";
 import { LocalizedLink, type To } from "./localized-link";
 
@@ -43,7 +41,7 @@ export function NavigationDock(props: any) {
               buttonVariants({ variant: "ghost", size: "icon" }),
               "h-12 w-16 rounded-xl",
               "/tank" === pathWithoutLocale
-                ? " bg-primary/10 shadow-xl dark:bg-accent-foreground/10"
+                ? "bg-primary/10 shadow-xl dark:bg-accent-foreground/10"
                 : "",
             )}
           >

@@ -13,7 +13,7 @@ export async function initializeTanksAndMqtt(
   try {
     // 1. Fetch tank data
     const res = await fetch("/api/tanksExtended");
-    if (!res.ok) throw new Error("Failed to fetch tank data");
+    if (!res.ok) console.warn("Failed to fetch tank data");
 
     const mapped: TankMeasurement[] = await res.json();
 
@@ -114,6 +114,6 @@ export async function initializeTanksAndMqtt(
       console.error("MQTT error:", error);
     });
   } catch (error) {
-    console.error("Initialization error:", error);
+    console.warn("Initialization error:", error);
   }
 }
