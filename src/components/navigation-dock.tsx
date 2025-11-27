@@ -1,5 +1,4 @@
 "use client";
-
 import {
   ChartColumnIncreasing,
   Table2Icon,
@@ -12,25 +11,15 @@ import { cn } from "@/lib/utils";
 import MoreDrawer from "@/components/more-drawer";
 
 import { useLocation } from "@tanstack/react-router";
-import {
-  getHTMLTextDir,
-  getLocaleName,
-  getPathWithoutLocale,
-  getPrefix,
-} from "intlayer";
-
-import { useIntlayer, useLocale } from "react-intlayer";
+import { getPathWithoutLocale } from "intlayer";
+import { useIntlayer } from "react-intlayer";
 import { LocalizedLink, type To } from "./localized-link";
 
 export function NavigationDock(props: any) {
   const { dockTankLabel, dockTableLabel, dockJournalLabel, dockMoreLabel } =
     useIntlayer("navigation-dock");
   const { pathname } = useLocation();
-
-  const { locale } = useLocale();
-
   const pathWithoutLocale = getPathWithoutLocale(pathname);
-
   return (
     <div className="fixed right-0 bottom-2 left-0 z-10 flex items-center justify-center">
       <Dock direction="middle" className="space-x-0">
