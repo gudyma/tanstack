@@ -16,8 +16,7 @@ export default defineConfig({
     tsConfigPaths(),
     tanstackStart(),
     tailwindcss(),
-    // react's vite plugin must come after start's vite plugin
-    nitro({ preset: "bun" }),
+    nitro(),
     viteReact(),
     intlayer(),
   ],
@@ -29,5 +28,11 @@ export default defineConfig({
   build: {
     cssMinify: "lightningcss",
     minify: "esbuild",
+  },
+  nitro: {
+    preset: "bun",
+    prerender: {
+      routes: ["/", "/tank", "/table", "/journal"],
+    },
   },
 });
