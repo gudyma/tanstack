@@ -24,7 +24,7 @@ import { LocalizedLink, type To } from "./localized-link";
 
 export function NavigationDock(props: any) {
   const { dockTankLabel, dockTableLabel, dockJournalLabel, dockMoreLabel } =
-    useIntlayer("locale-switcher");
+    useIntlayer("navigation-dock");
   const { pathname } = useLocation();
 
   const { locale } = useLocale();

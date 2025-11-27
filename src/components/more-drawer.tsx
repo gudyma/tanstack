@@ -35,35 +35,60 @@ import { ModeToggle } from "@/components/mode-toggle";
 import ReportsSelection from "@/components/report-selection";
 import { LocaleSwitcher } from "@/components/locale-switcher";
 import { Label } from "@/components/ui/label";
+import { useIntlayer, useLocale } from "react-intlayer";
+import { getLocaleName } from "intlayer";
 
 interface TankDrawerProps {
   values?: any;
 }
 
 function TankDrawerElements({ values }: { values?: any }) {
+  const translation = useIntlayer("more-drawer");
+  const { locale } = useLocale();
+
   return (
     <div className="flex-col w-full h-full overflow-auto">
       <Accordion type="multiple" className="w-full" defaultValue={["density"]}>
         <AccordionItem value="density">
           <AccordionTrigger className="text-md">
-            Налаштування густини продукту
+            {
+              translation.DensitySettingHeader({
+                language: getLocaleName(locale),
+              }).value
+            }
           </AccordionTrigger>
           <AccordionContent className="flex flex-col gap-4 text-balance">
             <EditableTable />
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="report">
-          <AccordionTrigger className="text-md">Звіти</AccordionTrigger>
+          <AccordionTrigger className="text-md">
+            {
+              translation.ReportHeader({
+                language: getLocaleName(locale),
+              }).value
+            }
+          </AccordionTrigger>
           <AccordionContent className="flex flex-col gap-4 text-balance">
             <ReportsSelection />
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="other">
           <AccordionTrigger className="text-md">
-            Додаткові налаштування
+            {
+              translation.AdvancedSettingHeader({
+                language: getLocaleName(locale),
+              }).value
+            }
           </AccordionTrigger>
           <AccordionContent className="flex flex-col gap-4 text-balance">
-            <Label>Оберіть мову</Label>
+            <Label>
+              {
+                translation.ChooseLanguageLabel({
+                  language: getLocaleName(locale),
+                }).value
+              }
+            </Label>
             <LocaleSwitcher />
           </AccordionContent>
         </AccordionItem>

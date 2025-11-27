@@ -1,6 +1,6 @@
 import { type Dictionary, insert, t } from "intlayer";
 
-const localeSwitcherContent = {
+const navigationDockContent = {
   content: {
     dockTankLabel: insert(
       t({
@@ -27,7 +27,7 @@ const localeSwitcherContent = {
       }),
     ),
   },
-  key: "locale-switcher",
+  key: "navigation-dock",
 } satisfies Dictionary;
 
-export default localeSwitcherContent;
+export default navigationDockContent;

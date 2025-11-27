@@ -1,0 +1,57 @@
+/* eslint-disable */
+export default {
+  "key": "navigation-dock",
+  "content": {
+    "nodeType": "translation",
+    "translation": {
+      "uk": {
+        "dockTankLabel": {
+          "fields": [],
+          "nodeType": "insertion",
+          "insertion": "Резервуар"
+        },
+        "dockTableLabel": {
+          "fields": [],
+          "nodeType": "insertion",
+          "insertion": "Таблиця"
+        },
+        "dockJournalLabel": {
+          "fields": [],
+          "nodeType": "insertion",
+          "insertion": "Журнал"
+        },
+        "dockMoreLabel": {
+          "fields": [],
+          "nodeType": "insertion",
+          "insertion": "Інше"
+        }
+      },
+      "en": {
+        "dockTankLabel": {
+          "fields": [],
+          "nodeType": "insertion",
+          "insertion": "Tank"
+        },
+        "dockTableLabel": {
+          "fields": [],
+          "nodeType": "insertion",
+          "insertion": "Table"
+        },
+        "dockJournalLabel": {
+          "fields": [],
+          "nodeType": "insertion",
+          "insertion": "Journal"
+        },
+        "dockMoreLabel": {
+          "fields": [],
+          "nodeType": "insertion",
+          "insertion": "More"
+        }
+      }
+    }
+  },
+  "localIds": [
+    "navigation-dock::local::src\\contents\\more-drawer.content.ts",
+    "navigation-dock::local::src\\contents\\navigation-dock.content.ts"
+  ]
+} as const;

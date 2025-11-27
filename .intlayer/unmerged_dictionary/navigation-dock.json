@@ -1,0 +1,106 @@
+[
+  {
+    "content": {
+      "dockTankLabel": {
+        "fields": [],
+        "nodeType": "insertion",
+        "insertion": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "Tank",
+            "uk": "Резервуар"
+          }
+        }
+      },
+      "dockTableLabel": {
+        "fields": [],
+        "nodeType": "insertion",
+        "insertion": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "Table",
+            "uk": "Таблиця"
+          }
+        }
+      },
+      "dockJournalLabel": {
+        "fields": [],
+        "nodeType": "insertion",
+        "insertion": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "Journal",
+            "uk": "Журнал"
+          }
+        }
+      },
+      "dockMoreLabel": {
+        "fields": [],
+        "nodeType": "insertion",
+        "insertion": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "More",
+            "uk": "Інше"
+          }
+        }
+      }
+    },
+    "key": "navigation-dock",
+    "localId": "navigation-dock::local::src\\contents\\more-drawer.content.ts",
+    "location": "local",
+    "filePath": "src\\contents\\more-drawer.content.ts"
+  },
+  {
+    "content": {
+      "dockTankLabel": {
+        "fields": [],
+        "nodeType": "insertion",
+        "insertion": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "Tank",
+            "uk": "Резервуар"
+          }
+        }
+      },
+      "dockTableLabel": {
+        "fields": [],
+        "nodeType": "insertion",
+        "insertion": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "Table",
+            "uk": "Таблиця"
+          }
+        }
+      },
+      "dockJournalLabel": {
+        "fields": [],
+        "nodeType": "insertion",
+        "insertion": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "Journal",
+            "uk": "Журнал"
+          }
+        }
+      },
+      "dockMoreLabel": {
+        "fields": [],
+        "nodeType": "insertion",
+        "insertion": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "More",
+            "uk": "Інше"
+          }
+        }
+      }
+    },
+    "key": "navigation-dock",
+    "localId": "navigation-dock::local::src\\contents\\navigation-dock.content.ts",
+    "location": "local",
+    "filePath": "src\\contents\\navigation-dock.content.ts"
+  }
+]

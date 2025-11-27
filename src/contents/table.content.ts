@@ -2,7 +2,7 @@ import type { Dictionary } from "intlayer";
 
 import { t } from "intlayer";
 
-const appContent = {
+const tablePageContent = {
   content: {
     meta: {
       description: t({
@@ -18,4 +18,4 @@ const appContent = {
   key: "tableContent",
 } satisfies Dictionary;
 
-export default appContent;
+export default tablePageContent;

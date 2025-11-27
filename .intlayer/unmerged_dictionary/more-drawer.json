@@ -1,0 +1,95 @@
+[
+  {
+    "content": {
+      "ToggleHeader": {
+        "fields": [],
+        "nodeType": "insertion",
+        "insertion": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "Enter density at 15 C",
+            "uk": "Ввести густину при 15 С"
+          }
+        }
+      },
+      "ResetButtonHeader": {
+        "fields": [],
+        "nodeType": "insertion",
+        "insertion": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "Reset Changes",
+            "uk": "Скинути"
+          }
+        }
+      },
+      "SaveButtonHeader": {
+        "fields": [],
+        "nodeType": "insertion",
+        "insertion": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "Save Changes",
+            "uk": "Зберегти"
+          }
+        }
+      }
+    },
+    "key": "more-drawer",
+    "localId": "more-drawer::local::src\\contents\\editable-table.content.ts",
+    "location": "local",
+    "filePath": "src\\contents\\editable-table.content.ts"
+  },
+  {
+    "content": {
+      "DensitySettingHeader": {
+        "fields": [],
+        "nodeType": "insertion",
+        "insertion": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "Density settings",
+            "uk": "Налаштування густини продукту"
+          }
+        }
+      },
+      "ReportHeader": {
+        "fields": [],
+        "nodeType": "insertion",
+        "insertion": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "Reports",
+            "uk": "Звіти"
+          }
+        }
+      },
+      "AdvancedSettingHeader": {
+        "fields": [],
+        "nodeType": "insertion",
+        "insertion": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "Advanced settings",
+            "uk": "Додаткові налаштування"
+          }
+        }
+      },
+      "ChooseLanguageLabel": {
+        "fields": [],
+        "nodeType": "insertion",
+        "insertion": {
+          "nodeType": "translation",
+          "translation": {
+            "en": "Choose language",
+            "uk": "Оберіть мову"
+          }
+        }
+      }
+    },
+    "key": "more-drawer",
+    "localId": "more-drawer::local::src\\contents\\more-drawer.content.ts",
+    "location": "local",
+    "filePath": "src\\contents\\more-drawer.content.ts"
+  }
+]

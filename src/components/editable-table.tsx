@@ -21,6 +21,8 @@ import { z } from "zod";
 import { cn } from "@/lib/utils";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import { useIntlayer, useLocale } from "react-intlayer";
+import { getLocaleName } from "intlayer";
 
 type TanksContentApiRow = {
   name: string | null;
@@ -245,6 +247,9 @@ const mapApiRowToTableRow = (row: TanksContentApiRow): TableRowData => ({
 });
 
 export default function EditableTable() {
+  const translation = useIntlayer("editable-table");
+  const { locale } = useLocale();
+
   const [data, setData] = useState<TableRowData[]>([]);
   const [originalData, setOriginalData] = useState<TableRowData[]>([]);
   const [editedRows, setEditedRows] = useState<Map<string, TableRowData>>(
@@ -495,7 +500,13 @@ export default function EditableTable() {
         </div>
       )}
       <div className="flex flex-row gap-4 my-2">
-        <Label htmlFor="switch">Ввести густину при 15 С</Label>
+        <Label htmlFor="switch">
+          {
+            translation.ToggleHeader({
+              language: getLocaleName(locale),
+            }).value
+          }
+        </Label>
         <Switch
           id="switch"
           checked={enterDensity15}
@@ -547,14 +558,22 @@ export default function EditableTable() {
 
       <div className="flex gap-2 mt-6">
         <Button onClick={resetChanges} variant="outline">
-          Reset Changes
+          {
+            translation.ResetButtonHeader({
+              language: getLocaleName(locale),
+            }).value
+          }
         </Button>
         <Button
           onClick={saveChanges}
           disabled={hasValidationErrors}
           className={cn(hasValidationErrors && "opacity-50 cursor-not-allowed")}
         >
-          Save Changes
+          {
+            translation.SaveButtonHeader({
+              language: getLocaleName(locale),
+            }).value
+          }
         </Button>
       </div>
     </div>
