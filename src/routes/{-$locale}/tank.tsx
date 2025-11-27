@@ -76,7 +76,7 @@ function RouteComponent() {
         ))}
       </div>
 
-      <div className="z-2 m-0 flex h-auto w-full flex-none flex-col-reverse items-center justify-between rounded-b-xl border-x bg-muted/80 px-2 pb-2 backdrop-blur-2xl supports-backdrop-blur:bg-white/80 supports-backdrop-blur:dark:bg-black/10 md:flex-row xl:h-17 xl:rounded-xl xl:border-none xl:bg-transparent xl:p-0 ">
+      <div className="z-2 m-0 flex h-auto w-full flex-none flex-col-reverse items-center justify-between rounded-b-xl border-x bg-muted/80 px-2 pb-2 font-medium backdrop-blur-2xl supports-backdrop-blur:bg-white/80 supports-backdrop-blur:dark:bg-black/10 md:flex-row xl:h-17 xl:rounded-xl xl:border-none xl:bg-transparent xl:p-0 ">
         <div className="flex w-full max-w-96 flex-col justify-center gap-2 px-2 py-1">
           <Meter
             value={sumMass ?? 0}
