@@ -500,13 +500,7 @@ export default function EditableTable() {
         </div>
       )}
       <div className="flex flex-row gap-4 my-2">
-        <Label htmlFor="switch">
-          {
-            translation.ToggleHeader({
-              language: getLocaleName(locale),
-            }).value
-          }
-        </Label>
+        <Label htmlFor="switch">{translation.ToggleHeader}</Label>
         <Switch
           id="switch"
           checked={enterDensity15}
@@ -558,22 +552,14 @@ export default function EditableTable() {
 
       <div className="flex gap-2 mt-6">
         <Button onClick={resetChanges} variant="outline">
-          {
-            translation.ResetButtonHeader({
-              language: getLocaleName(locale),
-            }).value
-          }
+          {translation.ResetButtonHeader}
         </Button>
         <Button
           onClick={saveChanges}
           disabled={hasValidationErrors}
           className={cn(hasValidationErrors && "opacity-50 cursor-not-allowed")}
         >
-          {
-            translation.SaveButtonHeader({
-              language: getLocaleName(locale),
-            }).value
-          }
+          {translation.SaveButtonHeader}
         </Button>
       </div>
     </div>

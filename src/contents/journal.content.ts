@@ -1,6 +1,5 @@
 import type { Dictionary } from "intlayer";
-
-import { t } from "intlayer";
+import { insert, t } from "intlayer";
 
 const journalPageContent = {
   content: {
@@ -14,7 +13,32 @@ const journalPageContent = {
       en: "Welcome to Intlayer + TanStack Router JOURNAL",
       uk: "Привіт + TanStack Router JOURNAL",
     }),
+    TankSelectHeader: t({
+      en: "Tank:",
+      uk: "Резервуар:",
+    }),
+    SelectTankPlaceholder: t({
+      en: "Select tank:",
+      uk: "Оберіть резервуар:",
+    }),
+    DatetimeStartNote: t({
+      en: "Start date:",
+      uk: "Початкова дата:",
+    }),
+    DatetimeStartPlaceholder: t({
+      en: "Select start date:",
+      uk: "Оберіть початкову дату:",
+    }),
+    DatetimeEndNote: t({
+      en: "End date:",
+      uk: "Кінцева дата:",
+    }),
+    DatetimeEndPlaceholder: t({
+      en: "Select end date:",
+      uk: "Оберіть кінцеву дату:",
+    }),
   },
+
   key: "journalContent",
 } satisfies Dictionary;
 

@@ -51,11 +51,7 @@ function TankDrawerElements({ values }: { values?: any }) {
       <Accordion type="multiple" className="w-full" defaultValue={["density"]}>
         <AccordionItem value="density">
           <AccordionTrigger className="text-md">
-            {
-              translation.DensitySettingHeader({
-                language: getLocaleName(locale),
-              }).value
-            }
+            {translation.DensitySettingHeader}
           </AccordionTrigger>
           <AccordionContent className="flex flex-col gap-4 text-balance">
             <EditableTable />
@@ -63,11 +59,7 @@ function TankDrawerElements({ values }: { values?: any }) {
         </AccordionItem>
         <AccordionItem value="report">
           <AccordionTrigger className="text-md">
-            {
-              translation.ReportHeader({
-                language: getLocaleName(locale),
-              }).value
-            }
+            {translation.ReportHeader}
           </AccordionTrigger>
           <AccordionContent className="flex flex-col gap-4 text-balance">
             <ReportsSelection />
@@ -75,20 +67,10 @@ function TankDrawerElements({ values }: { values?: any }) {
         </AccordionItem>
         <AccordionItem value="other">
           <AccordionTrigger className="text-md">
-            {
-              translation.AdvancedSettingHeader({
-                language: getLocaleName(locale),
-              }).value
-            }
+            {translation.AdvancedSettingHeader}
           </AccordionTrigger>
           <AccordionContent className="flex flex-col gap-4 text-balance">
-            <Label>
-              {
-                translation.ChooseLanguageLabel({
-                  language: getLocaleName(locale),
-                }).value
-              }
-            </Label>
+            <Label>{translation.ChooseLanguageLabel}</Label>
             <LocaleSwitcher />
           </AccordionContent>
         </AccordionItem>

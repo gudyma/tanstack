@@ -693,7 +693,7 @@ type DateTimePickerProps = {
   /** showing `AM/PM` or not. */
   hourCycle?: 12 | 24;
   placeholder?: string;
-  note?: string;
+
   /**
    * The year range will be: `This year + yearRange` and `this year - yearRange`.
    * Default is 50.
@@ -742,7 +742,6 @@ const DateTimePicker = React.forwardRef<
       displayFormat,
       granularity = "second",
       placeholder = "Pick a date",
-      note = "",
       className,
       ...props
     },
@@ -847,7 +846,6 @@ const DateTimePicker = React.forwardRef<
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
             {displayDate ? (
-              note +
               format(
                 displayDate,
                 hourCycle === 24

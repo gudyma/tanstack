@@ -70,6 +70,7 @@ export const Route = createFileRoute("/{-$locale}/journal")({
 function RouteComponent() {
   const content = useIntlayer("journalContent");
   const { locale } = useLocale();
+
   const today: Date = new Date();
   const yesterday: Date = ((d) => new Date(d.setHours(d.getHours() - 1)))(
     new Date(),
@@ -170,13 +171,13 @@ function RouteComponent() {
     <div className="relative my-1 h-full w-full overflow-auto md:mb-0">
       <div className="fixed top-0 z-50 w-full items-center justify-center border-x border-b bg-muted/60 backdrop-blur-sm">
         <div className="flex flex-row flex-wrap items-center justify-center gap-2 px-2 py-2 md:px-4">
-          <div className="flex w-full flex-row sm:w-44">
+          <div className="flex w-full flex-row sm:w-auto">
             <Label className="mr-2" htmlFor="tankSelect">
-              Tank:
+              {content.TankSelectHeader}
             </Label>
             <Select name="Tank name" onValueChange={(value) => setTank(value)}>
               <SelectTrigger className="w-full" id="tankSelect">
-                <SelectValue placeholder="Select tank" />
+                <SelectValue placeholder={content.SelectTankPlaceholder} />
               </SelectTrigger>
               <SelectContent>
                 {tankList?.map((tank, index) => {
@@ -190,23 +191,23 @@ function RouteComponent() {
             </Select>
           </div>
 
-          <div className="flex w-full flex-row sm:w-auto sm:max-w-96 md:w-60">
+          <div className="flex w-full flex-row sm:w-auto justify-between sm:max-w-96 md:w-auto">
+            <Label className="pr-2">{content.DatetimeStartNote}</Label>
             <DateTimePicker
-              note="Start date: "
               granularity="minute"
-              className="w-full text-foreground"
-              placeholder="Select start date"
+              className="w-auto text-foreground max-w-96 md:w-auto"
+              placeholder=""
               value={startDate}
               onChange={(newValue: Date) => setStartDate(newValue)}
             />
           </div>
 
-          <div className="flex w-full flex-row sm:w-auto sm:max-w-96 md:w-60">
+          <div className="flex w-full flex-row sm:w-auto justify-between sm:max-w-96 md:w-auto">
+            <Label className="pr-2">{content.DatetimeEndNote}</Label>
             <DateTimePicker
-              note="End date: "
               granularity="minute"
-              className="w-full text-foreground"
-              placeholder="Select end date"
+              className="w-auto text-foreground max-w-96 md:w-auto"
+              placeholder=""
               value={endDate}
               onChange={(newValue: Date) => setEndDate(newValue)}
             />

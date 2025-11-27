@@ -4,6 +4,10 @@
     "nodeType": "translation",
     "translation": {
       "uk": {
+        "DensitySettingHeader": "Налаштування густини продукту",
+        "ReportHeader": "Звіти",
+        "AdvancedSettingHeader": "Додаткові налаштування",
+        "ChooseLanguageLabel": "Оберіть мову",
         "ToggleHeader": {
           "fields": [],
           "nodeType": "insertion",
@@ -18,29 +22,13 @@
           "fields": [],
           "nodeType": "insertion",
           "insertion": "Зберегти"
-        },
-        "DensitySettingHeader": {
-          "fields": [],
-          "nodeType": "insertion",
-          "insertion": "Налаштування густини продукту"
-        },
-        "ReportHeader": {
-          "fields": [],
-          "nodeType": "insertion",
-          "insertion": "Звіти"
-        },
-        "AdvancedSettingHeader": {
-          "fields": [],
-          "nodeType": "insertion",
-          "insertion": "Додаткові налаштування"
-        },
-        "ChooseLanguageLabel": {
-          "fields": [],
-          "nodeType": "insertion",
-          "insertion": "Оберіть мову"
         }
       },
       "en": {
+        "DensitySettingHeader": "Density settings",
+        "ReportHeader": "Reports",
+        "AdvancedSettingHeader": "Advanced settings",
+        "ChooseLanguageLabel": "Choose language",
         "ToggleHeader": {
           "fields": [],
           "nodeType": "insertion",
@@ -55,32 +43,12 @@
           "fields": [],
           "nodeType": "insertion",
           "insertion": "Save Changes"
-        },
-        "DensitySettingHeader": {
-          "fields": [],
-          "nodeType": "insertion",
-          "insertion": "Density settings"
-        },
-        "ReportHeader": {
-          "fields": [],
-          "nodeType": "insertion",
-          "insertion": "Reports"
-        },
-        "AdvancedSettingHeader": {
-          "fields": [],
-          "nodeType": "insertion",
-          "insertion": "Advanced settings"
-        },
-        "ChooseLanguageLabel": {
-          "fields": [],
-          "nodeType": "insertion",
-          "insertion": "Choose language"
         }
       }
     }
   },
   "localIds": [
-    "more-drawer::local::src\\contents\\editable-table.content.ts",
-    "more-drawer::local::src\\contents\\more-drawer.content.ts"
+    "more-drawer::local::src\\contents\\more-drawer.content.ts",
+    "more-drawer::local::src\\contents\\editable-table.content.ts"
   ]
 }

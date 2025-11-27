@@ -2,36 +2,24 @@
   {
     "content": {
       "ToggleHeader": {
-        "fields": [],
-        "nodeType": "insertion",
-        "insertion": {
-          "nodeType": "translation",
-          "translation": {
-            "en": "Enter density at 15 C",
-            "uk": "Ввести густину при 15 С"
-          }
+        "nodeType": "translation",
+        "translation": {
+          "en": "Enter density at 15 C",
+          "uk": "Ввести густину при 15 С"
         }
       },
       "ResetButtonHeader": {
-        "fields": [],
-        "nodeType": "insertion",
-        "insertion": {
-          "nodeType": "translation",
-          "translation": {
-            "en": "Reset Changes",
-            "uk": "Скинути"
-          }
+        "nodeType": "translation",
+        "translation": {
+          "en": "Reset Changes",
+          "uk": "Скинути"
         }
       },
       "SaveButtonHeader": {
-        "fields": [],
-        "nodeType": "insertion",
-        "insertion": {
-          "nodeType": "translation",
-          "translation": {
-            "en": "Save Changes",
-            "uk": "Зберегти"
-          }
+        "nodeType": "translation",
+        "translation": {
+          "en": "Save Changes",
+          "uk": "Зберегти"
         }
       }
     },

@@ -8,13 +8,25 @@ export default {
         "meta": {
           "description": "Приклад TanStack Router"
         },
-        "title": "Привіт + TanStack Router JOURNAL"
+        "title": "Привіт + TanStack Router JOURNAL",
+        "TankSelectHeader": "Резервуар:",
+        "SelectTankPlaceholder": "Оберіть резервуар:",
+        "DatetimeStartNote": "Початкова дата:",
+        "DatetimeStartPlaceholder": "Оберіть початкову дату:",
+        "DatetimeEndNote": "Кінцева дата:",
+        "DatetimeEndPlaceholder": "Оберіть кінцеву дату:"
       },
       "en": {
         "meta": {
           "description": "This is an example of using Intlayer with TanStack Router"
         },
-        "title": "Welcome to Intlayer + TanStack Router JOURNAL"
+        "title": "Welcome to Intlayer + TanStack Router JOURNAL",
+        "TankSelectHeader": "Tank:",
+        "SelectTankPlaceholder": "Select tank:",
+        "DatetimeStartNote": "Start date:",
+        "DatetimeStartPlaceholder": "Select start date:",
+        "DatetimeEndNote": "End date:",
+        "DatetimeEndPlaceholder": "Select end date:"
       }
     }
   },

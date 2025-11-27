@@ -16,6 +16,48 @@
           "en": "Welcome to Intlayer + TanStack Router JOURNAL",
           "uk": "Привіт + TanStack Router JOURNAL"
         }
+      },
+      "TankSelectHeader": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Tank:",
+          "uk": "Резервуар:"
+        }
+      },
+      "SelectTankPlaceholder": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Select tank:",
+          "uk": "Оберіть резервуар:"
+        }
+      },
+      "DatetimeStartNote": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Start date:",
+          "uk": "Початкова дата:"
+        }
+      },
+      "DatetimeStartPlaceholder": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Select start date:",
+          "uk": "Оберіть початкову дату:"
+        }
+      },
+      "DatetimeEndNote": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "End date:",
+          "uk": "Кінцева дата:"
+        }
+      },
+      "DatetimeEndPlaceholder": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Select end date:",
+          "uk": "Оберіть кінцеву дату:"
+        }
       }
     },
     "key": "journalContent",
