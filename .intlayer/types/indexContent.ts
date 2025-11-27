@@ -6,15 +6,15 @@ export default {
     "translation": {
       "uk": {
         "meta": {
-          "description": "Приклад TanStack Router"
+          "description": "MIRA Web"
         },
-        "title": "Привіт + TanStack Router"
+        "title": "MIRA Web"
       },
       "en": {
         "meta": {
-          "description": "This is an example of using Intlayer with TanStack Router"
+          "description": "MIRA Web"
         },
-        "title": "Welcome to Intlayer + TanStack Router"
+        "title": "MIRA Web"
       }
     }
   },

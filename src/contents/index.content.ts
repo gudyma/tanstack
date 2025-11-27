@@ -6,13 +6,13 @@ const appContent = {
   content: {
     meta: {
       description: t({
-        en: "This is an example of using Intlayer with TanStack Router",
-        uk: "Приклад TanStack Router",
+        en: "MIRA Web",
+        uk: "MIRA Web",
       }),
     },
     title: t({
-      en: "Welcome to Intlayer + TanStack Router",
-      uk: "Привіт + TanStack Router",
+      en: "MIRA Web",
+      uk: "MIRA Web",
     }),
   },
   key: "indexContent",

@@ -6,13 +6,13 @@ const tankPageContent = {
   content: {
     meta: {
       description: t({
-        en: "This is an example of using Intlayer with TanStack Router",
-        uk: "Приклад  TanStack Router",
+        en: "MIRA Web - Tanks",
+        uk: "MIRA Web - Резервуари",
       }),
     },
     title: t({
-      en: "Welcome to Intlayer + TanStack Router TANK",
-      uk: "Укр. + TanStack Router TANK",
+      en: "MIRA Web - Tanks",
+      uk: "MIRA Web - Резервуари",
     }),
   },
   key: "tankContent",

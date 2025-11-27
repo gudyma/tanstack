@@ -47,9 +47,7 @@ export function NavigationDock(props: any) {
           >
             <div className="flex flex-col items-center justify-center">
               <WarehouseIcon className="size-6" />
-              <label className="font-semibold text-xs">
-                {dockTankLabel({ language: getLocaleName(locale) }).value}
-              </label>
+              <label className="font-semibold text-xs">{dockTankLabel}</label>
             </div>
           </LocalizedLink>
         </DockIcon>
@@ -66,9 +64,7 @@ export function NavigationDock(props: any) {
           >
             <div className="flex flex-col items-center justify-center">
               <Table2Icon className="size-6" />
-              <label className="font-semibold text-xs">
-                {dockTableLabel({ language: getLocaleName(locale) }).value}
-              </label>
+              <label className="font-semibold text-xs">{dockTableLabel}</label>
             </div>
           </LocalizedLink>
         </DockIcon>
@@ -86,7 +82,7 @@ export function NavigationDock(props: any) {
             <div className="flex flex-col items-center justify-center">
               <ChartColumnIncreasing className="size-6" />
               <label className="font-semibold text-xs">
-                {dockJournalLabel({ language: getLocaleName(locale) }).value}
+                {dockJournalLabel}
               </label>
             </div>
           </LocalizedLink>
@@ -102,9 +98,7 @@ export function NavigationDock(props: any) {
           >
             <div className="flex flex-col items-center justify-center">
               <CircleEllipsisIcon className="size-6" />
-              <label className="font-semibold text-xs">
-                {dockMoreLabel({ language: getLocaleName(locale) }).value}
-              </label>
+              <label className="font-semibold text-xs">{dockMoreLabel}</label>
             </div>
           </DockIcon>
         </MoreDrawer>

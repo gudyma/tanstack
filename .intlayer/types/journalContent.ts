@@ -6,9 +6,9 @@ export default {
     "translation": {
       "uk": {
         "meta": {
-          "description": "Приклад TanStack Router"
+          "description": "MIRA Web - Журнал"
         },
-        "title": "Привіт + TanStack Router JOURNAL",
+        "title": "MIRA Web - Журнал",
         "TankSelectHeader": "Резервуар:",
         "SelectTankPlaceholder": "Оберіть резервуар:",
         "DatetimeStartNote": "Початкова дата:",
@@ -18,9 +18,9 @@ export default {
       },
       "en": {
         "meta": {
-          "description": "This is an example of using Intlayer with TanStack Router"
+          "description": "MIRA Web - Journal"
         },
-        "title": "Welcome to Intlayer + TanStack Router JOURNAL",
+        "title": "MIRA Web - Journal",
         "TankSelectHeader": "Tank:",
         "SelectTankPlaceholder": "Select tank:",
         "DatetimeStartNote": "Start date:",

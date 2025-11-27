@@ -5,15 +5,15 @@
     "translation": {
       "uk": {
         "meta": {
-          "description": "Приклад TanStack Router"
+          "description": "MIRA Web - Таблиця"
         },
-        "title": "Привіт + TanStack Router TABLE"
+        "title": "MIRA Web - Таблиця"
       },
       "en": {
         "meta": {
-          "description": "This is an example of using Intlayer with TanStack Router"
+          "description": "MIRA Web - Table"
         },
-        "title": "Welcome to Intlayer + TanStack Router TABLE"
+        "title": "MIRA Web - Table"
       }
     }
   },

@@ -5,13 +5,13 @@ const journalPageContent = {
   content: {
     meta: {
       description: t({
-        en: "This is an example of using Intlayer with TanStack Router",
-        uk: "Приклад TanStack Router",
+        en: "MIRA Web - Journal",
+        uk: "MIRA Web - Журнал",
       }),
     },
     title: t({
-      en: "Welcome to Intlayer + TanStack Router JOURNAL",
-      uk: "Привіт + TanStack Router JOURNAL",
+      en: "MIRA Web - Journal",
+      uk: "MIRA Web - Журнал",
     }),
     TankSelectHeader: t({
       en: "Tank:",

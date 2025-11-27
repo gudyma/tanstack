@@ -5,16 +5,16 @@
         "description": {
           "nodeType": "translation",
           "translation": {
-            "en": "This is an example of using Intlayer with TanStack Router",
-            "uk": "Приклад TanStack Router"
+            "en": "MIRA Web - Journal",
+            "uk": "MIRA Web - Журнал"
           }
         }
       },
       "title": {
         "nodeType": "translation",
         "translation": {
-          "en": "Welcome to Intlayer + TanStack Router JOURNAL",
-          "uk": "Привіт + TanStack Router JOURNAL"
+          "en": "MIRA Web - Journal",
+          "uk": "MIRA Web - Журнал"
         }
       },
       "TankSelectHeader": {

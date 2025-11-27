@@ -6,13 +6,13 @@ const tablePageContent = {
   content: {
     meta: {
       description: t({
-        en: "This is an example of using Intlayer with TanStack Router",
-        uk: "Приклад TanStack Router",
+        en: "MIRA Web - Table",
+        uk: "MIRA Web - Таблиця",
       }),
     },
     title: t({
-      en: "Welcome to Intlayer + TanStack Router TABLE",
-      uk: "Привіт + TanStack Router TABLE",
+      en: "MIRA Web - Table",
+      uk: "MIRA Web - Таблиця",
     }),
   },
   key: "tableContent",
