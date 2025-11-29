@@ -92,7 +92,7 @@ function RouteComponent() {
     TankParameterData[]
   >([]);
 
-  const baseUrl = import.meta.env.PUBLIC_API_URL || "http://127.0.0.1:5000";
+  const baseUrl = import.meta.env.VITE_API_URL || "http://127.0.0.1:5000";
 
   async function loadTanks() {
     try {

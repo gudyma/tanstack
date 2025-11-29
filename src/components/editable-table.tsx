@@ -248,7 +248,7 @@ const mapApiRowToTableRow = (row: TanksContentApiRow): TableRowData => ({
 });
 
 export default function EditableTable() {
-  const baseUrl = import.meta.env.PUBLIC_API_URL || "http://127.0.0.1:5000";
+  const baseUrl = import.meta.env.VITE_API_URL || "http://127.0.0.1:5000";
 
   const translation = useIntlayer("editable-table");
   const { locale } = useLocale();
@@ -265,7 +265,7 @@ export default function EditableTable() {
   const [enterDensity15, setEnterDensity15] = useState(false);
 
   const columns = useMemo(() => {
-    const uiType = import.meta.env.PUBLIC_UI_TYPE || 3;
+    const uiType = import.meta.env.VITE_UI_TYPE || 3;
 
     const isType3 = String(uiType) === "3";
 
@@ -321,8 +321,7 @@ export default function EditableTable() {
 
     const loadTanks = async () => {
       try {
-        const baseUrl =
-          import.meta.env.PUBLIC_API_URL || "http://127.0.0.1:5000";
+        const baseUrl = import.meta.env.VITE_API_URL || "http://127.0.0.1:5000";
         const res = await fetch(baseUrl + "/api/tanksContentInfo");
         if (!res.ok) throw new Error("Failed to fetch tank content info");
         const rows: TanksContentApiRow[] = await res.json();

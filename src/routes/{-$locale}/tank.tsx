@@ -42,8 +42,8 @@ function RouteComponent() {
   const [isConnected, setIsConnected] = useState(false);
   const clientRef = useRef<mqtt.MqttClient | null>(null);
 
-  const rows = import.meta.env.PUBLIC_TANKVIEW_ROWS || 2;
-  const cols = import.meta.env.PUBLIC_TANKVIEW_COLS || 3;
+  const rows = import.meta.env.VITE_TANKVIEW_ROWS || 2;
+  const cols = import.meta.env.VITE_TANKVIEW_COLS || 3;
 
   useEffect(() => {
     const result = sumVolumesAndMass(tanks ?? []);

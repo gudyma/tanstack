@@ -18,22 +18,29 @@ export async function initializeTanksAndMqtt(
 
     // 2. MQTT connection setup
     const options: mqtt.IClientOptions = {
-      username: import.meta.env.PUBLIC_MQTT_USERNAME || "digital",
-      password: import.meta.env.PUBLIC_MQTT_PASSWORD || "masterkey",
-      reconnectPeriod: import.meta.env.PUBLIC_MQTT_RECONNECT_PERIOD || 1000,
+      protocol: import.meta.env.VITE_MQTT_PROTOCOL || "ws",
+      host: import.meta.env.VITE_MQTT_HOST || "localhost",
+      port: import.meta.env.VITE_MQTT_PORT || "8080",
+      path: "/mqtt",
+      clientId: "web_client_" + Math.random().toString(16).substr(2, 8),
+      rejectUnauthorized: false, // For self-signed certificates
+      ca: [], // Add your CA certificate if needed
+      username: import.meta.env.VITE_MQTT_USERNAME || "digital",
+      password: import.meta.env.VITE_MQTT_PASSWORD || "masterkey",
+      reconnectPeriod: import.meta.env.VITE_MQTT_RECONNECT_PERIOD || 1000,
     };
-    const connectionString =
-      import.meta.env.PUBLIC_MQTT_BROKER || "ws://localhost:8080/mqtt";
 
-    const client = mqtt.connect(connectionString, options);
+    const client = mqtt.connect(options);
+    console.log(client.options);
     clientRef.current = client;
 
     // 3. MQTT event listeners
     client.on("connect", () => {
       console.log("Connected to MQTT broker");
       setIsConnected(true);
-
-      client.subscribe("calcdata/#", (err) => {
+      const topic = (import.meta.env.VITE_MQTT_TOPIC || "calcdata") + "/#";
+      console.log("Subscribing to topic:", topic);
+      client.subscribe(topic, (err) => {
         if (err) {
           console.error("Subscription error:", err);
         } else {
