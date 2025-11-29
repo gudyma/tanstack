@@ -23,6 +23,7 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { useIntlayer, useLocale } from "react-intlayer";
 import { getLocaleName } from "intlayer";
+import { toast } from "sonner";
 
 type TanksContentApiRow = {
   name: string | null;
@@ -247,6 +248,8 @@ const mapApiRowToTableRow = (row: TanksContentApiRow): TableRowData => ({
 });
 
 export default function EditableTable() {
+  const baseUrl = import.meta.env.PUBLIC_API_URL || "http://127.0.0.1:5000";
+
   const translation = useIntlayer("editable-table");
   const { locale } = useLocale();
 
@@ -476,12 +479,66 @@ export default function EditableTable() {
     setValidationErrors(new Map<string, z.ZodIssue[]>());
   };
 
-  const saveChanges = () => {
-    if (validateAllData()) {
-      console.log("Saving valid data:", getEditedData());
-      alert("All data is valid and saved!");
-    } else {
-      alert("Please fix validation errors before saving.");
+  const saveChanges = async () => {
+    if (!validateAllData()) {
+      toast.error("Please fix validation errors before saving.");
+      return;
+    }
+
+    const editedRowsData = getEditedData();
+    if (editedRowsData.length === 0) {
+      toast.warning("No changes to save.");
+      return;
+    }
+
+    const parseNumberValue = (value: number | string) =>
+      typeof value === "string" ? Number(value) : value;
+
+    try {
+      for (const rowChange of editedRowsData) {
+        const tankId = rowChange.id;
+
+        const payload = {
+          tank: tankId,
+          density15: rowChange.current.density_at15
+            ? parseNumberValue(rowChange.current.density_at15)
+            : null,
+          density: rowChange.current.density
+            ? parseNumberValue(rowChange.current.density)
+            : null,
+          temperature: rowChange.current.temperature
+            ? parseNumberValue(rowChange.current.temperature)
+            : null,
+          propane: parseNumberValue(rowChange.current.propane ?? 0),
+          ethane: parseNumberValue(rowChange.current.ethane ?? 0),
+          butane: parseNumberValue(rowChange.current.butane ?? 0),
+          pentane: parseNumberValue(rowChange.current.pentane ?? 0),
+        };
+
+        const requestUrl = new URL("/api/writeDensity", baseUrl);
+        Object.entries(payload).forEach(([key, value]) => {
+          if (value !== null && value !== undefined) {
+            requestUrl.searchParams.set(key, String(value));
+          }
+        });
+
+        const response = await fetch(requestUrl, {
+          method: "POST",
+        });
+        if (!response.ok) {
+          toast.error("Failed to write density");
+        } else {
+          toast.success(
+            `Changes for ${rowChange.current.name} saved successfully.`,
+          );
+        }
+      }
+
+      setOriginalData(data.map((row) => ({ ...row })));
+      setEditedRows(new Map<string, TableRowData>());
+    } catch (error) {
+      console.error("Error saving changes:", error);
+      toast.error("An error occurred while saving changes.");
     }
   };
 
