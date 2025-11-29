@@ -34,46 +34,5 @@
     "localId": "more-drawer::local::src\\contents\\more-drawer.content.ts",
     "location": "local",
     "filePath": "src\\contents\\more-drawer.content.ts"
-  },
-  {
-    "content": {
-      "ToggleHeader": {
-        "fields": [],
-        "nodeType": "insertion",
-        "insertion": {
-          "nodeType": "translation",
-          "translation": {
-            "en": "Enter density at 15 C",
-            "uk": "Ввести густину при 15 С"
-          }
-        }
-      },
-      "ResetButtonHeader": {
-        "fields": [],
-        "nodeType": "insertion",
-        "insertion": {
-          "nodeType": "translation",
-          "translation": {
-            "en": "Reset Changes",
-            "uk": "Скинути"
-          }
-        }
-      },
-      "SaveButtonHeader": {
-        "fields": [],
-        "nodeType": "insertion",
-        "insertion": {
-          "nodeType": "translation",
-          "translation": {
-            "en": "Save Changes",
-            "uk": "Зберегти"
-          }
-        }
-      }
-    },
-    "key": "more-drawer",
-    "localId": "more-drawer::local::src\\contents\\editable-table.content.ts",
-    "location": "local",
-    "filePath": "src\\contents\\editable-table.content.ts"
   }
 ]

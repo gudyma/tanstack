@@ -56,16 +56,30 @@ function RouteComponent() {
     setSumProdMass(result?.ProductMassSum);
     setSumSpeedVolume(result?.VolumeSpeedSum);
     setSumFreeVolume(result?.FreeVolumeSum);
+    console.log("tanks");
   }, [tanks]);
 
   useEffect(() => {
+    if (clientRef.current) return;
     initializeTanksAndMqtt(setTanks, setIsConnected, clientRef);
+    console.log("Init");
+    return () => {
+      // cleanup when leaving the page
+      clientRef.current?.removeAllListeners();
+      clientRef.current?.end(true);
+      clientRef.current = null;
+      setIsConnected(false);
+    };
   }, []);
 
   return (
     <div className="flex min-h-screen w-full justify-between flex-col-reverse xl:flex-col z-2">
       <div
-        className={`grid grid-cols-${cols} grid-rows-${rows} h-full w-full items-center justify-center overflow-auto md:overflow-none px-1 pb-18 xl:pb-0`}
+        style={{
+          gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`,
+          gridTemplateRows: `repeat(${rows}, minmax(0, 1fr))`,
+        }}
+        className={`grid h-full w-full items-center justify-center overflow-auto md:overflow-none px-1 pb-18 xl:pb-0`}
       >
         {tanks?.map((tank, index) => (
           <div key={index} className="h-full min-h-48 w-full p-0.5">

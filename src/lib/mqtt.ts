@@ -11,8 +11,13 @@ export async function initializeTanksAndMqtt(
   clientRef: React.MutableRefObject<mqtt.MqttClient | null>,
 ) {
   try {
+    if (clientRef.current && !clientRef.current.disconnected) {
+      setIsConnected(clientRef.current.connected);
+      return;
+    }
+    const baseUrl = import.meta.env.PUBLIC_API_URL || "http://127.0.0.1:5000";
     // 1. Fetch tank data
-    const res = await fetch("/api/tanksExtended");
+    const res = await fetch(baseUrl + "/api/tanksExtended");
     if (!res.ok) console.warn("Failed to fetch tank data");
 
     const mapped: TankMeasurement[] = await res.json();
@@ -29,7 +34,7 @@ export async function initializeTanksAndMqtt(
     };
     const connectionString =
       import.meta.env.PUBLIC_MQTT_BROKER || "ws://localhost:8080/mqtt";
-    console.log(connectionString);
+
     const client = mqtt.connect(connectionString, options);
     clientRef.current = client;
 
@@ -49,7 +54,7 @@ export async function initializeTanksAndMqtt(
 
     client.on("message", (topic, message) => {
       const tankData = JSON.parse(message.toString());
-
+      console.log("Message received:", topic);
       setTanks((prev) => {
         if (!prev) return prev;
 

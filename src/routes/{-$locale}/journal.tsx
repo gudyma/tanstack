@@ -92,9 +92,11 @@ function RouteComponent() {
     TankParameterData[]
   >([]);
 
+  const baseUrl = import.meta.env.PUBLIC_API_URL || "http://127.0.0.1:5000";
+
   async function loadTanks() {
     try {
-      const res = await fetch(`/api/tanks`);
+      const res = await fetch(baseUrl + `/api/tanks`);
       if (!res.ok) {
         console.warn(`HTTP error! Status: ${res.status}`);
       }
@@ -112,10 +114,12 @@ function RouteComponent() {
   function graphParametersChange() {
     if (tank && parameters) {
       toast.info("Отримую дані");
+
       try {
         if (parameters[0]?.value) {
           fetch(
-            `/api/tankDataByParameter?tank=${tank}&start=${startDate.toISOString()}&end=${endDate.toISOString()}&parameter=${parameters[0]?.value}`,
+            baseUrl +
+              `/api/tankDataByParameter?tank=${tank}&start=${startDate.toISOString()}&end=${endDate.toISOString()}&parameter=${parameters[0]?.value}`,
           )
             .then((res) => (res.ok ? res.json() : Promise.reject()))
             .then((rows) => {
@@ -125,7 +129,8 @@ function RouteComponent() {
         }
         if (parameters[1]?.value) {
           fetch(
-            `/api/tankDataByParameter?tank=${tank}&start=${startDate.toISOString()}&end=${endDate.toISOString()}&parameter=${parameters[1]?.value}`,
+            baseUrl +
+              `/api/tankDataByParameter?tank=${tank}&start=${startDate.toISOString()}&end=${endDate.toISOString()}&parameter=${parameters[1]?.value}`,
           )
             .then((res) => (res.ok ? res.json() : Promise.reject()))
             .then((rows: TankParameterData[]) => {

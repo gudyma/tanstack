@@ -77,7 +77,16 @@ function RouteComponent() {
   const [testcolumns, setColumns] = useState(empty);
 
   useEffect(() => {
+    if (clientRef.current) return;
     initializeTanksAndMqtt(setTanks, setIsConnected, clientRef);
+    console.log("Init");
+    return () => {
+      // cleanup when leaving the page
+      clientRef.current?.removeAllListeners();
+      clientRef.current?.end(true);
+      clientRef.current = null;
+      setIsConnected(false);
+    };
   }, []);
 
   useEffect(() => {
@@ -162,7 +171,7 @@ function RouteComponent() {
       <div
         className={cn(
           "h-full overflow-auto whitespace-nowrap rounded-md border-2 pb-2 shadow-md bg-background",
-          animate ? "animate-borderFade" : "",
+          animate ? "animate-borderFade" : "animate-borderFadeOut",
         )}
       >
         <table

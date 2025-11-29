@@ -21,6 +21,7 @@ export default function TankComponent({
   const baseHeight: number = Number(
     values?.max_graduration_level ? values.max_graduration_level : 1,
   );
+
   const maxVolume: number = Number(values?.max_graduration_volume ?? 0);
   const maxLevel: number = Number(values?.max_allowed_level ?? 0);
   const minLevel: number = Number(values?.min_allowed_level ?? 0);
@@ -30,7 +31,6 @@ export default function TankComponent({
   const productLevelPercent = ((level / baseHeight) * 100).toFixed(2);
   const sedimentLevelPercent = ((sedimentLevel / baseHeight) * 100).toFixed(2);
   const maxLevelPercent = ((maxLevel / baseHeight) * 100).toFixed(2);
-  const minLevelPercent = ((minLevel / baseHeight) * 100).toFixed(2);
 
   const topValues: any[] = [
     values?.label,
@@ -120,7 +120,7 @@ export default function TankComponent({
         id={values?.id}
         className={cn(
           "relative h-full w-full items-end rounded-[6px] border bg-linear-to-t from-primary/7 to-card font-semibold text-foreground/90 text-xs md:text-base",
-          animate ? "animate-borderFade" : "",
+          animate ? "animate-borderFade" : "animate-borderFadeOut",
           visibility ? "block" : "hidden",
         )}
       >

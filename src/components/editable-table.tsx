@@ -318,7 +318,9 @@ export default function EditableTable() {
 
     const loadTanks = async () => {
       try {
-        const res = await fetch("/api/tanksContentInfo");
+        const baseUrl =
+          import.meta.env.PUBLIC_API_URL || "http://127.0.0.1:5000";
+        const res = await fetch(baseUrl + "/api/tanksContentInfo");
         if (!res.ok) throw new Error("Failed to fetch tank content info");
         const rows: TanksContentApiRow[] = await res.json();
         if (cancelled) return;

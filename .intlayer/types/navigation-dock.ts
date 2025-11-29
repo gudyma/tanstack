@@ -19,7 +19,6 @@ export default {
     }
   },
   "localIds": [
-    "navigation-dock::local::src\\contents\\navigation-dock.content.ts",
-    "navigation-dock::local::src\\contents\\more-drawer.content.ts"
+    "navigation-dock::local::src\\contents\\navigation-dock.content.ts"
   ]
 } as const;

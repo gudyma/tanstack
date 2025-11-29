@@ -1,21 +1,21 @@
-import _b1yXE2kEMRDKMkTygo48 from '../dictionary/editable-table.json' with { type: 'json' };
-import _aQbsagkRq5XvgxrXsw3N from '../dictionary/indexContent.json' with { type: 'json' };
-import _cVwpOd2Cp6JlbCkrw2SE from '../dictionary/journalContent.json' with { type: 'json' };
-import _1HPUjO10qFJDwXKZFFPf from '../dictionary/locale-switcher.json' with { type: 'json' };
-import _um8o6mPnr5V3KewY07wF from '../dictionary/more-drawer.json' with { type: 'json' };
-import _xeT33NDVANOGqQ2P8947 from '../dictionary/navigation-dock.json' with { type: 'json' };
-import _vNXIh98AVRdHiccf0KUc from '../dictionary/tableContent.json' with { type: 'json' };
-import _8XtVNeif9E92nub6nYCW from '../dictionary/tankContent.json' with { type: 'json' };
+import _3Hyf7pL1Ec32ZU8pncOZ from '../dictionary/editable-table.json' with { type: 'json' };
+import _VeDBomo3Vsp99ef6gLTs from '../dictionary/indexContent.json' with { type: 'json' };
+import _lFL8CMX9cavo9Ulp1YcS from '../dictionary/journalContent.json' with { type: 'json' };
+import _icJlmCrPZa1VHnkZExF4 from '../dictionary/locale-switcher.json' with { type: 'json' };
+import _QwVMBwVNdXHn6kGnTzwO from '../dictionary/more-drawer.json' with { type: 'json' };
+import _0vDYIZSKe07ldeh9z8Hm from '../dictionary/navigation-dock.json' with { type: 'json' };
+import _fd6kU1kZMhIb6hWywniG from '../dictionary/tableContent.json' with { type: 'json' };
+import _hdVROHSPvlHF5nPRhOCN from '../dictionary/tankContent.json' with { type: 'json' };
 
 const dictionaries = {
-  "editable-table": _b1yXE2kEMRDKMkTygo48,
-  "indexContent": _aQbsagkRq5XvgxrXsw3N,
-  "journalContent": _cVwpOd2Cp6JlbCkrw2SE,
-  "locale-switcher": _1HPUjO10qFJDwXKZFFPf,
-  "more-drawer": _um8o6mPnr5V3KewY07wF,
-  "navigation-dock": _xeT33NDVANOGqQ2P8947,
-  "tableContent": _vNXIh98AVRdHiccf0KUc,
-  "tankContent": _8XtVNeif9E92nub6nYCW
+  "editable-table": _3Hyf7pL1Ec32ZU8pncOZ,
+  "indexContent": _VeDBomo3Vsp99ef6gLTs,
+  "journalContent": _lFL8CMX9cavo9Ulp1YcS,
+  "locale-switcher": _icJlmCrPZa1VHnkZExF4,
+  "more-drawer": _QwVMBwVNdXHn6kGnTzwO,
+  "navigation-dock": _0vDYIZSKe07ldeh9z8Hm,
+  "tableContent": _fd6kU1kZMhIb6hWywniG,
+  "tankContent": _hdVROHSPvlHF5nPRhOCN
 };
 const getDictionaries = () => dictionaries;
 
