@@ -28,9 +28,9 @@ export async function initializeTanksAndMqtt(
 
     // 2. MQTT connection setup
     const options: mqtt.IClientOptions = {
-      username: "digital",
-      password: "masterkey",
-      reconnectPeriod: 1000,
+      username: import.meta.env.PUBLIC_MQTT_USERNAME || "digital",
+      password: import.meta.env.PUBLIC_MQTT_PASSWORD || "masterkey",
+      reconnectPeriod: import.meta.env.PUBLIC_MQTT_RECONNECT_PERIOD || 1000,
     };
     const connectionString =
       import.meta.env.PUBLIC_MQTT_BROKER || "ws://localhost:8080/mqtt";
