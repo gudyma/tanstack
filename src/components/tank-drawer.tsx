@@ -42,6 +42,8 @@ import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
+const API_BASE_URL = import.meta.env.PUBLIC_API_URL || "http://127.0.0.1:5000";
+
 interface TankDrawerProps {
   values: TankMeasurement;
 }
@@ -84,33 +86,50 @@ function TankDrawerElements({ values }: TankDrawerProps) {
       onSubmit: formSchema,
     },
     onSubmit: async ({ value }) => {
-      if (value.max_allowed_level && value.max_allowed_level > 0) {
-        console.log(value.max_allowed_level);
-      }
-      if (value.min_allowed_level && value.min_allowed_level > 0) {
-        console.log(value.min_allowed_level);
+      const tankIdentifier = values.value ?? values.id;
+
+      if (!tankIdentifier) {
+        toast("Не вдалося визначити резервуар для збереження налаштувань.");
+        return;
       }
 
-      if (value.mass_threshold && value.mass_threshold > 0) {
-        console.log(value.mass_threshold);
-      }
-      if (value.volume_threshold && value.volume_threshold > 0) {
-        console.log(value.volume_threshold);
-      }
-      toast("You submitted the following values:", {
-        description: (
-          <pre className="bg-code text-code-foreground mt-2 w-[320px] overflow-x-auto rounded-md p-4">
-            <code>{}</code>
-          </pre>
-        ),
-        position: "bottom-right",
-        classNames: {
-          content: "flex flex-col gap-2",
-        },
-        style: {
-          "--border-radius": "calc(var(--radius)  + 4px)",
-        } as React.CSSProperties,
+      const url = new URL("/api/tankSettings", API_BASE_URL);
+      url.searchParams.set("tank", String(tankIdentifier));
+
+      (
+        [
+          "max_allowed_level",
+          "min_allowed_level",
+          "volume_threshold",
+          "mass_threshold",
+        ] satisfies Array<keyof TankSettingsForm>
+      ).forEach((field) => {
+        const fieldValue = value[field];
+        if (fieldValue !== null && fieldValue !== undefined) {
+          url.searchParams.set(field, String(fieldValue));
+        }
       });
+
+      const savedMass = values.product_mass;
+      if (savedMass !== null && savedMass !== undefined) {
+        url.searchParams.set("saved_mass", String(savedMass));
+      }
+
+      const savedVolume = values.gross_observed_volume;
+      if (savedVolume !== null && savedVolume !== undefined) {
+        url.searchParams.set("saved_volume", String(savedVolume));
+      }
+
+      try {
+        const response = await fetch(url, { method: "POST" });
+        if (!response.ok) {
+          throw new Error("Failed to save tank settings");
+        }
+
+        toast.info("Налаштування резервуару збережено успішно.");
+      } catch (error) {
+        toast.error("Помилка під час збереження налаштувань резервуару.");
+      }
     },
   });
 

@@ -15,16 +15,6 @@ export async function initializeTanksAndMqtt(
       setIsConnected(clientRef.current.connected);
       return;
     }
-    const baseUrl = import.meta.env.PUBLIC_API_URL || "http://127.0.0.1:5000";
-    // 1. Fetch tank data
-    const res = await fetch(baseUrl + "/api/tanksExtended");
-    if (!res.ok) console.warn("Failed to fetch tank data");
-
-    const mapped: TankMeasurement[] = await res.json();
-
-    if (Array.isArray(mapped) && mapped.length > 0) {
-      setTanks(mapped);
-    }
 
     // 2. MQTT connection setup
     const options: mqtt.IClientOptions = {
@@ -55,35 +45,25 @@ export async function initializeTanksAndMqtt(
     client.on("message", (topic, message) => {
       const tankData = JSON.parse(message.toString());
       console.log("Message received:", topic);
-      setTanks((prev) => {
-        if (!prev) return prev;
-
-        const map = new Map(
-          tankData.map((item: any) => [item.tank_id ?? item.value, item]),
-        );
-
-        const extended = prev.map((item) => {
-          const incoming = (map.get(item.value ?? item.id) ??
-            {}) as Partial<TankMeasurement>;
-          const merged: TankMeasurement = { ...item, ...incoming };
-
-          const maxLevel = merged.max_graduration_level ?? 0;
-          const maxVolume = merged.max_graduration_volume ?? 0;
-          const productLevel = merged.product_level ?? 0;
-          const productSpeed = merged.product_speed ?? 0;
-          const observedDensity = merged.observed_density ?? 0;
-          const maxAllowed = merged.max_allowed_level;
-          const minAllowed = merged.min_allowed_level;
+      setTanks(() => {
+        const extended = tankData.map((item) => {
+          const maxLevel = item.max_graduration_level ?? 0;
+          const maxVolume = item.max_graduration_volume ?? 0;
+          const productLevel = item.product_level ?? 0;
+          const productSpeed = item.product_speed ?? 0;
+          const observedDensity = item.observed_density ?? 0;
+          const maxAllowed = item.max_allowed_level;
+          const minAllowed = item.min_allowed_level;
 
           return {
-            ...merged,
+            ...item,
             level_percent:
               productLevel && maxLevel !== 0
                 ? (productLevel / maxLevel) * 100
                 : 0,
             volume_percent:
-              merged.total_observed_volume && maxVolume && maxVolume !== 0
-                ? (merged.total_observed_volume / maxVolume) * 100
+              item.total_observed_volume && maxVolume && maxVolume !== 0
+                ? (item.total_observed_volume / maxVolume) * 100
                 : 0,
             product_speed_volume:
               productSpeed && maxVolume && maxLevel && maxLevel !== 0
@@ -111,7 +91,7 @@ export async function initializeTanksAndMqtt(
                 : "-",
           };
         });
-        return Array.isArray(extended) && extended.length > 0 ? extended : prev;
+        return Array.isArray(extended) && extended.length > 0 ? extended : [];
       });
     });
 

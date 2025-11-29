@@ -31,6 +31,7 @@ export default function TankComponent({
   const productLevelPercent = ((level / baseHeight) * 100).toFixed(2);
   const sedimentLevelPercent = ((sedimentLevel / baseHeight) * 100).toFixed(2);
   const maxLevelPercent = ((maxLevel / baseHeight) * 100).toFixed(2);
+  const minLevelPercent = ((minLevel / baseHeight) * 100).toFixed(2);
 
   const topValues: any[] = [
     values?.label,
