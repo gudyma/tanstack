@@ -111,6 +111,7 @@ export default function JournalTable({
     state: {
       pagination,
       rowSelection,
+      columnVisibility,
     },
     enableRowSelection: true,
     enableMultiRowSelection: false,
