@@ -34,9 +34,9 @@ export const createDiffReportPdf = async (
   // 1. Build the Document Content (Logic is exactly the same)
   const docDefinition: TDocumentDefinitions = {
     content: [
-      { text: "Tank Parameter Difference Report", style: "header" },
+      { text: "Звіт", style: "header" },
       {
-        text: `Generated at: ${new Date().toLocaleString()}`,
+        text: `Згенеровано: ${new Date().toLocaleString()}`,
         style: "subheader",
       },
       { text: "\n" },
@@ -93,11 +93,11 @@ function buildReportContent(reports: TankDiffReport[]): Content[] {
 
     const tableBody = [
       [
-        { text: "Parameter", style: "tableHeader" },
-        { text: "Old Value", style: "tableHeader" },
-        { text: "New Value", style: "tableHeader" },
-        { text: "Delta", style: "tableHeader" },
-        { text: "% Change", style: "tableHeader" },
+        { text: "Параметр", style: "tableHeader" },
+        { text: "Було", style: "tableHeader" },
+        { text: "Стало", style: "tableHeader" },
+        { text: "Різниця", style: "tableHeader" },
+        { text: "% Змн", style: "tableHeader" },
       ],
     ];
 

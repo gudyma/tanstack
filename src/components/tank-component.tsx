@@ -34,7 +34,7 @@ export default function TankComponent({
   const minLevelPercent = ((minLevel / baseHeight) * 100).toFixed(2);
 
   const topValues: any[] = [
-    values?.label,
+    values?.name,
     values?.vapor_gross_observed_volume
       ? Number(values?.vapor_gross_observed_volume).toFixed(1) + " м³"
       : "-",

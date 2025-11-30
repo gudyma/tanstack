@@ -343,7 +343,7 @@ function Progress({ value, color }: { value: number; color: string }) {
 
 const startColumns: ColumnDef<TankInfoExtendedWithGrouping>[] = [
   {
-    accessorKey: "label",
+    accessorKey: "name",
     id: "Name",
     cell: (info) => info.getValue(),
     enablePinning: true,
@@ -351,22 +351,6 @@ const startColumns: ColumnDef<TankInfoExtendedWithGrouping>[] = [
     minSize: 50,
     header: "Назва",
     enableGrouping: false,
-  },
-  {
-    accessorKey: "park",
-    id: "Park",
-    header: "Парк",
-    size: 65,
-    minSize: 65,
-    enableGrouping: true,
-  },
-  {
-    accessorKey: "product",
-    id: "Product",
-    header: "Продукт",
-    size: 65,
-    minSize: 65,
-    enableGrouping: true,
   },
   {
     accessorKey: "volume_percent",
