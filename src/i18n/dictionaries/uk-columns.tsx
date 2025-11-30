@@ -353,6 +353,14 @@ const startColumns: ColumnDef<TankInfoExtendedWithGrouping>[] = [
     enableGrouping: false,
   },
   {
+    accessorKey: "park",
+    id: "Park",
+    header: "Парк",
+    size: 65,
+    minSize: 65,
+    enableGrouping: true,
+  },
+  {
     accessorKey: "product",
     id: "Product",
     header: "Продукт",
