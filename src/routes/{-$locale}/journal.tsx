@@ -96,7 +96,7 @@ function RouteComponent() {
 
   async function loadTanks() {
     try {
-      const res = await fetch(baseUrl + `/api/tanks`);
+      const res = await fetch(`/api/tanks`);
       if (!res.ok) {
         console.warn(`HTTP error! Status: ${res.status}`);
       }
@@ -118,8 +118,7 @@ function RouteComponent() {
       try {
         if (parameters[0]?.value) {
           fetch(
-            baseUrl +
-              `/api/tankDataByParameter?tank=${tank}&start=${startDate.toISOString()}&end=${endDate.toISOString()}&parameter=${parameters[0]?.value}`,
+            `/api/tankDataByParameter?tank=${tank}&start=${startDate.toISOString()}&end=${endDate.toISOString()}&parameter=${parameters[0]?.value}`,
           )
             .then((res) => (res.ok ? res.json() : Promise.reject()))
             .then((rows) => {
@@ -129,8 +128,7 @@ function RouteComponent() {
         }
         if (parameters[1]?.value) {
           fetch(
-            baseUrl +
-              `/api/tankDataByParameter?tank=${tank}&start=${startDate.toISOString()}&end=${endDate.toISOString()}&parameter=${parameters[1]?.value}`,
+            `/api/tankDataByParameter?tank=${tank}&start=${startDate.toISOString()}&end=${endDate.toISOString()}&parameter=${parameters[1]?.value}`,
           )
             .then((res) => (res.ok ? res.json() : Promise.reject()))
             .then((rows: TankParameterData[]) => {

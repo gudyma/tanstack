@@ -130,19 +130,14 @@ export default function JournalTable({
 
   useEffect(() => {
     if (tank) {
-      fetch(
-        baseUrl +
-          `/api/tankDataCount?tank=${tank}&start=${startDate}&end=${endDate}`,
-      )
+      fetch(`/api/tankDataCount?tank=${tank}&start=${startDate}&end=${endDate}`)
         .then((res) => {
           if (!res.ok) throw new Error("Failed to fetch count");
           return res.json();
         })
         .then((cres) => {
           const count = cres.count;
-          const query =
-            baseUrl +
-            `/api/tankData?tank=${tank}&start=${startDate}&end=${endDate}&limit=${pageSize}&offset=${pageSize * pageIndex}`;
+          const query = `/api/tankData?tank=${tank}&start=${startDate}&end=${endDate}&limit=${pageSize}&offset=${pageSize * pageIndex}`;
           return fetch(query)
             .then((res) => {
               if (!res.ok) throw new Error("Failed to fetch tank data");
