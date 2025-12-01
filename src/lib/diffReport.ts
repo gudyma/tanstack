@@ -20,32 +20,55 @@ export interface TankDiffReport {
 // 2. Configuration: Keys to Compare
 // ==========================================
 // We exclude 'tank_id' and 'timestamp' from numeric comparison
-const COMPARABLE_KEYS: (keyof TankMeasurement)[] = [
-  "product_level",
-  "sediment_level",
-  "product_temperature",
-  "free_temperature",
-  "pressure",
-  "product_speed",
-  "total_observed_volume",
-  "gross_observed_volume",
-  "vapor_gross_observed_volume",
-  "sediment_volume",
-  "standard_gross_volume_at15_c",
-  "standard_gross_volume_at20_c",
-  "gost_standard_gross_volume_at15_c",
-  "gost_standard_gross_volume_at20_C",
-  "observed_density",
-  "gost_observed_density",
-  "standard_gross_mass_in_vacuume",
-  "gost_gross_mass_in_vacuume",
-  "product_mass",
-  "gost_product_mass",
-  "vapor_gross_mass_in_vacuume",
-  "vapor_gross_mass",
-  "gas_product_mass",
-  "molar_mass",
-  // Add t1..t7 and th1..th7 if needed
+const COMPARABLE_KEYS: { key: keyof TankMeasurement; label: string }[] = [
+  { key: "product_level", label: "Product Level" },
+  { key: "sediment_level", label: "Sediment Level" },
+  { key: "product_temperature", label: "Product Temperature" },
+  { key: "free_temperature", label: "Free Temperature" },
+  { key: "pressure", label: "Pressure" },
+  { key: "product_speed", label: "Product Speed" },
+  { key: "total_observed_volume", label: "Total Observed Volume" },
+  { key: "gross_observed_volume", label: "Gross Observed Volume" },
+  {
+    key: "vapor_gross_observed_volume",
+    label: "Vapor Gross Observed Volume",
+  },
+  { key: "sediment_volume", label: "Sediment Volume" },
+  {
+    key: "standard_gross_volume_at15_c",
+    label: "Standard Gross Volume at 15°C",
+  },
+  {
+    key: "standard_gross_volume_at20_c",
+    label: "Standard Gross Volume at 20°C",
+  },
+  {
+    key: "gost_standard_gross_volume_at15_c",
+    label: "GOST Standard Gross Volume at 15°C",
+  },
+  {
+    key: "gost_standard_gross_volume_at20_C",
+    label: "GOST Standard Gross Volume at 20°C",
+  },
+  { key: "observed_density", label: "Observed Density" },
+  { key: "gost_observed_density", label: "GOST Observed Density" },
+  {
+    key: "standard_gross_mass_in_vacuume",
+    label: "Standard Gross Mass in Vacuum",
+  },
+  {
+    key: "gost_gross_mass_in_vacuume",
+    label: "GOST Gross Mass in Vacuum",
+  },
+  { key: "product_mass", label: "Product Mass" },
+  { key: "gost_product_mass", label: "GOST Product Mass" },
+  {
+    key: "vapor_gross_mass_in_vacuume",
+    label: "Vapor Gross Mass in Vacuum",
+  },
+  { key: "vapor_gross_mass", label: "Vapor Gross Mass" },
+  { key: "gas_product_mass", label: "Gas Product Mass" },
+  { key: "molar_mass", label: "Molar Mass" },
 ];
 
 // ==========================================
@@ -70,9 +93,9 @@ export function getSingleTankDiff(
 ): TankDiffReport {
   const changes: TankDiffReport["changes"] = {};
 
-  COMPARABLE_KEYS.forEach((key) => {
-    const val1 = prev[key] as number | null;
-    const val2 = curr[key] as number | null;
+  COMPARABLE_KEYS.forEach((value) => {
+    const val1 = prev[value.key] as number | null;
+    const val2 = curr[value.key] as number | null;
 
     // Skip if both are null or strictly equal
     if (val1 === val2) return;
@@ -91,7 +114,8 @@ export function getSingleTankDiff(
     }
 
     // Only record if there is a difference
-    changes[key] = {
+    changes[value.label] = {
+      parameter_name: value.label,
       oldValue: val1,
       newValue: val2,
       delta: delta,

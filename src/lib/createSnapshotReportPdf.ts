@@ -2,6 +2,7 @@ import { TDocumentDefinitions, Content } from "pdfmake/interfaces";
 
 export interface TankSnapshot {
   tank_id: string; // Або t.id
+  tank_name: string; // Або t.id
   timestamp: string | Date;
 
   // Основні параметри
@@ -104,7 +105,7 @@ function buildTable(data: TankSnapshot[]): Content {
         "auto", // Густина
         "auto", // Об'єм
         "auto", // Тиск
-        "*", // Маса (важливий показник, даємо місце)
+        "auto", // Маса (важливий показник, даємо місце)
       ],
       headerRows: 1,
       body: [
@@ -125,7 +126,7 @@ function buildTable(data: TankSnapshot[]): Content {
           const fillColor = index % 2 === 0 ? "#ffffff" : "#f4f6f6";
 
           return [
-            { text: row.tank_id, style: "tankId", fillColor },
+            { text: row.ta, style: "tankId", fillColor },
             { text: formatDate(row.timestamp), style: "tableCell", fillColor },
             {
               text: formatNum(row.product_level, 1),
@@ -169,6 +170,7 @@ function formatDate(date: string | Date): string {
   const d = new Date(date);
   // Формат: 30.11 14:30
   return d.toLocaleString("uk-UA", {
+    year: "numeric",
     month: "2-digit",
     day: "2-digit",
     hour: "2-digit",

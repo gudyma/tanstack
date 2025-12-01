@@ -10,6 +10,7 @@ interface ParamDiff {
 
 interface TankDiffReport {
   tank_id: string;
+  tank_name: string;
   timestampFrom: Date | string;
   timestampTo: Date | string;
   changes: Partial<Record<string, ParamDiff>>;
@@ -84,9 +85,9 @@ function buildReportContent(reports: TankDiffReport[]): Content[] {
   }
 
   reports.forEach((report) => {
-    content.push({ text: `Tank ID: ${report.tank_id}`, style: "tankHeader" });
+    content.push({ text: `Резервуар: ${report.tank_name}`, style: "tankHeader" });
     content.push({
-      text: `Comparison: ${formatDate(report.timestampFrom)} → ${formatDate(report.timestampTo)}`,
+      text: `Порівняння між датами: ${formatDate(report.timestampFrom)} → ${formatDate(report.timestampTo)}`,
       fontSize: 9,
       margin: [0, 0, 0, 5],
     });
@@ -135,7 +136,7 @@ function buildReportContent(reports: TankDiffReport[]): Content[] {
 }
 
 function formatDate(date: string | Date): string {
-  return new Date(date).toLocaleString("en-GB", {
+  return new Date(date).toLocaleString("uk-UA", {
     year: "numeric",
     month: "2-digit",
     day: "2-digit",

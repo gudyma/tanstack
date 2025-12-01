@@ -25,11 +25,11 @@ export function NavigationDock(props: any) {
       <Dock direction="middle" className="space-x-0">
         <DockIcon key="tank" className="">
           <LocalizedLink
-            to={"/tank" as To}
+            to={"/" as To}
             className={cn(
               buttonVariants({ variant: "ghost", size: "icon" }),
               "h-12 w-16 rounded-xl",
-              "/tank" === pathWithoutLocale
+              "/" === pathWithoutLocale
                 ? "bg-primary/10 shadow-xl dark:bg-accent-foreground/10"
                 : "",
             )}

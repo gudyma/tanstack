@@ -11,7 +11,6 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as Char123LocaleChar125RouteRouteImport } from './routes/{-$locale}/route'
 import { Route as Char123LocaleChar125IndexRouteImport } from './routes/{-$locale}/index'
-import { Route as Char123LocaleChar125TankRouteImport } from './routes/{-$locale}/tank'
 import { Route as Char123LocaleChar125TableRouteImport } from './routes/{-$locale}/table'
 import { Route as Char123LocaleChar125JournalRouteImport } from './routes/{-$locale}/journal'
 
@@ -25,12 +24,6 @@ const Char123LocaleChar125IndexRoute =
   Char123LocaleChar125IndexRouteImport.update({
     id: '/',
     path: '/',
-    getParentRoute: () => Char123LocaleChar125RouteRoute,
-  } as any)
-const Char123LocaleChar125TankRoute =
-  Char123LocaleChar125TankRouteImport.update({
-    id: '/tank',
-    path: '/tank',
     getParentRoute: () => Char123LocaleChar125RouteRoute,
   } as any)
 const Char123LocaleChar125TableRoute =
@@ -50,13 +43,11 @@ export interface FileRoutesByFullPath {
   '/{-$locale}': typeof Char123LocaleChar125RouteRouteWithChildren
   '/{-$locale}/journal': typeof Char123LocaleChar125JournalRoute
   '/{-$locale}/table': typeof Char123LocaleChar125TableRoute
-  '/{-$locale}/tank': typeof Char123LocaleChar125TankRoute
   '/{-$locale}/': typeof Char123LocaleChar125IndexRoute
 }
 export interface FileRoutesByTo {
   '/{-$locale}/journal': typeof Char123LocaleChar125JournalRoute
   '/{-$locale}/table': typeof Char123LocaleChar125TableRoute
-  '/{-$locale}/tank': typeof Char123LocaleChar125TankRoute
   '/{-$locale}': typeof Char123LocaleChar125IndexRoute
 }
 export interface FileRoutesById {
@@ -64,7 +55,6 @@ export interface FileRoutesById {
   '/{-$locale}': typeof Char123LocaleChar125RouteRouteWithChildren
   '/{-$locale}/journal': typeof Char123LocaleChar125JournalRoute
   '/{-$locale}/table': typeof Char123LocaleChar125TableRoute
-  '/{-$locale}/tank': typeof Char123LocaleChar125TankRoute
   '/{-$locale}/': typeof Char123LocaleChar125IndexRoute
 }
 export interface FileRouteTypes {
@@ -73,20 +63,14 @@ export interface FileRouteTypes {
     | '/{-$locale}'
     | '/{-$locale}/journal'
     | '/{-$locale}/table'
-    | '/{-$locale}/tank'
     | '/{-$locale}/'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/{-$locale}/journal'
-    | '/{-$locale}/table'
-    | '/{-$locale}/tank'
-    | '/{-$locale}'
+  to: '/{-$locale}/journal' | '/{-$locale}/table' | '/{-$locale}'
   id:
     | '__root__'
     | '/{-$locale}'
     | '/{-$locale}/journal'
     | '/{-$locale}/table'
-    | '/{-$locale}/tank'
     | '/{-$locale}/'
   fileRoutesById: FileRoutesById
 }
@@ -110,13 +94,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char123LocaleChar125IndexRouteImport
       parentRoute: typeof Char123LocaleChar125RouteRoute
     }
-    '/{-$locale}/tank': {
-      id: '/{-$locale}/tank'
-      path: '/tank'
-      fullPath: '/{-$locale}/tank'
-      preLoaderRoute: typeof Char123LocaleChar125TankRouteImport
-      parentRoute: typeof Char123LocaleChar125RouteRoute
-    }
     '/{-$locale}/table': {
       id: '/{-$locale}/table'
       path: '/table'
@@ -137,7 +114,6 @@ declare module '@tanstack/react-router' {
 interface Char123LocaleChar125RouteRouteChildren {
   Char123LocaleChar125JournalRoute: typeof Char123LocaleChar125JournalRoute
   Char123LocaleChar125TableRoute: typeof Char123LocaleChar125TableRoute
-  Char123LocaleChar125TankRoute: typeof Char123LocaleChar125TankRoute
   Char123LocaleChar125IndexRoute: typeof Char123LocaleChar125IndexRoute
 }
 
@@ -145,7 +121,6 @@ const Char123LocaleChar125RouteRouteChildren: Char123LocaleChar125RouteRouteChil
   {
     Char123LocaleChar125JournalRoute: Char123LocaleChar125JournalRoute,
     Char123LocaleChar125TableRoute: Char123LocaleChar125TableRoute,
-    Char123LocaleChar125TankRoute: Char123LocaleChar125TankRoute,
     Char123LocaleChar125IndexRoute: Char123LocaleChar125IndexRoute,
   }
 
