@@ -101,7 +101,7 @@ function RouteComponent() {
             valueLabel={`${sumMass?.toFixed(3) ?? `-`} of ${parseFloat(maxSumMass?.toFixed(3) ?? ``) ?? `-`} т`}
             size="sm"
             color="var(--chart-2)"
-            className="bg-muted-foreground"
+            className=""
           />
           <div className="flex flex-row w-full justify-between text-sm">
             <div>
@@ -126,7 +126,7 @@ function RouteComponent() {
             valueLabel={`${sumVolume?.toFixed(2) ?? `-`} из ${parseFloat(maxSumVolume?.toFixed(2) ?? ``) ?? `-`}  м³`}
             size="sm"
             color="var(--chart-1)"
-            className="bg-muted-foreground"
+            className=""
           />
           <div className="flex flex-row w-full justify-between text-sm">
             <div>
