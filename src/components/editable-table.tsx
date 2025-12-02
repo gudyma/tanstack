@@ -92,46 +92,55 @@ const rowSchemaBase = z.object({
     (val) => (typeof val === "string" ? Number(val) : val),
     z
       .number()
-      .min(0)
-      .max(1200, "Density value must be less than or equal to 1200"),
+      .min(100, "Значення нормованої до 15 С густини має бути більше 100")
+      .max(1000, "Значення нормованої до 15 С густини має бути менше 1000"),
   ),
   density: z.preprocess(
     (val) => (typeof val === "string" ? Number(val) : val),
     z
       .number()
-      .min(0)
-      .max(1200, "Density value must be less than or equal to 1200"),
+      .min(100, "Значення температури проби має бути більше 100 кг/м3")
+      .max(1300, "Значення густини проби має бути менше 1300 кг/м3"),
   ),
 
   temperature: z.preprocess(
     (val) => (typeof val === "string" ? Number(val) : val),
     z
       .number()
-      .min(-50, "Temperature must be greater than or equal to -50")
-      .max(60, "Temperature must be less than or equal to 60"),
+      .min(-50, "Значення температури проби має бути більше -50")
+      .max(60, "Значення температури проби має бути менше 60"),
   ),
 
   ethane: z.preprocess(
     (val) => (typeof val === "string" ? Number(val) : val),
     z
       .number()
-      .min(0, "Ethane percentage must be at least 0")
-      .max(100, "Ethane percentage must be less than 100"),
+      .min(0, "Значення частки газу етан має бути більше 0")
+      .max(100, "Значення частки газу етан має бути менше 100"),
   ),
 
   propane: z.preprocess(
     (val) => (typeof val === "string" ? Number(val) : val),
-    z.number().min(0, "Propane ≥ 0").max(100, "Propane < 100"),
+    z
+      .number()
+      .min(0, "Значення частки газу пропан має бути більше 0")
+      .max(100, "Значення частки газу пропан має бути менше 100"),
   ),
 
   butane: z.preprocess(
     (val) => (typeof val === "string" ? Number(val) : val),
-    z.number().min(0, "Butane ≥ 0").max(100, "Butane < 100"),
+    z
+      .number()
+      .min(0, "Значення частки газу бутан має бути більше 0")
+      .max(100, "Значення частки газу бутан має бути менше 100"),
   ),
 
   pentane: z.preprocess(
     (val) => (typeof val === "string" ? Number(val) : val),
-    z.number().min(0, "Pentane ≥ 0").max(100, "Pentane < 100"),
+    z
+      .number()
+      .min(0, "Значення частки газу пентан має бути більше 0")
+      .max(100, "Значення частки газу пентан має бути менше 100"),
   ),
 });
 
@@ -140,7 +149,7 @@ const rowSchema = rowSchemaBase.refine(
     const sum = data.ethane + data.propane + data.butane + data.pentane;
     return Math.abs(sum - 100) < 0.01;
   },
-  { message: "Sum of gas content must equal 100", path: ["ethane"] },
+  { message: "Сума всіх часток газу маж дорівнювати 100", path: ["ethane"] },
 );
 
 const EditableCell = ({ getValue, row, column, table }: EditableCellProps) => {
@@ -480,13 +489,15 @@ export default function EditableTable() {
 
   const saveChanges = async () => {
     if (!validateAllData()) {
-      toast.error("Please fix validation errors before saving.");
+      toast.error(
+        "Неможливо зберігти зміни.\nВиправте помилки та спробуйте знову.",
+      );
       return;
     }
 
     const editedRowsData = getEditedData();
     if (editedRowsData.length === 0) {
-      toast.warning("No changes to save.");
+      toast.warning("Неможливо зберігти зміни.\nПараметри не були змінені");
       return;
     }
 
@@ -525,10 +536,10 @@ export default function EditableTable() {
           method: "POST",
         });
         if (!response.ok) {
-          toast.error("Failed to write density");
+          toast.error("Не вдалося записати дані. Перевірте підключення.");
         } else {
           toast.success(
-            `Changes for ${rowChange.current.name} saved successfully.`,
+            `Зміни для ${rowChange.current.name} успішно збережено.`,
           );
         }
       }
@@ -537,7 +548,7 @@ export default function EditableTable() {
       setEditedRows(new Map<string, TableRowData>());
     } catch (error) {
       console.error("Error saving changes:", error);
-      toast.error("An error occurred while saving changes.");
+      toast.error("Виникла помилка при збережені даних.");
     }
   };
 

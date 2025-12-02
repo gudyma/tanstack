@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import type { TankMeasurement } from "@/components/tank.types";
+import { TriangleAlertIcon, CircleAlertIcon } from "lucide-react";
 
 export default function TankComponent({
   values,
@@ -22,7 +23,6 @@ export default function TankComponent({
     values?.max_graduration_level ? values.max_graduration_level : 1,
   );
 
-  const maxVolume: number = Number(values?.max_graduration_volume ?? 0);
   const maxLevel: number = Number(values?.max_allowed_level ?? 0);
   const minLevel: number = Number(values?.min_allowed_level ?? 0);
   const level: number = Number(values?.product_level ?? 0);
@@ -32,6 +32,33 @@ export default function TankComponent({
   const sedimentLevelPercent = ((sedimentLevel / baseHeight) * 100).toFixed(2);
   const maxLevelPercent = ((maxLevel / baseHeight) * 100).toFixed(2);
   const minLevelPercent = ((minLevel / baseHeight) * 100).toFixed(2);
+
+  const isError =
+    level > maxLevel ||
+    level < minLevel ||
+    (sedimentLevel > 0 && sedimentLevel > maxLevel);
+
+  const isWarning =
+    values.mass_threshold && values.saved_mass
+      ? Math.abs(Number(values.saved_mass) - Number(values.product_mass)) >
+        Number(values.mass_threshold ?? 0)
+      : false || (values.volume_threshold && values.saved_volume)
+        ? Math.abs(
+            Number(values.saved_volume) - Number(values.total_observed_volume),
+          ) > Number(values.volume_threshold ?? 0)
+        : false;
+
+  useEffect(() => {
+    if (isWarning) {
+      try {
+        const audio = new Audio("/path/to/alarm-sound.mp3");
+        audio.play().catch((err) => console.error("Error:", err));
+        console.log("Alarm playing");
+      } catch (error) {
+        console.error("Failed to play alarm:", error);
+      }
+    }
+  }, [isWarning]);
 
   const topValues: any[] = [
     values?.name,
@@ -116,13 +143,16 @@ export default function TankComponent({
   });
 
   return (
-    <div className="flex h-full w-full">
+    <div className="static flex h-full w-full">
       <div
         id={values?.id}
         className={cn(
-          "relative h-full w-full items-end rounded-[6px] border bg-linear-to-t from-primary/7 to-card font-semibold text-foreground/90 text-xs md:text-base",
-          animate ? "animate-borderFade" : "animate-borderFadeOut",
+          "relative h-full w-full items-end rounded-[6px] bg-linear-to-t from-primary/7 to-card font-semibold text-foreground/90 text-xs md:text-base",
+          animate
+            ? "border animate-borderFade"
+            : "border animate-borderFadeOut",
           visibility ? "block" : "hidden",
+          isWarning ? "" : "",
         )}
       >
         <div
@@ -140,9 +170,19 @@ export default function TankComponent({
             id="maxLevel"
             style={{ height: `${maxLevelPercent}%` }}
             className={
-              "absolute inset-x-0 bottom-0 w-full border-red-600 border-t-2 border-dashed"
+              "absolute inset-x-0 bottom-0 w-full border-red-600 border-t-2 border-dashed flex justify-end"
             }
-          />
+          >
+            <TriangleAlertIcon
+              size="40"
+              className={cn(
+                "m-2",
+                isError || isWarning ? "visible" : "hidden",
+                isWarning ? "text-yellow-400" : "",
+                isError ? "text-red-500" : "",
+              )}
+            />
+          </div>
         ) : (
           ""
         )}

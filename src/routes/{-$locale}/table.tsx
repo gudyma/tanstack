@@ -16,6 +16,7 @@ import {
   FileTextIcon,
   Grid2X2XIcon,
   SettingsIcon,
+  TriangleAlertIcon,
 } from "lucide-react";
 
 import {
@@ -166,6 +167,40 @@ function RouteComponent() {
     return buff;
   }, [tanks]);
 
+  function checkStatus(values: TankMeasurement) {
+    const isError =
+      Number(values.product_level ?? 0) >
+        Number(values.max_allowed_level ?? 0) ||
+      Number(values.product_level ?? 0) <
+        Number(values.min_allowed_level ?? 0) ||
+      (values.sediment_level &&
+        Number(values.product_level ?? 0) >
+          Number(values.max_allowed_level ?? 0));
+
+    const isWarning =
+      values.mass_threshold && values.saved_mass
+        ? Math.abs(Number(values.saved_mass) - Number(values.product_mass)) >
+          Number(values.mass_threshold ?? 0)
+        : false || (values.volume_threshold && values.saved_volume)
+          ? Math.abs(
+              Number(values.saved_volume) -
+                Number(values.total_observed_volume),
+            ) > Number(values.volume_threshold ?? 0)
+          : false;
+
+    return (
+      <TriangleAlertIcon
+        size="16"
+        className={cn(
+          "",
+          isError || isWarning ? "visible" : "hidden",
+          isWarning ? "text-yellow-400" : "",
+          isError ? "text-red-500" : "",
+        )}
+      />
+    );
+  }
+
   return (
     <div className="flex flex-col pb-16 justify-between h-full w-full p-2 z-2">
       <div
@@ -298,7 +333,8 @@ function RouteComponent() {
                 }}
               >
                 <td className="sticky bg-muted left-0 w-8 z-100">
-                  <TankDrawer values={selectedTank}>
+                  <TankDrawer values={selectedTank} className="flex">
+                    {checkStatus(row.original)}
                     <SettingsIcon className="size-4" />
                   </TankDrawer>
                 </td>

@@ -93,8 +93,8 @@ export async function initializeTanksAndMqtt(
               minAllowed !== null &&
               productSpeed !== 0
                 ? productSpeed > 0
-                  ? `${Math.floor((maxAllowed - productLevel) / productSpeed / 60).toFixed(0)}г:${(Math.floor(maxAllowed - productLevel) / productSpeed) % 60}хв`
-                  : `${Math.floor((productLevel - minAllowed) / Math.abs(productSpeed) / 60).toFixed(0)}г:${(Math.floor(productLevel - minAllowed) / Math.abs(productSpeed)) % 60}хв`
+                  ? `${Math.floor((maxAllowed - productLevel) / productSpeed / 60).toFixed(0)}г:${((Math.floor(maxAllowed - productLevel) / productSpeed) % 60).toFixed(0)}хв`
+                  : `${Math.floor((productLevel - minAllowed) / Math.abs(productSpeed) / 60).toFixed(0)}г:${((Math.floor(productLevel - minAllowed) / Math.abs(productSpeed)) % 60).toFixed(0)}хв`
                 : "-",
           };
         });

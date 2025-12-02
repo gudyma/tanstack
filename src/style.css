@@ -126,15 +126,15 @@
         @apply bg-background text-foreground;
     }
 }
-/* For Chrome, Edge, Safari */
-input[type="number"].no-spinners::-webkit-outer-spin-button,
-input[type="number"].no-spinners::-webkit-inner-spin-button {
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
 
-/* For Firefox */
-input[type="number"].no-spinners {
+/* Firefox */
+input[type="number"] {
     -moz-appearance: textfield;
 }
 /* inter-tight-latin-400-normal */

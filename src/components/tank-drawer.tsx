@@ -401,7 +401,7 @@ export default function TankDrawer({
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger
           onClick={() => setOpen(true)}
-          className="flex items-center justify-center h-full w-full"
+          className="flex justify-end h-full w-full"
         >
           {children}
         </DialogTrigger>
