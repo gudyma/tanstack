@@ -8,18 +8,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import MultipleSelector, {
-  type Option,
-} from "@/components/ui/multiple-selector";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useEffect, useState } from "react";
 import { DateTimePicker } from "@/components/ui/date-range-picker";
 import { TankDiffReport } from "@/lib/diffReport";
 import { createDiffReportPdf } from "@/lib/buildReportContent";
-import {
-  createSnapshotReportPdf,
-  TankSnapshot,
-} from "@/lib/createSnapshotReportPdf";
+import { createSnapshotReportPdf } from "@/lib/createSnapshotReportPdf";
+import { Label } from "@/components/ui/label";
+import { TankMeasurement } from "./tank.types";
 
 type TankApiRow = { label: string; value: string | number; park: string };
 
@@ -28,69 +24,29 @@ export default function ReportsSelection() {
   const [options, setOptions] = useState<Option[]>([]);
   const [selectedTanks, setSelectedTanks] = useState<Option[]>([]);
 
-  useEffect(() => {
-    let cancelled = false;
-    const load = async () => {
-      try {
-        const res = await fetch("/api/tanks");
-        if (!res.ok) throw new Error("Failed to fetch tanks");
-        const rows: TankApiRow[] = await res.json();
-        if (cancelled) return;
-        const opts: Option[] = rows.map((r) => ({
-          label: r.label,
-          value: String(r.value),
-          park: r.park,
-        }));
-        setOptions(opts);
-        setSelectedTanks(opts);
-      } catch (e) {
-        console.error(e);
-      }
-    };
-    load();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
   return (
     <div className="flex h-auto w-full flex-col items-center justify-center  md:flex-row">
-      <Tabs
-        defaultValue="daily"
-        className="h-full min-h-96 w-full max-w-96 p-2"
-      >
-        <MultipleSelector
-          groupBy="park"
-          className="mb-2"
-          value={selectedTanks}
-          defaultOptions={options}
-          placeholder="Оберіть резервуари:"
-          emptyIndicator={
-            <p className="text-center text-gray-600 text-lg leading-10 dark:text-gray-400">
-              no results found.
-            </p>
-          }
-          onChange={(opt) => setSelectedTanks(opt)}
-        />
+      <Tabs defaultValue="daily" className="h-74 w-full">
         <TabsList className="grid h-auto w-full grid-cols-2">
-          <TabsTrigger value="daily">Добовий</TabsTrigger>
+          <TabsTrigger value="daily">На дату</TabsTrigger>
           <TabsTrigger value="period">За період</TabsTrigger>
         </TabsList>
         <TabsContent value="daily">
-          <Card className="h-72">
+          <Card className="h-68">
             <CardHeader>
-              <CardTitle>Щоденний звіт</CardTitle>
+              <CardTitle>Звіт на обрану дату та час</CardTitle>
               <CardDescription>
-                Вичерпний щоденний звіт, що документує показники роботи та стан
-                термінала резервуарів.
+                Вичерпний звіт, що документує показники резервуарів на обрану
+                користувачем дату.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-2">
-              <div className="flex w-full flex-row">
+              <div className="flex w-full flex-row justify-between gap-2">
+                <Label className="flex-none">Обрана дата</Label>
                 <DateTimePicker
-                  note="Report date: "
                   granularity="minute"
-                  className="w-full text-foreground"
-                  placeholder="Select start date"
+                  className="w-auto flex-1 text-foreground max-w-96"
+                  placeholder="Оберіть дату"
                 />
               </div>
             </CardContent>
@@ -98,9 +54,9 @@ export default function ReportsSelection() {
               <Button
                 className="bg-red-800"
                 onClick={() => {
-                  const mockData: TankSnapshot[] = [
+                  const mockData: TankMeasurement[] = [
                     {
-                      tank_id: "550e8400-e29b-41d4-a716-446655440000",
+                      id: "550e8400-e29b-41d4-a716-446655440000",
                       timestamp: "2025-11-30T14:30:00Z",
                       product_level: 8540.5, // Високий рівень
                       product_temperature: 22.4, // Нормальна температура
@@ -110,7 +66,7 @@ export default function ReportsSelection() {
                       product_mass: 40250, // Маса
                     },
                     {
-                      tank_id: "a1b2c3d4-e5f6-7890-1234-56789abcdef0",
+                      id: "a1b2c3d4-e5f6-7890-1234-56789abcdef0",
                       timestamp: "2025-11-30T14:35:00Z",
                       product_level: 1200.0, // Низький рівень
                       product_temperature: 18.5,
@@ -121,7 +77,7 @@ export default function ReportsSelection() {
                     },
                     {
                       // Сценарій: Датчики відключені або помилка зв'язку (NULL)
-                      tank_id: "f47ac10b-58cc-4372-a567-0e02b2c3d479",
+                      id: "f47ac10b-58cc-4372-a567-0e02b2c3d479",
                       timestamp: "2025-11-30T10:00:00Z", // Старі дані
                       product_level: null,
                       product_temperature: null,
@@ -132,7 +88,7 @@ export default function ReportsSelection() {
                     },
                     {
                       // Сценарій: Майже порожній резервуар
-                      tank_id: "98765432-1234-5678-90ab-cdef12345678",
+                      id: "98765432-1234-5678-90ab-cdef12345678",
                       timestamp: "2025-11-30T14:28:00Z",
                       product_level: 5.0,
                       product_temperature: 15.0,
@@ -157,29 +113,29 @@ export default function ReportsSelection() {
           </Card>
         </TabsContent>
         <TabsContent value="period">
-          <Card className="h-72">
+          <Card>
             <CardHeader>
-              <CardTitle>За період</CardTitle>
+              <CardTitle>Звіт за період</CardTitle>
               <CardDescription>
-                Щоденне операційне зведення для термінала резервуарів, яке
-                охоплює різні параметри за вибраний період.
+                Звіт порівнює значення параметрів резервуарів між двома обраними
+                датами.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-2">
-              <div className="flex w-full flex-row">
+              <div className="flex w-full flex-row justify-between gap-2">
+                <Label>Початкова дата</Label>
                 <DateTimePicker
-                  note="Start date: "
                   granularity="minute"
-                  className="w-full text-foreground"
-                  placeholder="Select start date"
+                  className="w-auto flex-1 text-foreground max-w-96"
+                  placeholder="Оберіть початкову дату"
                 />
               </div>
-              <div className="flex w-full flex-row">
+              <div className="flex w-full flex-row justify-between gap-2">
+                <Label>Кінцева дата</Label>
                 <DateTimePicker
-                  note="End date: "
                   granularity="minute"
-                  className="w-full text-foreground"
-                  placeholder="Select end date"
+                  className="w-auto flex-1 text-foreground max-w-96"
+                  placeholder="Оберіть кінцеву дату"
                 />
               </div>
             </CardContent>

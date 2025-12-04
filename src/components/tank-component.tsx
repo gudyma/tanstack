@@ -33,35 +33,6 @@ export default function TankComponent({
   const maxLevelPercent = ((maxLevel / baseHeight) * 100).toFixed(2);
   const minLevelPercent = ((minLevel / baseHeight) * 100).toFixed(2);
 
-  const isError =
-    level > maxLevel ||
-    level < minLevel ||
-    (sedimentLevel > 0 && sedimentLevel > maxLevel);
-
-  const isWarning =
-    values?.mass_threshold && values?.saved_mass
-      ? Math.abs(
-          Number(values?.saved_mass ?? 0) - Number(values?.product_mass ?? 0),
-        ) > Number(values?.mass_threshold ?? 0)
-      : false || (values?.volume_threshold && values?.saved_volume)
-        ? Math.abs(
-            Number(values?.saved_volume ?? 0) -
-              Number(values?.total_observed_volume ?? 0),
-          ) > Number(values?.volume_threshold ?? 0)
-        : false;
-
-  useEffect(() => {
-    if (isWarning) {
-      try {
-        const audio = new Audio("/path/to/alarm-sound.mp3");
-        audio.play().catch((err) => console.error("Error:", err));
-        console.log("Alarm playing");
-      } catch (error) {
-        console.error("Failed to play alarm:", error);
-      }
-    }
-  }, [isWarning]);
-
   const topValues: any[] = [
     values?.name,
     values?.vapor_gross_observed_volume
@@ -154,7 +125,6 @@ export default function TankComponent({
             ? "border animate-borderFade"
             : "border animate-borderFadeOut",
           visibility ? "block" : "hidden",
-          isWarning ? "" : "",
         )}
       >
         <div
@@ -179,9 +149,9 @@ export default function TankComponent({
               size="40"
               className={cn(
                 "m-2",
-                isError || isWarning ? "visible" : "hidden",
-                isWarning ? "text-yellow-400" : "",
-                isError ? "text-red-500" : "",
+                values.is_error || values.is_warning ? "visible" : "hidden",
+                values.is_warning ? "text-yellow-400" : "",
+                values.is_error ? "text-red-500" : "",
               )}
             />
           </div>

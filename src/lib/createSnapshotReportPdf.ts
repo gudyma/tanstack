@@ -1,18 +1,5 @@
+import { TankMeasurement } from "@/components/tank.types";
 import { TDocumentDefinitions, Content } from "pdfmake/interfaces";
-
-export interface TankSnapshot {
-  tank_id: string; // Або t.id
-  tank_name: string; // Або t.id
-  timestamp: string | Date;
-
-  // Основні параметри
-  product_level: number | null;
-  product_mass: number | null;
-  product_temperature: number | null;
-  observed_density: number | null;
-  gross_observed_volume: number | null;
-  pressure: number | null;
-}
 
 /**
  * Генерує PDF з таблицею стану резервуарів
@@ -20,7 +7,7 @@ export interface TankSnapshot {
  * @param targetDate - дата, на яку робився запит (для заголовка)
  */
 export const createSnapshotReportPdf = async (
-  data: TankSnapshot[],
+  data: TankMeasurement[],
   targetDate: string = "Задана дата",
 ) => {
   // 1. Dynamic Imports
@@ -88,7 +75,7 @@ export const createSnapshotReportPdf = async (
 // Допоміжні функції
 // ==========================================
 
-function buildTable(data: TankSnapshot[]): Content {
+function buildTable(data: TankMeasurement[]): Content {
   if (!data || data.length === 0) {
     return { text: "Немає даних для відображення", italics: true };
   }
@@ -126,32 +113,46 @@ function buildTable(data: TankSnapshot[]): Content {
           const fillColor = index % 2 === 0 ? "#ffffff" : "#f4f6f6";
 
           return [
-            { text: row.ta, style: "tankId", fillColor },
-            { text: formatDate(row.timestamp), style: "tableCell", fillColor },
+            { text: row.name, style: "tankId", fillColor },
             {
-              text: formatNum(row.product_level, 1),
+              text: row.timestamp ? formatDate(row.timestamp) : "-",
               style: "tableCell",
               fillColor,
             },
             {
-              text: formatNum(row.product_temperature, 1),
+              text: row.product_level ? formatNum(row.product_level, 1) : "-",
               style: "tableCell",
               fillColor,
             },
             {
-              text: formatNum(row.observed_density, 3),
+              text: row.product_temperature
+                ? formatNum(row.product_temperature, 1)
+                : "-",
               style: "tableCell",
               fillColor,
             },
             {
-              text: formatNum(row.gross_observed_volume, 0),
+              text: row.observed_density
+                ? formatNum(row.observed_density, 3)
+                : "-",
               style: "tableCell",
               fillColor,
             },
-            { text: formatNum(row.pressure, 3), style: "tableCell", fillColor },
+            {
+              text: row.gross_observed_volume
+                ? formatNum(row.gross_observed_volume, 0)
+                : "-",
+              style: "tableCell",
+              fillColor,
+            },
+            {
+              text: row.pressure ? formatNum(row.pressure, 3) : "-",
+              style: "tableCell",
+              fillColor,
+            },
             // Масу виділимо жирним, бо це часто головний показник
             {
-              text: formatNum(row.product_mass, 0),
+              text: row.product_mass ? formatNum(row.product_mass, 0) : "-",
               style: "tableCell",
               bold: true,
               fillColor,

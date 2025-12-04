@@ -96,6 +96,24 @@ export async function initializeTanksAndMqtt(
                   ? `${Math.floor((maxAllowed - productLevel) / productSpeed / 60).toFixed(0)}г:${((Math.floor(maxAllowed - productLevel) / productSpeed) % 60).toFixed(0)}хв`
                   : `${Math.floor((productLevel - minAllowed) / Math.abs(productSpeed) / 60).toFixed(0)}г:${((Math.floor(productLevel - minAllowed) / Math.abs(productSpeed)) % 60).toFixed(0)}хв`
                 : "-",
+            is_error:
+              item?.product_level > item?.max_allowed_level ||
+              item?.product_level < item?.min_allowed_level ||
+              (item?.sediment_level > 0 &&
+                item?.sediment_level > item?.max_allowed_level),
+
+            is_warning:
+              item?.mass_threshold && item?.saved_mass
+                ? Math.abs(
+                    Number(item?.saved_mass ?? 0) -
+                      Number(item?.product_mass ?? 0),
+                  ) > Number(item?.mass_threshold ?? 0)
+                : false || (item?.volume_threshold && item?.saved_volume)
+                  ? Math.abs(
+                      Number(item?.saved_volume ?? 0) -
+                        Number(item?.total_observed_volume ?? 0),
+                    ) > Number(item?.volume_threshold ?? 0)
+                  : false,
           };
         });
         return Array.isArray(extended) && extended.length > 0 ? extended : [];

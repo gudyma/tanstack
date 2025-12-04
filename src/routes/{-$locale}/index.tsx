@@ -7,7 +7,10 @@ import { format } from "date-fns";
 import { Meter } from "@/components/ui/meter";
 import TankDrawer from "@/components/tank-drawer";
 import TankComponent from "@/components/tank-component";
-import type { TankMeasurement } from "@/components/tank.types";
+import {
+  checkTankMeasurements,
+  type TankMeasurement,
+} from "@/components/tank.types";
 import { initializeTanksAndMqtt } from "@/lib/mqtt";
 import { sumVolumesAndMass } from "@/lib/sumVolumeAndMass";
 
@@ -57,6 +60,25 @@ function RouteComponent() {
     setSumSpeedVolume(result?.VolumeSpeedSum);
     setSumFreeVolume(result?.FreeVolumeSum);
     console.log("tanks");
+    const { is_error, is_warning } = checkTankMeasurements(tanks ?? []);
+    if (is_warning) {
+      try {
+        const audio = new Audio("/path/to/alarm-sound.mp3");
+        audio.play().catch((err) => console.error("Error:", err));
+        console.log("Alarm playing");
+      } catch (error) {
+        console.error("Failed to play alarm:", error);
+      }
+    }
+    if (is_error) {
+      try {
+        const audio = new Audio("/path/to/alarm-sound.mp3");
+        audio.play().catch((err) => console.error("Error:", err));
+        console.log("Alarm playing");
+      } catch (error) {
+        console.error("Failed to play alarm:", error);
+      }
+    }
   }, [tanks]);
 
   useEffect(() => {

@@ -30,7 +30,7 @@ export interface TankMeasurement {
   description?: string | null;
   company_owner_id?: string | null;
 
-  max_graduration_level: number;
+  max_graduration_level?: number;
   min_graduration_level?: number | null;
   max_allowed_level?: number | null;
   min_allowed_level?: number | null;
@@ -104,4 +104,17 @@ export interface TankMeasurement {
   product_speed_volume?: number;
   product_speed_mass?: number;
   time_left?: string;
+
+  is_error?: boolean | null;
+  is_warning?: boolean | null;
+}
+
+export function checkTankMeasurements(measurements: TankMeasurement[]): {
+  is_error: boolean;
+  is_warning: boolean;
+} {
+  const is_error = measurements.some((m) => m.is_error === true);
+  const is_warning = measurements.some((m) => m.is_warning === true);
+
+  return { is_error, is_warning };
 }

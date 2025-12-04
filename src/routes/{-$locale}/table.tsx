@@ -3,7 +3,10 @@ import { getIntlayer } from "intlayer";
 import { useIntlayer, useLocale } from "react-intlayer";
 
 import { useEffect, useMemo, useState, useRef } from "react";
-import type { TankMeasurement } from "@/components/tank.types";
+import {
+  checkTankMeasurements,
+  type TankMeasurement,
+} from "@/components/tank.types";
 import { initializeTanksAndMqtt } from "@/lib/mqtt";
 import { type TankInfoExtendedWithGrouping } from "@/i18n/dictionaries/columnsInterfaces";
 import mqtt from "mqtt";
@@ -92,6 +95,25 @@ function RouteComponent() {
 
   useEffect(() => {
     setAnimate(!animate);
+    const { is_error, is_warning } = checkTankMeasurements(tanks ?? []);
+    if (is_warning) {
+      try {
+        const audio = new Audio("/path/to/alarm-sound.mp3");
+        audio.play().catch((err) => console.error("Error:", err));
+        console.log("Alarm playing");
+      } catch (error) {
+        console.error("Failed to play alarm:", error);
+      }
+    }
+    if (is_error) {
+      try {
+        const audio = new Audio("/path/to/alarm-sound.mp3");
+        audio.play().catch((err) => console.error("Error:", err));
+        console.log("Alarm playing");
+      } catch (error) {
+        console.error("Failed to play alarm:", error);
+      }
+    }
   }, [tanks]);
 
   const defaultData = useMemo(() => {
@@ -168,34 +190,14 @@ function RouteComponent() {
   }, [tanks]);
 
   function checkStatus(values: TankMeasurement) {
-    const isError =
-      Number(values.product_level ?? 0) >
-        Number(values.max_allowed_level ?? 0) ||
-      Number(values.product_level ?? 0) <
-        Number(values.min_allowed_level ?? 0) ||
-      (values.sediment_level &&
-        Number(values.product_level ?? 0) >
-          Number(values.max_allowed_level ?? 0));
-
-    const isWarning =
-      values.mass_threshold && values.saved_mass
-        ? Math.abs(Number(values.saved_mass) - Number(values.product_mass)) >
-          Number(values.mass_threshold ?? 0)
-        : false || (values.volume_threshold && values.saved_volume)
-          ? Math.abs(
-              Number(values.saved_volume) -
-                Number(values.total_observed_volume),
-            ) > Number(values.volume_threshold ?? 0)
-          : false;
-
     return (
       <TriangleAlertIcon
         size="16"
         className={cn(
           "",
-          isError || isWarning ? "visible" : "hidden",
-          isWarning ? "text-yellow-400" : "",
-          isError ? "text-red-500" : "",
+          values.is_error || values.is_warning ? "visible" : "hidden",
+          values.is_warning ? "text-yellow-400" : "",
+          values.is_error ? "text-red-500" : "",
         )}
       />
     );
