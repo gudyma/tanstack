@@ -37,6 +37,8 @@ export default defineConfig(({ mode }) => {
     },
     build: {
       cssMinify: "lightningcss",
+      chunkSizeWarningLimit: "2000",
+      sourcemap: false,
       minify: "esbuild",
     },
     nitro: {

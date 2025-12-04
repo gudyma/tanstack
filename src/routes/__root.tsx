@@ -26,9 +26,15 @@ export const Route = createRootRoute({
 
     links: [
       {
+        rel: "preload",
+        href: CSS,
+        as: "style",
+      },
+      {
         rel: "stylesheet",
         href: CSS,
       },
+
       // Standard Favicons
       {
         rel: "icon",

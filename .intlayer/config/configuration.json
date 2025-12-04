@@ -111,12 +111,31 @@
     ],
     "cache": true
   },
+  "compiler": {
+    "enabled": true,
+    "transformPattern": [
+      "**/*.{ts,tsx,jsx,js,cjs,mjs,mjx,cjx,svelte,vue}"
+    ],
+    "excludePattern": [
+      "**/node_modules/**",
+      "**/dist/**",
+      "**/.next/**",
+      "**/.nuxt/**",
+      "**/.expo/**",
+      "**/.vercel/**",
+      "**/.turbo/**",
+      "**/.tanstack/**",
+      "**/*.stories.ts",
+      "**/*.test.ts"
+    ],
+    "outputDir": "./compiler"
+  },
   "dictionary": {
     "fill": true
   },
   "metadata": {
     "name": "Intlayer",
-    "version": "7.3.1",
+    "version": "7.3.5",
     "doc": "https://intlayer.org/docs"
   }
 }
