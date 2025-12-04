@@ -45,21 +45,13 @@ import { useTranslations } from "@/i18n/utils";
 import TankDrawer from "@/components/tank-drawer";
 import { ColumnVisibilityMenu } from "@/components/column-visibility-menu";
 import { Button } from "@/components/ui/button";
-
-import { createServerFn, useServerFn } from "@tanstack/react-start";
-
-export const getHello = createServerFn().handler(async () => {
-  // This runs only on the server
-  console.log("Hello");
-  return new Date().toISOString();
-});
-
+import { getTanks } from "@/lib/serverFunctions";
 // Key for localStorage persistence
 const VISIBILITY_STORAGE_KEY = "tank-table-column-visibility";
 
 export const Route = createFileRoute("/{-$locale}/table")({
   component: RouteComponent,
-  loader: () => getHello(),
+  loader: () => getTanks(),
   head: ({ params }) => {
     const { locale } = params;
     const metaContent = getIntlayer("tableContent", locale);
@@ -74,12 +66,8 @@ export const Route = createFileRoute("/{-$locale}/table")({
 });
 
 function RouteComponent() {
-  const getPosts = useServerFn(getHello);
-  const { data } = useQuery({
-    queryKey: ["posts"],
-    queryFn: () => getPosts(),
-  });
-  console.log(data);
+  const loaderData = Route.useLoaderData();
+
   const content = useIntlayer("tableContent");
   const { locale } = useLocale();
   useMemo(() => {

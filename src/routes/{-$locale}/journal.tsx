@@ -38,22 +38,29 @@ const OPTIONS: Option[] = [
   { label: "Тиск, бар", value: "pressure" },
   { label: "Швидкість, мм/хв", value: "product_speed" },
   { label: "Об'єм, м3", value: "total_observed_volume" },
-  { label: "Об'єм прродукту, м3", value: "gross_observed_volume" },
+  { label: "Об'єм продукту, м3", value: "gross_observed_volume" },
   { label: "Об'єм ПФ, м3", value: "vapor_gross_observed_volume" },
   { label: "Об'єм осаду, м3", value: "sediment_volume" },
   { label: "Об'єм 15 С, м3", value: "standard_gross_volume_at15c" },
-  { label: "Об'єм 20 С, м3", value: "standard_gross_volume_at20c" },
   { label: "Густина, ", value: "observed_density" },
   { label: "Маса продукту (вак.), т", value: "standard_gross_mass_in_vacuume" },
   { label: "Маса продукту, т", value: "product_mass" },
   { label: "Маса ПФ (вак.), т", value: "vapor_gross_mass_in_vacuum" },
   { label: "Маса ПФ, т", value: "vapor_gross_mass" },
   { label: "Загальна маса", value: "gas_product_mass" },
-  { label: "Молярна маса", value: "molar_mass" },
+  { label: "Т1", value: "t1" },
+  { label: "Т2", value: "t2" },
+  { label: "Т3", value: "t3" },
+  { label: "Т4", value: "t4" },
+  { label: "Т5", value: "t5" },
+  { label: "Т6", value: "t6" },
+  { label: "Т7", value: "t7" },
 ];
+import { getTanks } from "@/lib/serverFunctions";
 
 export const Route = createFileRoute("/{-$locale}/journal")({
   component: RouteComponent,
+  loader: () => getTanks(),
   head: ({ params }) => {
     const { locale } = params;
     const metaContent = getIntlayer("journalContent", locale);
@@ -68,6 +75,8 @@ export const Route = createFileRoute("/{-$locale}/journal")({
 });
 
 function RouteComponent() {
+  const loaderData = Route.useLoaderData();
+
   const content = useIntlayer("journalContent");
   const { locale } = useLocale();
 
@@ -91,25 +100,6 @@ function RouteComponent() {
   const [secondParameterData, setSecondParameterData] = useState<
     TankParameterData[]
   >([]);
-
-  const baseUrl = import.meta.env.VITE_API_URL || "http://127.0.0.1:5000";
-
-  async function loadTanks() {
-    try {
-      const res = await fetch(`/api/tanks`);
-      if (!res.ok) {
-        console.warn(`HTTP error! Status: ${res.status}`);
-      }
-      const rows = await res.json();
-      setTanks(rows);
-    } catch (error) {
-      toast.warning(`Error loading /api/tanks: ${error}`);
-    }
-  }
-
-  useEffect(() => {
-    loadTanks();
-  }, []);
 
   function graphParametersChange() {
     if (tank && parameters) {

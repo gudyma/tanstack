@@ -31,7 +31,6 @@ export async function initializeTanksAndMqtt(
     };
 
     const client = mqtt.connect(options);
-    console.log(client.options);
     clientRef.current = client;
 
     // 3. MQTT event listeners

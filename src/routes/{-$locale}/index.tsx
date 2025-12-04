@@ -15,9 +15,12 @@ import { initializeTanksAndMqtt } from "@/lib/mqtt";
 import { sumVolumesAndMass } from "@/lib/sumVolumeAndMass";
 import { Button } from "@/components/ui/button";
 import { Volume2Icon, VolumeOffIcon } from "lucide-react";
+import { createServerFn, useServerFn } from "@tanstack/react-start";
+import { getTanks } from "@/lib/serverFunctions";
 
 export const Route = createFileRoute("/{-$locale}/")({
   component: RouteComponent,
+  loader: () => getTanks(),
   head: ({ params }) => {
     const { locale } = params;
     const metaContent = getIntlayer("tankContent", locale);
@@ -32,6 +35,10 @@ export const Route = createFileRoute("/{-$locale}/")({
 });
 
 function RouteComponent() {
+  const loaderData = Route.useLoaderData();
+
+  console.log("LD:" + loaderData);
+
   const content = useIntlayer("tankContent");
   const [tanks, setTanks] = useState<TankMeasurement[]>();
   const [maxSumVolume, setMaxSumVolume] = useState<number>();
@@ -51,6 +58,20 @@ function RouteComponent() {
   const cols = import.meta.env.VITE_TANKVIEW_COLS || 3;
 
   useEffect(() => {
+    if (clientRef.current) return;
+    initializeTanksAndMqtt(setTanks, setIsConnected, clientRef);
+    console.log("Init");
+    return () => {
+      // cleanup when leaving the page
+      clientRef.current?.removeAllListeners();
+      clientRef.current?.end(true);
+      clientRef.current = null;
+      setIsConnected(false);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isConnected) return;
     const result = sumVolumesAndMass(tanks ?? []);
     setTimeDataUpdated(new Date());
     setSumVolume(result?.ObservedVolumeSum);
@@ -83,19 +104,6 @@ function RouteComponent() {
     }
   }, [tanks]);
 
-  useEffect(() => {
-    if (clientRef.current) return;
-    initializeTanksAndMqtt(setTanks, setIsConnected, clientRef);
-    console.log("Init");
-    return () => {
-      // cleanup when leaving the page
-      clientRef.current?.removeAllListeners();
-      clientRef.current?.end(true);
-      clientRef.current = null;
-      setIsConnected(false);
-    };
-  }, []);
-
   return (
     <div className="flex min-h-screen w-full justify-between flex-col-reverse xl:flex-col z-2">
       <div
@@ -121,8 +129,8 @@ function RouteComponent() {
             max={maxSumMass}
             label={`${
               timeDataUpdated ? format(timeDataUpdated, "HH:mm:ss dd.MM") : "-"
-            } - Маса `}
-            valueLabel={`${sumMass?.toFixed(3) ?? `-`} of ${parseFloat(maxSumMass?.toFixed(3) ?? ``) ?? `-`} т`}
+            } : Маса `}
+            valueLabel={`${sumMass?.toFixed(3) ?? "-"} of ${maxSumMass?.toFixed(3) ?? "-"} т`}
             size="sm"
             color="var(--chart-2)"
             className=""
@@ -130,13 +138,11 @@ function RouteComponent() {
           <div className="flex flex-row w-full justify-between text-sm">
             <div>
               {" "}
-              М<sub>пф</sub>:
-              {` ${parseFloat(sumLiqMass?.toFixed(4) ?? ``) ?? `-`}  т`}
+              М<sub>пф</sub>:{` ${sumLiqMass?.toFixed(4) ?? "-"}  т`}
             </div>
             <div>
               {" "}
-              М<sub>рф</sub>:
-              {` ${parseFloat(sumProdMass?.toFixed(4) ?? ``) ?? `-`}  т`}
+              М<sub>рф</sub>:{` ${sumProdMass?.toFixed(4) ?? "-"}  т`}
             </div>
           </div>
         </div>
@@ -149,8 +155,8 @@ function RouteComponent() {
                 timeDataUpdated
                   ? format(timeDataUpdated, "HH:mm:ss dd.MM")
                   : "-"
-              } - Об'єм `}
-              valueLabel={`${sumVolume?.toFixed(2) ?? `-`} из ${parseFloat(maxSumVolume?.toFixed(2) ?? ``) ?? `-`}  м³`}
+              } : Об'єм `}
+              valueLabel={`${sumVolume?.toFixed(2) ?? "-"} из ${maxSumVolume?.toFixed(2) ?? "-"}  м³`}
               size="sm"
               color="var(--chart-1)"
               className=""
@@ -158,9 +164,9 @@ function RouteComponent() {
             <div className="flex flex-row w-full justify-between text-sm">
               <div>
                 V<sub>віл</sub>:
-                {` ${parseFloat(sumFreeVolume?.toFixed(2) ?? ``) ?? `-`}  м³`}
+                {` ${sumFreeVolume ? parseFloat(sumFreeVolume.toFixed(2)) : "-"}  м³`}
               </div>
-              <div>{`Наповн.: ${parseFloat(sumSpeedVolume?.toFixed(1) ?? ``) ?? `-`}  м³/год`}</div>
+              <div>{`Наповн.: ${sumSpeedVolume?.toFixed(1) ?? "-"}  м³/год`}</div>
             </div>
           </div>
           <Button
