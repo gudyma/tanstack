@@ -26,7 +26,7 @@ export interface TankMeasurement {
   park_id?: string | null;
   product?: string | null;
   product_id?: string | number | null;
-  enabled?: boolean;
+  enabled?: boolean | null;
   description?: string | null;
   company_owner_id?: string | null;
 
@@ -59,10 +59,10 @@ export interface TankMeasurement {
   pressure?: number | null;
   product_speed?: number | null;
 
-  total_observed_volume?: number;
-  gross_observed_volume?: number;
-  vapor_gross_observed_volume?: number;
-  sediment_volume?: number;
+  total_observed_volume?: number | null;
+  gross_observed_volume?: number | null;
+  vapor_gross_observed_volume?: number | null;
+  sediment_volume?: number | null;
 
   standard_gross_volume_at15_c?: number | null;
   standard_gross_volume_at20_c?: number | null;

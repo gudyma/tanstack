@@ -13,13 +13,15 @@ import mqtt from "mqtt";
 import { cn } from "@/lib/utils";
 
 import { exportToCSV, exportToXlsx } from "@/lib/exportUtils";
-
+import { useQuery } from "@tanstack/react-query";
 import {
   EyeIcon,
   FileTextIcon,
   Grid2X2XIcon,
   SettingsIcon,
   TriangleAlertIcon,
+  Volume2Icon,
+  VolumeOffIcon,
 } from "lucide-react";
 
 import {
@@ -44,11 +46,20 @@ import TankDrawer from "@/components/tank-drawer";
 import { ColumnVisibilityMenu } from "@/components/column-visibility-menu";
 import { Button } from "@/components/ui/button";
 
+import { createServerFn, useServerFn } from "@tanstack/react-start";
+
+export const getHello = createServerFn().handler(async () => {
+  // This runs only on the server
+  console.log("Hello");
+  return new Date().toISOString();
+});
+
 // Key for localStorage persistence
 const VISIBILITY_STORAGE_KEY = "tank-table-column-visibility";
 
 export const Route = createFileRoute("/{-$locale}/table")({
   component: RouteComponent,
+  loader: () => getHello(),
   head: ({ params }) => {
     const { locale } = params;
     const metaContent = getIntlayer("tableContent", locale);
@@ -63,6 +74,12 @@ export const Route = createFileRoute("/{-$locale}/table")({
 });
 
 function RouteComponent() {
+  const getPosts = useServerFn(getHello);
+  const { data } = useQuery({
+    queryKey: ["posts"],
+    queryFn: () => getPosts(),
+  });
+  console.log(data);
   const content = useIntlayer("tableContent");
   const { locale } = useLocale();
   useMemo(() => {
@@ -78,6 +95,7 @@ function RouteComponent() {
   const [selectedTank, setSelectedTank] = useState<TankMeasurement>();
   const clientRef = useRef<mqtt.MqttClient | null>(null);
   const [isConnected, setIsConnected] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
   const [testcolumns, setColumns] = useState(empty);
 
   useEffect(() => {
@@ -96,7 +114,7 @@ function RouteComponent() {
   useEffect(() => {
     setAnimate(!animate);
     const { is_error, is_warning } = checkTankMeasurements(tanks ?? []);
-    if (is_warning) {
+    if (is_warning && !isMuted) {
       try {
         const audio = new Audio("/path/to/alarm-sound.mp3");
         audio.play().catch((err) => console.error("Error:", err));
@@ -105,7 +123,7 @@ function RouteComponent() {
         console.error("Failed to play alarm:", error);
       }
     }
-    if (is_error) {
+    if (is_error && !isMuted) {
       try {
         const audio = new Audio("/path/to/alarm-sound.mp3");
         audio.play().catch((err) => console.error("Error:", err));
@@ -436,7 +454,16 @@ function RouteComponent() {
             Export Excel
           </Button>
         </div>
-        <ColumnVisibilityMenu table={table} />
+        <div className="flex gap-2">
+          <ColumnVisibilityMenu table={table} />
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setIsMuted(!isMuted)}
+          >
+            {isMuted ? <VolumeOffIcon size={40} /> : <Volume2Icon size={40} />}
+          </Button>
+        </div>
       </div>
     </div>
   );

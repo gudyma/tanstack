@@ -17,22 +17,23 @@ import { createSnapshotReportPdf } from "@/lib/createSnapshotReportPdf";
 import { Label } from "@/components/ui/label";
 import { TankMeasurement } from "./tank.types";
 
-type TankApiRow = { label: string; value: string | number; park: string };
-
 export default function ReportsSelection() {
-  const [reportReady, setReportReady] = useState(false);
-  const [options, setOptions] = useState<Option[]>([]);
-  const [selectedTanks, setSelectedTanks] = useState<Option[]>([]);
-
+  const today: Date = new Date();
+  const yesterday: Date = ((d) => new Date(d.setDate(d.getDate() - 1)))(
+    new Date(),
+  );
+  const [baseDate, setBaseDate] = useState(today);
+  const [startDate, setStartDate] = useState(yesterday);
+  const [endDate, setEndDate] = useState(today);
   return (
     <div className="flex h-auto w-full flex-col items-center justify-center  md:flex-row">
-      <Tabs defaultValue="daily" className="h-74 w-full">
+      <Tabs defaultValue="daily" className="h-62 w-full">
         <TabsList className="grid h-auto w-full grid-cols-2">
           <TabsTrigger value="daily">На дату</TabsTrigger>
           <TabsTrigger value="period">За період</TabsTrigger>
         </TabsList>
         <TabsContent value="daily">
-          <Card className="h-68">
+          <Card className="h-52 py-4 gap-2 justify-between">
             <CardHeader>
               <CardTitle>Звіт на обрану дату та час</CardTitle>
               <CardDescription>
@@ -44,6 +45,8 @@ export default function ReportsSelection() {
               <div className="flex w-full flex-row justify-between gap-2">
                 <Label className="flex-none">Обрана дата</Label>
                 <DateTimePicker
+                  value={endDate}
+                  onChange={(value: Date) => setStartDate(value)}
                   granularity="minute"
                   className="w-auto flex-1 text-foreground max-w-96"
                   placeholder="Оберіть дату"
@@ -113,7 +116,7 @@ export default function ReportsSelection() {
           </Card>
         </TabsContent>
         <TabsContent value="period">
-          <Card>
+          <Card className="h-52 py-4 gap-2 justify-between">
             <CardHeader>
               <CardTitle>Звіт за період</CardTitle>
               <CardDescription>
@@ -126,6 +129,8 @@ export default function ReportsSelection() {
                 <Label>Початкова дата</Label>
                 <DateTimePicker
                   granularity="minute"
+                  value={baseDate}
+                  onChange={(value: Date) => setBaseDate(value)}
                   className="w-auto flex-1 text-foreground max-w-96"
                   placeholder="Оберіть початкову дату"
                 />
@@ -134,6 +139,8 @@ export default function ReportsSelection() {
                 <Label>Кінцева дата</Label>
                 <DateTimePicker
                   granularity="minute"
+                  value={endDate}
+                  onChange={(value: Date) => setEndDate(value)}
                   className="w-auto flex-1 text-foreground max-w-96"
                   placeholder="Оберіть кінцеву дату"
                 />
