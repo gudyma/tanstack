@@ -1,74 +1,44 @@
 import { TankMeasurement } from "@/components/tank.types";
-
-// Report Interfaces
-export interface ParamDiff {
-  oldValue: number | null;
-  newValue: number | null;
-  delta: number | null; // null if calculation not possible (e.g. comparing null)
-  percentChange: number | null;
-}
-
-export interface TankDiffReport {
-  tank_id: string;
-  timestampFrom: string | null | undefined;
-  timestampTo: string | null | undefined;
-  // Only contains keys that actually changed
-  changes: Partial<Record<keyof TankMeasurement, ParamDiff>>;
-}
+import { ParamDiff, TankDiffReport } from "@/lib/createDiffReportPdf";
 
 // ==========================================
 // 2. Configuration: Keys to Compare
 // ==========================================
 // We exclude 'tank_id' and 'timestamp' from numeric comparison
 const COMPARABLE_KEYS: { key: keyof TankMeasurement; label: string }[] = [
-  { key: "product_level", label: "Product Level" },
-  { key: "sediment_level", label: "Sediment Level" },
-  { key: "product_temperature", label: "Product Temperature" },
-  { key: "free_temperature", label: "Free Temperature" },
-  { key: "pressure", label: "Pressure" },
-  { key: "product_speed", label: "Product Speed" },
-  { key: "total_observed_volume", label: "Total Observed Volume" },
-  { key: "gross_observed_volume", label: "Gross Observed Volume" },
+  { key: "product_level", label: "Рівень продукту, мм" },
+  { key: "product_temperature", label: "Температура продукту, °C" },
+  { key: "free_temperature", label: "Температура парової фази, °C" },
+  { key: "pressure", label: "Тиск, bar" },
+  { key: "total_observed_volume", label: "Обсяг продукту, м3" },
+  { key: "gross_observed_volume", label: "Нормований обсяг продукту, м3" },
   {
     key: "vapor_gross_observed_volume",
-    label: "Vapor Gross Observed Volume",
+    label: "Об'єм парової фази, м3",
   },
-  { key: "sediment_volume", label: "Sediment Volume" },
   {
     key: "standard_gross_volume_at15_c",
-    label: "Standard Gross Volume at 15°C",
+    label: "Об'єм продукту при 15°C, м3",
   },
   {
     key: "standard_gross_volume_at20_c",
-    label: "Standard Gross Volume at 20°C",
+    label: "Об'єм продукту при 20°C, м3",
   },
-  {
-    key: "gost_standard_gross_volume_at15_c",
-    label: "GOST Standard Gross Volume at 15°C",
-  },
-  {
-    key: "gost_standard_gross_volume_at20_C",
-    label: "GOST Standard Gross Volume at 20°C",
-  },
-  { key: "observed_density", label: "Observed Density" },
-  { key: "gost_observed_density", label: "GOST Observed Density" },
+
+  { key: "observed_density", label: "Густота продукту, кг/м3" },
+
   {
     key: "standard_gross_mass_in_vacuume",
-    label: "Standard Gross Mass in Vacuum",
+    label: "Маса продукту у вакуумі, т",
   },
-  {
-    key: "gost_gross_mass_in_vacuume",
-    label: "GOST Gross Mass in Vacuum",
-  },
-  { key: "product_mass", label: "Product Mass" },
-  { key: "gost_product_mass", label: "GOST Product Mass" },
+
+  { key: "product_mass", label: "Маса продукту, т" },
   {
     key: "vapor_gross_mass_in_vacuume",
-    label: "Vapor Gross Mass in Vacuum",
+    label: "Маса парової фази у вакуумі, т",
   },
-  { key: "vapor_gross_mass", label: "Vapor Gross Mass" },
-  { key: "gas_product_mass", label: "Gas Product Mass" },
-  { key: "molar_mass", label: "Molar Mass" },
+  { key: "vapor_gross_mass", label: "Маса парової фази,т" },
+  { key: "gas_product_mass", label: "Загальна маса продукту, т" },
 ];
 
 // ==========================================
@@ -97,9 +67,6 @@ export function getSingleTankDiff(
     const val1 = prev[value.key] as number | null;
     const val2 = curr[value.key] as number | null;
 
-    // Skip if both are null or strictly equal
-    if (val1 === val2) return;
-
     // Calculate Delta
     let delta: number | null = null;
     let percent: number | null = null;
@@ -124,6 +91,7 @@ export function getSingleTankDiff(
   });
 
   return {
+    tank_name: curr.name ?? curr.label ?? curr.id,
     tank_id: curr.id,
     timestampFrom: prev.timestamp,
     timestampTo: curr.timestamp,
@@ -138,7 +106,9 @@ export function getSingleTankDiff(
 export function generateBulkReport(
   datasetA: TankMeasurement[],
   datasetB: TankMeasurement[],
+  includeUnchanged?: boolean,
 ): TankDiffReport[] {
+  includeUnchanged = includeUnchanged ?? true;
   const reports: TankDiffReport[] = [];
 
   // Map dataset A for O(1) lookup by tank_id
@@ -151,8 +121,8 @@ export function generateBulkReport(
 
     if (rowA) {
       const report = getSingleTankDiff(rowA, rowB);
-      // Only push report if there are actual changes
-      if (Object.keys(report.changes).length > 0) {
+      // Push all reports when includeUnchanged is set; otherwise only changed tanks
+      if (includeUnchanged || Object.keys(report.changes).length > 0) {
         reports.push(report);
       }
     } else {

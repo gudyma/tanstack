@@ -104,7 +104,7 @@ function RouteComponent() {
     const { is_error, is_warning } = checkTankMeasurements(tanks ?? []);
     if (is_warning && !isMuted) {
       try {
-        const audio = new Audio("/path/to/alarm-sound.mp3");
+        const audio = new Audio("/audio/warning.mp3");
         audio.play().catch((err) => console.error("Error:", err));
         console.log("Alarm playing");
       } catch (error) {
@@ -113,7 +113,7 @@ function RouteComponent() {
     }
     if (is_error && !isMuted) {
       try {
-        const audio = new Audio("/path/to/alarm-sound.mp3");
+        const audio = new Audio("/audio/critical.mp3");
         audio.play().catch((err) => console.error("Error:", err));
         console.log("Alarm playing");
       } catch (error) {

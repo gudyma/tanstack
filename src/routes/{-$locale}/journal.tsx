@@ -75,7 +75,7 @@ export const Route = createFileRoute("/{-$locale}/journal")({
 });
 
 function RouteComponent() {
-  const loaderData = Route.useLoaderData();
+  const loaderData: Tank[] = Route.useLoaderData();
 
   const content = useIntlayer("journalContent");
   const { locale } = useLocale();
@@ -89,7 +89,7 @@ function RouteComponent() {
   const [startDate, setStartDate] = useState(yesterday);
   const [endDate, setEndDate] = useState(today);
   const [tank, setTank] = useState("");
-  const [tankList, setTanks] = useState<Tank[]>([]);
+  const [tankList, setTanks] = useState<Tank[]>(loaderData);
 
   const [parameters, setParameters] = useState<Option[]>([]);
   const [firstParameterName, setFirstParameterName] = useState<string>();

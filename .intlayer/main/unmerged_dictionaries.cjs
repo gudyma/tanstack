@@ -1,21 +1,21 @@
-const _kQqWW7HHsTGkb3rNmDFr = require('../unmerged_dictionary/editable-table.json');
-const _ERSBc4KJyTmebuwNNscd = require('../unmerged_dictionary/indexContent.json');
-const _6OwAjs5w3xgoDDTSCb3x = require('../unmerged_dictionary/journalContent.json');
-const _082r44rfcSJHdruhzKiP = require('../unmerged_dictionary/locale-switcher.json');
-const _5lm2DONdXVElqNLWfEgw = require('../unmerged_dictionary/more-drawer.json');
-const _Wj7T4ijSWrPXDoeeCHFC = require('../unmerged_dictionary/navigation-dock.json');
-const _sVZ0PRZgEgLSe0EfronX = require('../unmerged_dictionary/tableContent.json');
-const _8JtgK0dQmEggDlzvIR2O = require('../unmerged_dictionary/tankContent.json');
+const _lF63wBvxomzz8gq8H21Z = require('../unmerged_dictionary/editable-table.json');
+const _Yd0AHxXNQTuGgzqiBSO1 = require('../unmerged_dictionary/indexContent.json');
+const _ERPrFJs5KAx2rHJsdnyL = require('../unmerged_dictionary/journalContent.json');
+const _G8HiC7ikaxSS28QXtq8L = require('../unmerged_dictionary/locale-switcher.json');
+const _ENHdvNKVAlGo1nwgvHaU = require('../unmerged_dictionary/more-drawer.json');
+const _vig93TpK4TcrO8BYIW6X = require('../unmerged_dictionary/navigation-dock.json');
+const _LfupA79Sm4kL7CM2mXDU = require('../unmerged_dictionary/tableContent.json');
+const _CL7PI9fzwNVmFqJZd46x = require('../unmerged_dictionary/tankContent.json');
 
 const dictionaries = {
-  "editable-table": _kQqWW7HHsTGkb3rNmDFr,
-  "indexContent": _ERSBc4KJyTmebuwNNscd,
-  "journalContent": _6OwAjs5w3xgoDDTSCb3x,
-  "locale-switcher": _082r44rfcSJHdruhzKiP,
-  "more-drawer": _5lm2DONdXVElqNLWfEgw,
-  "navigation-dock": _Wj7T4ijSWrPXDoeeCHFC,
-  "tableContent": _sVZ0PRZgEgLSe0EfronX,
-  "tankContent": _8JtgK0dQmEggDlzvIR2O
+  "editable-table": _lF63wBvxomzz8gq8H21Z,
+  "indexContent": _Yd0AHxXNQTuGgzqiBSO1,
+  "journalContent": _ERPrFJs5KAx2rHJsdnyL,
+  "locale-switcher": _G8HiC7ikaxSS28QXtq8L,
+  "more-drawer": _ENHdvNKVAlGo1nwgvHaU,
+  "navigation-dock": _vig93TpK4TcrO8BYIW6X,
+  "tableContent": _LfupA79Sm4kL7CM2mXDU,
+  "tankContent": _CL7PI9fzwNVmFqJZd46x
 };
 const getUnmergedDictionaries = () => dictionaries;
 

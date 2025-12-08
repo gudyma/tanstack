@@ -24,6 +24,7 @@ import { Label } from "@/components/ui/label";
 import { useIntlayer, useLocale } from "react-intlayer";
 import { getLocaleName } from "intlayer";
 import { toast } from "sonner";
+import { formatDate } from "@/lib/createSnapshotReportPdf";
 
 type TanksContentApiRow = {
   name: string | null;
@@ -42,13 +43,13 @@ type TableRowData = {
   id: string;
   name: string;
   date: string;
-  density_at15: number | string;
-  density: number | string;
-  temperature: number | string;
-  ethane: number | string;
-  propane: number | string;
-  butane: number | string;
-  pentane: number | string;
+  density_at15: number | null;
+  density: number | null;
+  temperature: number | null;
+  ethane: number | null;
+  propane: number | null;
+  butane: number | null;
+  pentane: number | null;
 };
 
 type EditableColumnKey = keyof TableRowData;
@@ -93,14 +94,16 @@ const rowSchemaBase = z.object({
     z
       .number()
       .min(100, "Значення нормованої до 15 С густини має бути більше 100")
-      .max(1000, "Значення нормованої до 15 С густини має бути менше 1000"),
+      .max(1000, "Значення нормованої до 15 С густини має бути менше 1000")
+      .nullable(),
   ),
   density: z.preprocess(
     (val) => (typeof val === "string" ? Number(val) : val),
     z
       .number()
       .min(100, "Значення температури проби має бути більше 100 кг/м3")
-      .max(1300, "Значення густини проби має бути менше 1300 кг/м3"),
+      .max(1300, "Значення густини проби має бути менше 1300 кг/м3")
+      .nullable(),
   ),
 
   temperature: z.preprocess(
@@ -108,7 +111,8 @@ const rowSchemaBase = z.object({
     z
       .number()
       .min(-50, "Значення температури проби має бути більше -50")
-      .max(60, "Значення температури проби має бути менше 60"),
+      .max(60, "Значення температури проби має бути менше 60")
+      .nullable(),
   ),
 
   ethane: z.preprocess(
@@ -202,7 +206,7 @@ const EditableCell = ({ getValue, row, column, table }: EditableCellProps) => {
   }, [initialValue]);
 
   if (column.id === "id") {
-    return <span className="font-medium">{value}</span>;
+    return <span className="font-semibold">{value}</span>;
   }
 
   return (
@@ -214,7 +218,7 @@ const EditableCell = ({ getValue, row, column, table }: EditableCellProps) => {
         onChange={onChange}
         onBlur={onBlur}
         className={cn(
-          "h-8",
+          "h-8 px-2",
           error && "border-red-500 focus-visible:ring-red-500",
         )}
       />
@@ -247,9 +251,9 @@ const mapApiRowToTableRow = (row: TanksContentApiRow): TableRowData => ({
   id: String(row.tank_id ?? ""),
   name: String(row.name ?? ""),
   date: formatTimestampForDisplay(row.timestamp),
-  density_at15: Number(row.density_at15 ?? 0),
-  density: Number(row.density ?? 0),
-  temperature: Number(row.product_temperature ?? 0),
+  density_at15: row.density_at15 ? row.density_at15 : null,
+  density: row.density ? row.density : null,
+  temperature: row.product_temperature ? row.product_temperature : null,
   ethane: Number(row.ethane_percent ?? 0),
   propane: Number(row.propane_percent ?? 0),
   butane: Number(row.butane_percent ?? 0),
@@ -283,7 +287,7 @@ export default function EditableTable() {
       columnHelper.accessor("date", {
         header: "Дата",
         cell: ({ getValue }) => (
-          <span className="font-medium">{getValue() || "—"}</span>
+          <span className="font-medium">{formatDate(getValue()) || "—"}</span>
         ),
       }),
     ];
@@ -325,31 +329,23 @@ export default function EditableTable() {
       : baseCols;
   }, [enterDensity15]);
 
+  const loadTanks = async () => {
+    try {
+      const res = await fetch(baseUrl + "/api/tanksContentInfo");
+      if (!res.ok) throw new Error("Failed to fetch tank content info");
+      const rows: TanksContentApiRow[] = await res.json();
+      const mapped = rows.map(mapApiRowToTableRow);
+      setData(mapped);
+      setOriginalData(mapped.map((row) => ({ ...row })));
+      setEditedRows(new Map<string, TableRowData>());
+      setValidationErrors(new Map<string, z.ZodIssue[]>());
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   useEffect(() => {
-    let cancelled = false;
-
-    const loadTanks = async () => {
-      try {
-        const baseUrl = import.meta.env.VITE_API_URL || "http://127.0.0.1:5000";
-        const res = await fetch("/api/tanksContentInfo");
-        if (!res.ok) throw new Error("Failed to fetch tank content info");
-        const rows: TanksContentApiRow[] = await res.json();
-        if (cancelled) return;
-        const mapped = rows.map(mapApiRowToTableRow);
-        setData(mapped);
-        setOriginalData(mapped.map((row) => ({ ...row })));
-        setEditedRows(new Map<string, TableRowData>());
-        setValidationErrors(new Map<string, z.ZodIssue[]>());
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
     loadTanks();
-
-    return () => {
-      cancelled = true;
-    };
   }, []);
 
   useEffect(() => {
@@ -539,13 +535,11 @@ export default function EditableTable() {
           toast.error("Не вдалося записати дані. Перевірте підключення.");
         } else {
           toast.success(
-            `Зміни для ${rowChange.current.name} успішно збережено.`,
+            `Зміни для резервуару ${rowChange.current.name} успішно збережено.`,
           );
         }
       }
-
-      setOriginalData(data.map((row) => ({ ...row })));
-      setEditedRows(new Map<string, TableRowData>());
+      loadTanks();
     } catch (error) {
       console.error("Error saving changes:", error);
       toast.error("Виникла помилка при збережені даних.");

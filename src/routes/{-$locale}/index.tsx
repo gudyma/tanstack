@@ -37,28 +37,30 @@ export const Route = createFileRoute("/{-$locale}/")({
 function RouteComponent() {
   const loaderData = Route.useLoaderData();
 
-  console.log("LD:" + loaderData);
-
   const content = useIntlayer("tankContent");
   const [tanks, setTanks] = useState<TankMeasurement[]>();
-  const msvolume = tanks?.reduce(
-    (acc, i) => {
-      acc.ObservedVolumeSum += i.total_observed_volume ?? 0;
+  const sumValues = tanks?.reduce(
+    (acc, m) => {
+      acc.ObservedVolumeSum += m.total_observed_volume ?? 0;
+      acc.FullVolumeSum += m.max_graduration_volume ?? 0;
+      acc.ProductMassSum += m.product_mass ?? 0;
+      acc.FullProductMassSum +=
+        (m.max_graduration_volume ?? 0) * (m.observed_density ?? 0);
+      acc.FreeVolumeSum += m.vapor_gross_observed_volume ?? 0;
+      acc.VolumeSpeedSum += m.product_speed ?? 0;
+      acc.LiqMassSum += m.vapor_gross_mass ?? 0;
       return acc;
     },
     {
       ObservedVolumeSum: 0,
+      FullVolumeSum: 0,
+      ProductMassSum: 0,
+      FullProductMassSum: 0,
+      LiqMassSum: 0,
+      FreeVolumeSum: 0,
+      VolumeSpeedSum: 0,
     },
   );
-  console.log(msvolume);
-  const [maxSumVolume, setMaxSumVolume] = useState<number>();
-  const [sumVolume, setSumVolume] = useState<number>();
-  const [sumFreeVolume, setSumFreeVolume] = useState<number>();
-  const [sumSpeedVolume, setSumSpeedVolume] = useState<number>();
-  const [maxSumMass, setMaxMass] = useState<number>();
-  const [sumMass, setSumMass] = useState<number>();
-  const [sumLiqMass, setSumLiqMass] = useState<number>();
-  const [sumProdMass, setSumProdMass] = useState<number>();
   const [timeDataUpdated, setTimeDataUpdated] = useState<Date>();
   const [isMuted, setIsMuted] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
@@ -70,7 +72,7 @@ function RouteComponent() {
   useEffect(() => {
     if (clientRef.current) return;
     initializeTanksAndMqtt(setTanks, setIsConnected, clientRef);
-    console.log("Init");
+
     return () => {
       // cleanup when leaving the page
       clientRef.current?.removeAllListeners();
@@ -82,32 +84,22 @@ function RouteComponent() {
 
   useEffect(() => {
     if (!isConnected) return;
-    const result = sumVolumesAndMass(tanks ?? []);
     setTimeDataUpdated(new Date());
-    setSumVolume(result?.ObservedVolumeSum);
-    setMaxSumVolume(result?.FullVolumeSum);
-    setSumMass(result?.ProductMassSum);
-    setMaxMass(result?.FullProductMassSum);
-    setSumLiqMass(result?.LiqMassSum);
-    setSumProdMass(result?.ProductMassSum);
-    setSumSpeedVolume(result?.VolumeSpeedSum);
-    setSumFreeVolume(result?.FreeVolumeSum);
-    console.log("tanks");
     const { is_error, is_warning } = checkTankMeasurements(tanks ?? []);
     if (is_warning && !isMuted) {
       try {
-        const audio = new Audio("/path/to/alarm-sound.mp3");
+        const audio = new Audio("/audio/warning.mp3");
         audio.play().catch((err) => console.error("Error:", err));
-        console.log("Alarm playing");
+        console.log("Warning Alarm playing");
       } catch (error) {
         console.error("Failed to play alarm:", error);
       }
     }
     if (is_error && !isMuted) {
       try {
-        const audio = new Audio("/path/to/alarm-sound.mp3");
+        const audio = new Audio("/audio/critical.mp3");
         audio.play().catch((err) => console.error("Error:", err));
-        console.log("Alarm playing");
+        console.log("Critical Alarm playing");
       } catch (error) {
         console.error("Failed to play alarm:", error);
       }
@@ -135,12 +127,12 @@ function RouteComponent() {
       <div className="z-5 m-0 flex h-auto w-full flex-none flex-col-reverse items-center justify-between rounded-b-xl border-x bg-muted/80 px-2 pb-2 font-medium backdrop-blur-2xl supports-backdrop-blur:bg-white/80 supports-backdrop-blur:dark:bg-black/10 md:flex-row xl:h-17 xl:rounded-xl xl:border-none xl:bg-transparent xl:p-0 ">
         <div className="flex w-full max-w-96 flex-col justify-center gap-2 px-2 py-1">
           <Meter
-            value={sumMass ?? 0}
-            max={maxSumMass}
+            value={sumValues?.ProductMassSum ?? 0}
+            max={sumValues?.FullProductMassSum ?? 0}
             label={`${
               timeDataUpdated ? format(timeDataUpdated, "HH:mm:ss dd.MM") : "-"
             } : Маса `}
-            valueLabel={`${sumMass?.toFixed(3) ?? "-"} of ${maxSumMass?.toFixed(3) ?? "-"} т`}
+            valueLabel={`${sumValues?.ProductMassSum.toFixed(3) ?? "-"} of ${sumValues?.FullProductMassSum?.toFixed(3) ?? "-"} т`}
             size="sm"
             color="var(--chart-2)"
             className=""
@@ -148,25 +140,26 @@ function RouteComponent() {
           <div className="flex flex-row w-full justify-between text-sm">
             <div>
               {" "}
-              М<sub>пф</sub>:{` ${sumLiqMass?.toFixed(4) ?? "-"}  т`}
+              М<sub>пф</sub>:{` ${sumValues?.LiqMassSum?.toFixed(3) ?? "-"}  т`}
             </div>
             <div>
               {" "}
-              М<sub>рф</sub>:{` ${sumProdMass?.toFixed(4) ?? "-"}  т`}
+              М<sub>рф</sub>:
+              {` ${sumValues?.ProductMassSum?.toFixed(3) ?? "-"}  т`}
             </div>
           </div>
         </div>
         <div className="flex flex-row w-full max-w-96 items-center">
           <div className="flex w-full max-w-88 flex-col justify-center gap-0.5 px-2 py-1 md:gap-2">
             <Meter
-              value={sumVolume ?? 0}
-              max={maxSumVolume}
+              value={sumValues?.ObservedVolumeSum ?? 0}
+              max={sumValues?.FullVolumeSum ?? 0}
               label={`${
                 timeDataUpdated
                   ? format(timeDataUpdated, "HH:mm:ss dd.MM")
                   : "-"
               } : Об'єм `}
-              valueLabel={`${sumVolume?.toFixed(2) ?? "-"} из ${maxSumVolume?.toFixed(2) ?? "-"}  м³`}
+              valueLabel={`${sumValues?.ObservedVolumeSum?.toFixed(2) ?? "-"} из ${sumValues?.FullVolumeSum?.toFixed(2) ?? "-"}  м³`}
               size="sm"
               color="var(--chart-1)"
               className=""
@@ -174,9 +167,9 @@ function RouteComponent() {
             <div className="flex flex-row w-full justify-between text-sm">
               <div>
                 V<sub>віл</sub>:
-                {` ${sumFreeVolume ? parseFloat(sumFreeVolume.toFixed(2)) : "-"}  м³`}
+                {` ${sumValues?.FreeVolumeSum?.toFixed(2) ?? "-"}  м³`}
               </div>
-              <div>{`Наповн.: ${sumSpeedVolume?.toFixed(1) ?? "-"}  м³/год`}</div>
+              <div>{`Наповн.: ${sumValues?.VolumeSpeedSum?.toFixed(1) ?? "-"}  м³/год`}</div>
             </div>
           </div>
           <Button

@@ -31,7 +31,7 @@
       ".content.tsx",
       ".content.jsx"
     ],
-    "baseDir": "D:\\web\\mira-web",
+    "baseDir": "D:\\tanstack",
     "excludedPath": [
       "**/node_modules/**",
       "**/dist/**",
@@ -46,18 +46,18 @@
     ],
     "watch": true,
     "contentDir": [
-      "D:\\web\\mira-web"
+      "D:\\tanstack"
     ],
-    "moduleAugmentationDir": "D:\\web\\mira-web\\.intlayer\\types",
-    "unmergedDictionariesDir": "D:\\web\\mira-web\\.intlayer\\unmerged_dictionary",
-    "remoteDictionariesDir": "D:\\web\\mira-web\\.intlayer\\remote_dictionary",
-    "dictionariesDir": "D:\\web\\mira-web\\.intlayer\\dictionary",
-    "dynamicDictionariesDir": "D:\\web\\mira-web\\.intlayer\\dynamic_dictionary",
-    "fetchDictionariesDir": "D:\\web\\mira-web\\.intlayer\\fetch_dictionary",
-    "typesDir": "D:\\web\\mira-web\\.intlayer\\types",
-    "mainDir": "D:\\web\\mira-web\\.intlayer\\main",
-    "configDir": "D:\\web\\mira-web\\.intlayer\\config",
-    "cacheDir": "D:\\web\\mira-web\\.intlayer\\cache",
+    "moduleAugmentationDir": "D:\\tanstack\\.intlayer\\types",
+    "unmergedDictionariesDir": "D:\\tanstack\\.intlayer\\unmerged_dictionary",
+    "remoteDictionariesDir": "D:\\tanstack\\.intlayer\\remote_dictionary",
+    "dictionariesDir": "D:\\tanstack\\.intlayer\\dictionary",
+    "dynamicDictionariesDir": "D:\\tanstack\\.intlayer\\dynamic_dictionary",
+    "fetchDictionariesDir": "D:\\tanstack\\.intlayer\\fetch_dictionary",
+    "typesDir": "D:\\tanstack\\.intlayer\\types",
+    "mainDir": "D:\\tanstack\\.intlayer\\main",
+    "configDir": "D:\\tanstack\\.intlayer\\config",
+    "cacheDir": "D:\\tanstack\\.intlayer\\cache",
     "watchedFilesPattern": [
       "/**/*.content.ts",
       "/**/*.content.js",
@@ -70,17 +70,17 @@
       "/**/*.content.jsx"
     ],
     "watchedFilesPatternWithPath": [
-      "D:/web/mira-web/**/*.content.ts",
-      "D:/web/mira-web/**/*.content.js",
-      "D:/web/mira-web/**/*.content.cjs",
-      "D:/web/mira-web/**/*.content.cjx",
-      "D:/web/mira-web/**/*.content.mjs",
-      "D:/web/mira-web/**/*.content.mjx",
-      "D:/web/mira-web/**/*.content.json",
-      "D:/web/mira-web/**/*.content.tsx",
-      "D:/web/mira-web/**/*.content.jsx"
+      "D:/tanstack/**/*.content.ts",
+      "D:/tanstack/**/*.content.js",
+      "D:/tanstack/**/*.content.cjs",
+      "D:/tanstack/**/*.content.cjx",
+      "D:/tanstack/**/*.content.mjs",
+      "D:/tanstack/**/*.content.mjx",
+      "D:/tanstack/**/*.content.json",
+      "D:/tanstack/**/*.content.tsx",
+      "D:/tanstack/**/*.content.jsx"
     ],
-    "outputFilesPatternWithPath": "D:/web/mira-web/.intlayer/dictionary/**/*.json"
+    "outputFilesPatternWithPath": "D:/tanstack/.intlayer/dictionary/**/*.json"
   },
   "editor": {
     "applicationURL": "",
@@ -111,31 +111,12 @@
     ],
     "cache": true
   },
-  "compiler": {
-    "enabled": true,
-    "transformPattern": [
-      "**/*.{ts,tsx,jsx,js,cjs,mjs,mjx,cjx,svelte,vue}"
-    ],
-    "excludePattern": [
-      "**/node_modules/**",
-      "**/dist/**",
-      "**/.next/**",
-      "**/.nuxt/**",
-      "**/.expo/**",
-      "**/.vercel/**",
-      "**/.turbo/**",
-      "**/.tanstack/**",
-      "**/*.stories.ts",
-      "**/*.test.ts"
-    ],
-    "outputDir": "./compiler"
-  },
   "dictionary": {
     "fill": true
   },
   "metadata": {
     "name": "Intlayer",
-    "version": "7.3.5",
+    "version": "7.3.1",
     "doc": "https://intlayer.org/docs"
   }
 }

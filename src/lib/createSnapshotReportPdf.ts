@@ -1,4 +1,5 @@
 import { TankMeasurement } from "@/components/tank.types";
+import { format } from "date-fns-tz";
 import { TDocumentDefinitions, Content } from "pdfmake/interfaces";
 
 /**
@@ -49,9 +50,9 @@ export const createSnapshotReportPdf = async (
         fontSize: 10,
         color: "black",
         fillColor: "#eeeeee",
+        alignment: "center",
       },
       tableCell: { fontSize: 9, color: "#333333", alignment: "center" },
-      tankId: { fontSize: 8, color: "#555555", alignment: "left" }, // ID зазвичай довгий, зменшуємо шрифт
     },
 
     // Колонтитули (Footer) з номерами сторінок
@@ -68,7 +69,7 @@ export const createSnapshotReportPdf = async (
   // 2. Генерація та завантаження
   pdfMake
     .createPdf(docDefinition)
-    .download(`tank_report_${new Date().getTime()}.pdf`);
+    .download(`base_report_${format(new Date(), "dd.MM.yy_HH-mm")}.pdf`);
 };
 
 // ==========================================
@@ -85,27 +86,37 @@ function buildTable(data: TankMeasurement[]): Content {
       // Визначаємо ширину колонок
       // 'auto' - по вмісту, '*' - займає весь доступний простір
       widths: [
-        120, // Tank ID
+        65, // Tank ID
         85, // Timestamp
-        "auto", // Рівень
-        "auto", // Температура
-        "auto", // Густина
-        "auto", // Об'єм
-        "auto", // Тиск
-        "auto", // Маса (важливий показник, даємо місце)
+        "auto",
+        "auto",
+        "auto",
+        "auto",
+        "auto",
+        "auto",
+        "auto",
+        "auto",
+        "auto",
+        "auto",
+        "auto",
       ],
       headerRows: 1,
       body: [
         // 1. Заголовок таблиці (Українською)
         [
-          { text: "Резервуар (ID)", style: "tableHeader" },
+          { text: "Резервуар", style: "tableHeader" },
           { text: "Час виміру", style: "tableHeader" },
           { text: "Рівень\n(мм)", style: "tableHeader" },
-          { text: "Темп.\n(°C)", style: "tableHeader" },
-          { text: "Густина\n(кг/м³)", style: "tableHeader" },
-          { text: "Об'єм\n(л)", style: "tableHeader" },
-          { text: "Тиск\n(МПа)", style: "tableHeader" },
-          { text: "Маса\n(кг)", style: "tableHeader" },
+          { text: "Темп.\n прод.(°C)", style: "tableHeader" },
+          { text: "Темп.\n ПФ(°C)", style: "tableHeader" },
+          { text: "Тиск\n(bar)", style: "tableHeader" },
+          { text: "Об'єм\n(м³)", style: "tableHeader" },
+          { text: "Об'єм\n віл.(м³)", style: "tableHeader" },
+          { text: "Об'єм\n 15°C(м³)", style: "tableHeader" },
+          { text: "Густина\n(т/м³)", style: "tableHeader" },
+          { text: "Маса\n прод. (т)", style: "tableHeader" },
+          { text: "Маса\n ПФ (т)", style: "tableHeader" },
+          { text: "Маса\n заг (т)", style: "tableHeader" },
         ],
         // 2. Дані (map)
         ...data.map((row, index) => {
@@ -113,7 +124,7 @@ function buildTable(data: TankMeasurement[]): Content {
           const fillColor = index % 2 === 0 ? "#ffffff" : "#f4f6f6";
 
           return [
-            { text: row.name, style: "tankId", fillColor },
+            { text: row.name, style: "tableCell", fillColor },
             {
               text: row.timestamp ? formatDate(row.timestamp) : "-",
               style: "tableCell",
@@ -132,9 +143,14 @@ function buildTable(data: TankMeasurement[]): Content {
               fillColor,
             },
             {
-              text: row.observed_density
-                ? formatNum(row.observed_density, 3)
+              text: row.free_temperature
+                ? formatNum(row.free_temperature, 1)
                 : "-",
+              style: "tableCell",
+              fillColor,
+            },
+            {
+              text: row.pressure ? formatNum(row.pressure, 3) : "-",
               style: "tableCell",
               fillColor,
             },
@@ -146,13 +162,44 @@ function buildTable(data: TankMeasurement[]): Content {
               fillColor,
             },
             {
-              text: row.pressure ? formatNum(row.pressure, 3) : "-",
+              text: row.vapor_gross_observed_volume
+                ? formatNum(row.vapor_gross_observed_volume, 0)
+                : "-",
               style: "tableCell",
               fillColor,
             },
-            // Масу виділимо жирним, бо це часто головний показник
+            {
+              text: row.standard_gross_volume_at15_c
+                ? formatNum(row.standard_gross_volume_at15_c, 0)
+                : "-",
+              style: "tableCell",
+              fillColor,
+            },
+            {
+              text: row.observed_density
+                ? formatNum(row.observed_density, 3)
+                : "-",
+              style: "tableCell",
+              fillColor,
+            },
             {
               text: row.product_mass ? formatNum(row.product_mass, 0) : "-",
+              style: "tableCell",
+              bold: true,
+              fillColor,
+            },
+            {
+              text: row.vapor_gross_mass
+                ? formatNum(row.vapor_gross_mass, 0)
+                : "-",
+              style: "tableCell",
+              bold: true,
+              fillColor,
+            },
+            {
+              text: row.gas_product_mass
+                ? formatNum(row.gas_product_mass, 0)
+                : "-",
               style: "tableCell",
               bold: true,
               fillColor,
@@ -166,16 +213,17 @@ function buildTable(data: TankMeasurement[]): Content {
 }
 
 // Форматування дати у звичний формат
-function formatDate(date: string | Date): string {
+export function formatDate(date: string | Date): string {
   if (!date) return "-";
   const d = new Date(date);
   // Формат: 30.11 14:30
   return d.toLocaleString("uk-UA", {
-    year: "numeric",
+    year: "2-digit",
     month: "2-digit",
     day: "2-digit",
     hour: "2-digit",
     minute: "2-digit",
+    second: "2-digit",
   });
 }
 

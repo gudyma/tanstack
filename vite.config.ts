@@ -14,13 +14,6 @@ export default defineConfig(({ mode }) => {
   return {
     server: {
       port: 3000,
-      proxy: {
-        "/api": {
-          target: env.VITE_API_URL,
-          secure: false,
-          changeOrigin: true,
-        },
-      },
     },
     plugins: [
       tsConfigPaths(),

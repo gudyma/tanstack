@@ -1,14 +1,15 @@
+import { format } from "date-fns-tz";
 import { TDocumentDefinitions, Content } from "pdfmake/interfaces";
 
 // Interfaces (Same as before)
-interface ParamDiff {
+export interface ParamDiff {
   oldValue: number | null;
   newValue: number | null;
   delta: number | null;
   percentChange: number | null;
 }
 
-interface TankDiffReport {
+export interface TankDiffReport {
   tank_id: string;
   tank_name: string;
   timestampFrom: Date | string;
@@ -16,10 +17,7 @@ interface TankDiffReport {
   changes: Partial<Record<string, ParamDiff>>;
 }
 
-export const createDiffReportPdf = async (
-  reports: TankDiffReport[],
-  filename: string = "tank_diff_report.pdf",
-) => {
+export const createDiffReportPdf = async (reports: TankDiffReport[]) => {
   // 1. Dynamic Imports
   const pdfMakeModule = await import("pdfmake/build/pdfmake");
   const pdfFontsModule = await import("pdfmake/build/vfs_fonts");
@@ -37,7 +35,7 @@ export const createDiffReportPdf = async (
     content: [
       { text: "Звіт", style: "header" },
       {
-        text: `Згенеровано: ${new Date().toLocaleString()}`,
+        text: `Згенеровано: ${formatDate(new Date())}`,
         style: "subheader",
       },
       { text: "\n" },
@@ -62,11 +60,22 @@ export const createDiffReportPdf = async (
       diffNegative: { color: "red", bold: true },
     },
     defaultStyle: { fontSize: 10 },
+    // Колонтитули (Footer) з номерами сторінок
+    footer: function (currentPage, pageCount) {
+      return {
+        text: `Сторінка ${currentPage} з ${pageCount}`,
+        alignment: "center",
+        fontSize: 8,
+        margin: [0, 10, 0, 0],
+      };
+    },
   };
 
   // 2. Generate and Download in Browser (The Fix)
   // Instead of fs.createWriteStream, we use .download()
-  pdfMake.createPdf(docDefinition).download(filename);
+  pdfMake
+    .createPdf(docDefinition)
+    .download(`base_report_${format(new Date(), "dd.MM.yy_HH-mm")}.pdf`);
 };
 
 // ==========================================
@@ -84,10 +93,13 @@ function buildReportContent(reports: TankDiffReport[]): Content[] {
     return content;
   }
 
-  reports.forEach((report) => {
-    content.push({ text: `Резервуар: ${report.tank_name}`, style: "tankHeader" });
+  reports.forEach((report, index) => {
     content.push({
-      text: `Порівняння між датами: ${formatDate(report.timestampFrom)} → ${formatDate(report.timestampTo)}`,
+      text: `Резервуар: ${report.tank_name}`,
+      style: "tankHeader",
+    });
+    content.push({
+      text: `Порівняння між датами: ${formatDate(report.timestampFrom)} та ${formatDate(report.timestampTo)}`,
       fontSize: 9,
       margin: [0, 0, 0, 5],
     });
@@ -129,6 +141,8 @@ function buildReportContent(reports: TankDiffReport[]): Content[] {
         body: tableBody,
       },
       layout: "lightHorizontalLines",
+      pageBreak:
+        index % 2 === 0 || index === reports.length - 1 ? undefined : "after",
     });
   });
 
@@ -142,6 +156,7 @@ function formatDate(date: string | Date): string {
     day: "2-digit",
     hour: "2-digit",
     minute: "2-digit",
+    second: "2-digit",
   });
 }
 
