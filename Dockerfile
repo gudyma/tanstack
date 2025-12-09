@@ -1,37 +1,46 @@
-# ==========================
-# Stage 1: Build Stage
-# ==========================
-FROM oven/bun:latest AS builder
-
-# Set working directory
+###############################
+# 1) Build stage (Node + Vite)
+###############################
+FROM node:24-slim AS build
 WORKDIR /app
 
-# Copy only dependency files first for caching
-COPY package.json tsconfig.json intlayer.config.ts vite.config.ts ./
+# 1. Install deps (dev + prod) using npm
+#    We use npm here even though you use Bun locally – package.json is standard.
+COPY package.json ./
+RUN npm install
 
-# Install dependencies using Bun
-RUN bun install --production --verbose
-
-# Copy source code
+# 2. Copy the rest of the source
 COPY . .
 
-# Build TypeScript project
-RUN bun build --compile --minify --outfile mira-app
+# 3. Build TanStack Start + Intlayer with Vite
+#    Call Vite directly with node to avoid any npx/path/permission weirdness.
+RUN node node_modules/vite/bin/vite.js build
 
-# ==========================
-# Stage 2: Runtime Stage
-# ==========================
-FROM gcr.io/distroless/base-debian12:nonroot AS runner
+# 4. Drop devDependencies so only production deps remain
+RUN npm prune --omit=dev
 
-ENV NODE_ENV=production
 
-ARG BUILD_APP_PORT=3000
-ENV APP_PORT=${BUILD_APP_PORT}
-EXPOSE ${APP_PORT}
+###############################
+# 2) Minimal runtime (Bun distroless)
+###############################
+FROM oven/bun:distroless
 
 WORKDIR /app
 
-# Copy the compiled executable from the build stage
-COPY --from=builder /app/mira-app .
+ENV NODE_ENV=production \
+    PORT=3000
 
-ENTRYPOINT ["./mira-app"]
+# Built Nitro/TanStack output
+COPY --from=build /app/.output ./.output
+
+# Runtime dependencies (pg, mqtt, etc.)
+COPY --from=build /app/node_modules ./node_modules
+
+# (Optional) just for metadata/debugging
+COPY --from=build /app/package.json ./package.json
+
+EXPOSE 3000
+
+# oven/bun:distroless has ENTRYPOINT ["/usr/local/bin/bun"],
+# so this runs: bun .output/server/index.mjs
+CMD [".output/server/index.mjs"]
