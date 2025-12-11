@@ -12,7 +12,6 @@ export const getTanks = createServerFn().handler(async () => {
     return await res.json();
   } catch (error) {
     console.log(`Error loading /api/tanks: ${error}`);
+    return [];
   }
-
-  return new Date().toISOString();
 });
