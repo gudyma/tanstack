@@ -275,7 +275,7 @@ export default function EditableTable() {
     Map<string, z.ZodIssue[]>
   >(new Map());
 
-  const [enterDensity15, setEnterDensity15] = useState(false);
+  const [enterDensity15, setEnterDensity15] = useState(true);
 
   const columns = useMemo(() => {
     const uiType = import.meta.env.VITE_UI_TYPE || 3;

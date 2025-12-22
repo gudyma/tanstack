@@ -102,7 +102,7 @@
   "build": {
     "importMode": "static",
     "traversePattern": [
-      "**/*.{tsx,ts,js,mjs,cjs,jsx,mjx,cjx,vue,svelte,svte}",
+      "**/*.{js,ts,mjs,cjs,jsx,tsx,mjx,cjx,vue,svelte,svte}",
       "!**/node_modules/**"
     ],
     "outputFormat": [
@@ -135,7 +135,7 @@
   },
   "metadata": {
     "name": "Intlayer",
-    "version": "7.4.0",
+    "version": "7.3.13",
     "doc": "https://intlayer.org/docs"
   }
 }

@@ -424,23 +424,6 @@ export default function HooksApp({
           // dash: [10, 5],
           band: true,
         },
-        {
-          show: true,
-          scale: "secondary",
-          spanGaps: false,
-          label: labely2,
-          value: (self, rawValue) => {
-            if (!rawValue) {
-              return "--";
-            }
-            return `${rawValue?.toFixed(2)}`;
-          },
-          stroke: "#f54a00",
-          width: 1,
-          // fill: "rgb(85, 122, 70,0.3)",
-          // dash: [12, 6],
-          band: true,
-        },
       ],
       plugins: [wheelZoomPlugin(0.75), touchZoomPlugin()],
       scales: {

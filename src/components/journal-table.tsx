@@ -126,18 +126,20 @@ export default function JournalTable({
     debugTable: false,
   });
 
-  const baseUrl = import.meta.env.VITE_API_URL || "http://127.0.0.1:5000";
+  const baseURL = process.env.API_URL || "http://localhost:5000";
 
   useEffect(() => {
     if (tank) {
-      fetch(`/api/tankDataCount?tank=${tank}&start=${startDate}&end=${endDate}`)
+      fetch(
+        `${baseURL}/api/tankDataCount?tank=${tank}&start=${startDate}&end=${endDate}`,
+      )
         .then((res) => {
           if (!res.ok) throw new Error("Failed to fetch count");
           return res.json();
         })
         .then((cres) => {
-          const count = cres.count;
-          const query = `/api/tankData?tank=${tank}&start=${startDate}&end=${endDate}&limit=${pageSize}&offset=${pageSize * pageIndex}`;
+          const count = cres;
+          const query = `${baseURL}/api/tankData?tank=${tank}&start=${startDate}&end=${endDate}&limit=${pageSize}&offset=${pageSize * pageIndex}`;
           return fetch(query)
             .then((res) => {
               if (!res.ok) throw new Error("Failed to fetch tank data");

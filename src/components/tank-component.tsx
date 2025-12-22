@@ -52,7 +52,9 @@ export default function TankComponent({
       : "-",
   ];
   const bottomValues: any[] = [
-    values?.pressure ? Number(values?.pressure).toFixed(3) + " bar" : "-",
+    values?.pressure || values?.pressure === 0
+      ? Number(values.pressure).toFixed(3) + " bar"
+      : "-",
     values?.total_observed_volume
       ? Number(values?.total_observed_volume).toFixed(3) + " м³"
       : "-",
@@ -71,8 +73,6 @@ export default function TankComponent({
     { temp: values?.t3, height: values?.th3 },
     { temp: values?.t4, height: values?.th4 },
     { temp: values?.t5, height: values?.th5 },
-    { temp: values?.t6, height: values?.th6 },
-    { temp: values?.t7, height: values?.th7 },
   ].reduce((acc: any[], marker) => {
     const numericTemp = Number(marker.temp);
     const numericHeight = Number(marker.height);

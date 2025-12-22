@@ -100,7 +100,7 @@ function RouteComponent() {
   const [secondParameterData, setSecondParameterData] = useState<
     TankParameterData[]
   >([]);
-
+  const baseURL = process.env.API_URL || "http://localhost:5000";
   function graphParametersChange() {
     if (tank && parameters) {
       toast.info("Отримую дані");
@@ -108,7 +108,7 @@ function RouteComponent() {
       try {
         if (parameters[0]?.value) {
           fetch(
-            `/api/tankDataByParameter?tank=${tank}&start=${startDate.toISOString()}&end=${endDate.toISOString()}&parameter=${parameters[0]?.value}`,
+            `${baseURL}/api/tankDataByParameter?tank=${tank}&start=${startDate.toISOString()}&end=${endDate.toISOString()}&parameter=${parameters[0]?.value}`,
           )
             .then((res) => (res.ok ? res.json() : Promise.reject()))
             .then((rows) => {
@@ -118,7 +118,7 @@ function RouteComponent() {
         }
         if (parameters[1]?.value) {
           fetch(
-            `/api/tankDataByParameter?tank=${tank}&start=${startDate.toISOString()}&end=${endDate.toISOString()}&parameter=${parameters[1]?.value}`,
+            `${baseURL}/api/tankDataByParameter?tank=${tank}&start=${startDate.toISOString()}&end=${endDate.toISOString()}&parameter=${parameters[1]?.value}`,
           )
             .then((res) => (res.ok ? res.json() : Promise.reject()))
             .then((rows: TankParameterData[]) => {
@@ -227,7 +227,7 @@ function RouteComponent() {
                 <div className="flex h-auto w-full flex-col justify-between gap-2  md:flex-row md:gap-0">
                   <div className="w-full flex-col items-center px-4">
                     <MultipleSelector
-                      maxSelected={2}
+                      maxSelected={1}
                       onMaxSelected={(maxLimit) => {
                         toast.warning("Parameters select", {
                           description: `Ви обрали максимальну кількість: ${maxLimit}`,
@@ -238,7 +238,7 @@ function RouteComponent() {
                         setParameters(value);
                       }}
                       defaultOptions={OPTIONS}
-                      placeholder="Оберіть два параметри"
+                      placeholder="Оберіть параметр"
                       emptyIndicator={
                         <p className="text-center text-gray-600 text-lg leading-10 dark:text-gray-400">
                           no results found.
@@ -258,10 +258,8 @@ function RouteComponent() {
                     y1={firstParameterData?.map((item) =>
                       Number(item.parameter),
                     )}
-                    labely2={secondParameterName ?? ""}
-                    y2={secondParameterData?.map((item) =>
-                      Number(item.parameter),
-                    )}
+                    labely2={""}
+                    y2={[]}
                   />
                 </div>
               </CardContent>
