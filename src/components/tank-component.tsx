@@ -53,8 +53,8 @@ export default function TankComponent({
   ];
   const bottomValues: any[] = [
     values?.pressure ? Number(values?.pressure).toFixed(3) + " bar" : "-",
-    values?.gross_observed_volume
-      ? Number(values?.gross_observed_volume).toFixed(3) + " м³"
+    values?.total_observed_volume
+      ? Number(values?.total_observed_volume).toFixed(3) + " м³"
       : "-",
     values?.product_mass ? Number(values?.product_mass).toFixed(4) + " т" : "-",
     values?.vapor_gross_mass
@@ -102,7 +102,10 @@ export default function TankComponent({
     "absolute top-1/2 transform -translate-y-1/2 -translate-x-1/2 left-1/2 w-24 md:w-36 h-auto justify-center": true,
     "rotate-180 -translate-y-2/5":
       values?.product_speed && values?.product_speed < 0,
-    hidden: values?.product_speed === undefined || values?.product_speed === 0,
+    hidden:
+      values?.product_speed === undefined ||
+      values?.product_speed === 0 ||
+      values?.product_speed === null,
   });
 
   useEffect(() => {
@@ -112,7 +115,9 @@ export default function TankComponent({
   const speedClass = cn({
     "absolute top-1/2 transform -translate-y-1/5 left-0 w-full h-auto justify-center": true,
     hidden:
-      values?.product_speed === undefined || values?.product_speed === 0.0,
+      values?.product_speed === undefined ||
+      values?.product_speed === 0.0 ||
+      values?.product_speed === null,
   });
 
   return (

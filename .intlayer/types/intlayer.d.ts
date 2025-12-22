@@ -1,23 +1,23 @@
 import "intlayer";
-import _AKzyeyauz2tt8DW2IgYY from './editable-table.ts';
-import _nJGggRTPrzcIEOZP709Y from './indexContent.ts';
-import _HWJHzf6ZoaqSHvk0hYYy from './journalContent.ts';
-import _v5JGTxdqpkE2cOSRqt39 from './locale-switcher.ts';
-import _ww6SUAZ1umJaw3BxP6J7 from './more-drawer.ts';
-import _oacKsYxWPXTJnMBSKqLH from './navigation-dock.ts';
-import _vP0afyWqddOflheNO7Jh from './tableContent.ts';
-import _QfWZwMDGYuWoR46EG6Cn from './tankContent.ts';
+import _5OEipsnbHfn4asAOfnDP from './editable-table.ts';
+import _WOQW0epicAQsU5Q2zdJq from './indexContent.ts';
+import _1wfkZ2ulqHIpGsvx3Gr7 from './journalContent.ts';
+import _l5ULnjQfuv99aNJHOt2Z from './locale-switcher.ts';
+import _1ozkrDX7CIXSZdgvLEio from './more-drawer.ts';
+import _eNRCAj1akUSLlQhoU1UN from './navigation-dock.ts';
+import _CjmpOhbQXuA04s0ufbuC from './tableContent.ts';
+import _euVDg9OLnUzKfv9uFgjw from './tankContent.ts';
 
 declare module 'intlayer' {
   interface __DictionaryRegistry {
-    "editable-table": typeof _AKzyeyauz2tt8DW2IgYY;
-    "indexContent": typeof _nJGggRTPrzcIEOZP709Y;
-    "journalContent": typeof _HWJHzf6ZoaqSHvk0hYYy;
-    "locale-switcher": typeof _v5JGTxdqpkE2cOSRqt39;
-    "more-drawer": typeof _ww6SUAZ1umJaw3BxP6J7;
-    "navigation-dock": typeof _oacKsYxWPXTJnMBSKqLH;
-    "tableContent": typeof _vP0afyWqddOflheNO7Jh;
-    "tankContent": typeof _QfWZwMDGYuWoR46EG6Cn;
+    "editable-table": typeof _5OEipsnbHfn4asAOfnDP;
+    "indexContent": typeof _WOQW0epicAQsU5Q2zdJq;
+    "journalContent": typeof _1wfkZ2ulqHIpGsvx3Gr7;
+    "locale-switcher": typeof _l5ULnjQfuv99aNJHOt2Z;
+    "more-drawer": typeof _1ozkrDX7CIXSZdgvLEio;
+    "navigation-dock": typeof _eNRCAj1akUSLlQhoU1UN;
+    "tableContent": typeof _CjmpOhbQXuA04s0ufbuC;
+    "tankContent": typeof _euVDg9OLnUzKfv9uFgjw;
   }
 
   interface __DeclaredLocalesRegistry {
