@@ -25,7 +25,7 @@ const COMPARABLE_KEYS: { key: keyof TankMeasurement; label: string }[] = [
     label: "Об'єм продукту при 20°C, м3",
   },
 
-  { key: "observed_density", label: "Густота продукту, кг/м3" },
+  { key: "observed_density", label: "Густина продукту, кг/м3" },
 
   {
     key: "standard_gross_mass_in_vacuume",

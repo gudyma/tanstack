@@ -70,6 +70,7 @@ export interface TankMeasurement {
   gost_standard_gross_volume_at20_C?: number | null;
 
   observed_density?: number | null;
+  product_standard_density?: number | null;
   gost_observed_density?: number | null;
 
   standard_gross_mass_in_vacuume?: number | null;

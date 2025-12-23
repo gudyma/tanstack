@@ -150,27 +150,27 @@ function buildTable(data: TankMeasurement[]): Content {
               fillColor,
             },
             {
-              text: row.pressure ? formatNum(row.pressure, 3) : "-",
+              text: row.pressure ? formatNum(row.pressure, 4) : "-",
               style: "tableCell",
               fillColor,
             },
             {
               text: row.gross_observed_volume
-                ? formatNum(row.gross_observed_volume, 0)
+                ? formatNum(row.gross_observed_volume, 4)
                 : "-",
               style: "tableCell",
               fillColor,
             },
             {
               text: row.vapor_gross_observed_volume
-                ? formatNum(row.vapor_gross_observed_volume, 0)
+                ? formatNum(row.vapor_gross_observed_volume, 4)
                 : "-",
               style: "tableCell",
               fillColor,
             },
             {
               text: row.standard_gross_volume_at15_c
-                ? formatNum(row.standard_gross_volume_at15_c, 0)
+                ? formatNum(row.standard_gross_volume_at15_c, 4)
                 : "-",
               style: "tableCell",
               fillColor,
@@ -183,14 +183,14 @@ function buildTable(data: TankMeasurement[]): Content {
               fillColor,
             },
             {
-              text: row.product_mass ? formatNum(row.product_mass, 0) : "-",
+              text: row.product_mass ? formatNum(row.product_mass, 4) : "-",
               style: "tableCell",
               bold: true,
               fillColor,
             },
             {
               text: row.vapor_gross_mass
-                ? formatNum(row.vapor_gross_mass, 0)
+                ? formatNum(row.vapor_gross_mass, 4)
                 : "-",
               style: "tableCell",
               bold: true,
@@ -198,7 +198,7 @@ function buildTable(data: TankMeasurement[]): Content {
             },
             {
               text: row.gas_product_mass
-                ? formatNum(row.gas_product_mass, 0)
+                ? formatNum(row.gas_product_mass, 4)
                 : "-",
               style: "tableCell",
               bold: true,

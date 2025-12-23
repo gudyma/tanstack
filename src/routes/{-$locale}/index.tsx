@@ -43,9 +43,10 @@ function RouteComponent() {
     (acc, m) => {
       acc.ObservedVolumeSum += m.total_observed_volume ?? 0;
       acc.FullVolumeSum += m.max_graduration_volume ?? 0;
-      acc.ProductMassSum += m.product_mass ?? 0;
+      acc.ProductMassSum += (m.product_mass ?? 0) + (m.vapor_gross_mass ?? 0);
       acc.FullProductMassSum +=
-        (m.max_graduration_volume ?? 0) * (m.observed_density ?? 0);
+        ((m.max_graduration_volume ?? 0) * (m.product_standard_density ?? 0)) /
+        1000.0;
       acc.FreeVolumeSum += m.vapor_gross_observed_volume ?? 0;
       acc.VolumeSpeedSum += m.product_speed ?? 0;
       acc.LiqMassSum += m.vapor_gross_mass ?? 0;

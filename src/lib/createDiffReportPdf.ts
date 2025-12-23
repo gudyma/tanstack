@@ -162,7 +162,7 @@ function formatDate(date: string | Date): string {
 
 function formatNumber(num: number | null, showSign: boolean = false): string {
   if (num === null || num === undefined) return "-";
-  const str = num.toFixed(2);
+  const str = num.toFixed(4);
   return showSign && num > 0 ? `+${str}` : str;
 }
 

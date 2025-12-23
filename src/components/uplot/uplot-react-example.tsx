@@ -370,6 +370,7 @@ export default function HooksApp({
         {
           stroke: axisColor,
           scale: "main",
+          size: 100,
           grid: {
             show: true,
             stroke: gridColor,
