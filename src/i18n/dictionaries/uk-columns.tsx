@@ -108,7 +108,7 @@ export const journalColumns: ColumnDef<TankInfoExtendedWithGrouping>[] = [
     minSize: 65,
   },
   {
-    accessorKey: "standard_gross_volume_at15c",
+    accessorKey: "standard_gross_volume_at15_c",
     id: "ProductVolume15C_m3",
     enableGrouping: false,
     aggregationFn: "sum",

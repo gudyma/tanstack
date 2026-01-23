@@ -107,6 +107,8 @@ function TankDrawerElements({ values }: TankDrawerProps) {
         const fieldValue = value[field];
         if (fieldValue !== null && fieldValue !== undefined) {
           url.searchParams.set(field, String(fieldValue));
+        } else {
+          url.searchParams.set(field, "0");
         }
       });
 
@@ -119,6 +121,7 @@ function TankDrawerElements({ values }: TankDrawerProps) {
       if (savedVolume !== null && savedVolume !== undefined) {
         url.searchParams.set("saved_volume", String(savedVolume));
       }
+      console.log(url);
 
       try {
         const response = await fetch(url, { method: "POST" });
@@ -134,10 +137,10 @@ function TankDrawerElements({ values }: TankDrawerProps) {
   });
 
   const [volumeThresholdEnabled, setVolumeThresholdEnabled] = useState(
-    values.volume_threshold != null,
+    values.volume_threshold != null && values.volume_threshold > 0,
   );
   const [massThresholdEnabled, setMassThresholdEnabled] = useState(
-    values.mass_threshold != null,
+    values.mass_threshold != null && values.mass_threshold > 0,
   );
   const handleVolumeToggle = (enabled: boolean) => {
     setVolumeThresholdEnabled(enabled);

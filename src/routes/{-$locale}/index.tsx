@@ -48,7 +48,7 @@ function RouteComponent() {
         ((m.max_graduration_volume ?? 0) * (m.product_standard_density ?? 0)) /
         1000.0;
       acc.FreeVolumeSum += m.vapor_gross_observed_volume ?? 0;
-      acc.VolumeSpeedSum += m.product_speed ?? 0;
+      acc.VolumeSpeedSum += m.product_speed_volume ?? 0;
       acc.LiqMassSum += m.vapor_gross_mass ?? 0;
       return acc;
     },
