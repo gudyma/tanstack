@@ -26,3 +26,6 @@ pnpm-debug.log*
 
 .tanstack/
 .output/
+
+# Intlayer
+.intlayer

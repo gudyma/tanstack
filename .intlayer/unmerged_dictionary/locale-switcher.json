@@ -10,7 +10,6 @@
       },
       "localeSwitcherLabel": {
         "fields": [
-          "language",
           "language"
         ],
         "nodeType": "insertion",

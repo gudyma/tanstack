@@ -7,7 +7,6 @@
         "languageListLabel": "Cписок мов",
         "localeSwitcherLabel": {
           "fields": [
-            "language",
             "language"
           ],
           "nodeType": "insertion",
@@ -18,7 +17,6 @@
         "languageListLabel": "Language list",
         "localeSwitcherLabel": {
           "fields": [
-            "language",
             "language"
           ],
           "nodeType": "insertion",

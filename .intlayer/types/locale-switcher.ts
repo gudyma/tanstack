@@ -8,7 +8,6 @@ export default {
         "languageListLabel": "Cписок мов",
         "localeSwitcherLabel": {
           "fields": [
-            "language",
             "language"
           ],
           "nodeType": "insertion",
@@ -19,7 +18,6 @@ export default {
         "languageListLabel": "Language list",
         "localeSwitcherLabel": {
           "fields": [
-            "language",
             "language"
           ],
           "nodeType": "insertion",
