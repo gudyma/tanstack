@@ -12,6 +12,11 @@ const moreDrawerContent = {
       uk: "Звіти",
     }),
 
+    MolarMassHeader: t({
+      en: "Molar mass caluclator",
+      uk: "Калькулятор молярної маси",
+    }),
+
     AdvancedSettingHeader: t({
       en: "Advanced settings",
       uk: "Додаткові налаштування",

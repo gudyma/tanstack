@@ -33,10 +33,7 @@ type TanksContentApiRow = {
   density_at15: number | null;
   density: number | null;
   product_temperature: number | null;
-  ethane_percent: number | null;
-  propane_percent: number | null;
-  butane_percent: number | null;
-  pentane_percent: number | null;
+  molar_mass: number | null;
 };
 
 type TableRowData = {
@@ -46,10 +43,7 @@ type TableRowData = {
   density_at15: number | null;
   density: number | null;
   temperature: number | null;
-  ethane: number | null;
-  propane: number | null;
-  butane: number | null;
-  pentane: number | null;
+  molar_mass: number | null;
 };
 
 type EditableColumnKey = keyof TableRowData;
@@ -115,46 +109,14 @@ const rowSchemaBase = z.object({
       .nullable(),
   ),
 
-  ethane: z.preprocess(
+  molar_mass: z.preprocess(
     (val) => (typeof val === "string" ? Number(val) : val),
     z
       .number()
-      .min(0, "Значення частки газу етан має бути більше 0")
-      .max(100, "Значення частки газу етан має бути менше 100"),
-  ),
-
-  propane: z.preprocess(
-    (val) => (typeof val === "string" ? Number(val) : val),
-    z
-      .number()
-      .min(0, "Значення частки газу пропан має бути більше 0")
-      .max(100, "Значення частки газу пропан має бути менше 100"),
-  ),
-
-  butane: z.preprocess(
-    (val) => (typeof val === "string" ? Number(val) : val),
-    z
-      .number()
-      .min(0, "Значення частки газу бутан має бути більше 0")
-      .max(100, "Значення частки газу бутан має бути менше 100"),
-  ),
-
-  pentane: z.preprocess(
-    (val) => (typeof val === "string" ? Number(val) : val),
-    z
-      .number()
-      .min(0, "Значення частки газу пентан має бути більше 0")
-      .max(100, "Значення частки газу пентан має бути менше 100"),
+      .min(2, "Значення молярної маси газу має бути більше 2")
+      .max(143, "Значення молярної маси газу має бути менше 143"),
   ),
 });
-
-const rowSchema = rowSchemaBase.refine(
-  (data) => {
-    const sum = data.ethane + data.propane + data.butane + data.pentane;
-    return Math.abs(sum - 100) < 0.01;
-  },
-  { message: "Сума всіх часток газу маж дорівнювати 100", path: ["ethane"] },
-);
 
 const EditableCell = ({ getValue, row, column, table }: EditableCellProps) => {
   const columnKey = column.id as keyof typeof rowSchemaBase.shape;
@@ -254,10 +216,7 @@ const mapApiRowToTableRow = (row: TanksContentApiRow): TableRowData => ({
   density_at15: row.density_at15 ? row.density_at15 : null,
   density: row.density ? row.density : null,
   temperature: row.product_temperature ? row.product_temperature : null,
-  ethane: Number(row.ethane_percent ?? 0),
-  propane: Number(row.propane_percent ?? 0),
-  butane: Number(row.butane_percent ?? 0),
-  pentane: Number(row.pentane_percent ?? 0),
+  molar_mass: Number(row.molar_mass ?? null),
 });
 
 export default function EditableTable() {
@@ -310,14 +269,8 @@ export default function EditableTable() {
     ];
 
     const gasCols = [
-      columnHelper.accessor("ethane", { header: "ethane", cell: EditableCell }),
-      columnHelper.accessor("propane", {
-        header: "propane",
-        cell: EditableCell,
-      }),
-      columnHelper.accessor("butane", { header: "butane", cell: EditableCell }),
-      columnHelper.accessor("pentane", {
-        header: "pentane",
+      columnHelper.accessor("molar_mass", {
+        header: "Молярна маса",
         cell: EditableCell,
       }),
     ];
@@ -333,7 +286,9 @@ export default function EditableTable() {
     try {
       const res = await fetch(baseUrl + "/api/tanksContentInfo");
       if (!res.ok) throw new Error("Failed to fetch tank content info");
+
       const rows: TanksContentApiRow[] = await res.json();
+      console.log(rows);
       const mapped = rows.map(mapApiRowToTableRow);
       setData(mapped);
       setOriginalData(mapped.map((row) => ({ ...row })));
@@ -356,7 +311,7 @@ export default function EditableTable() {
 
   const validateRow = (row: TableRowData) => {
     try {
-      rowSchema.parse(row);
+      rowSchemaBase.parse(row);
       setValidationErrors((prev) => {
         const newMap = new Map(prev);
         newMap.delete(row.id);
@@ -515,13 +470,12 @@ export default function EditableTable() {
           temperature: rowChange.current.temperature
             ? parseNumberValue(rowChange.current.temperature)
             : null,
-          propane: parseNumberValue(rowChange.current.propane ?? 0),
-          ethane: parseNumberValue(rowChange.current.ethane ?? 0),
-          butane: parseNumberValue(rowChange.current.butane ?? 0),
-          pentane: parseNumberValue(rowChange.current.pentane ?? 0),
+          molar_mass: rowChange.current.molar_mass
+            ? parseNumberValue(rowChange.current.molar_mass)
+            : null,
         };
 
-        const requestUrl = new URL("/api/writeDensity", baseUrl);
+        const requestUrl = new URL("/api/writeDensityWithMolar", baseUrl);
         Object.entries(payload).forEach(([key, value]) => {
           if (value !== null && value !== undefined) {
             requestUrl.searchParams.set(key, String(value));

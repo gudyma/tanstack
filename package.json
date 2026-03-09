@@ -11,7 +11,7 @@
     "*.css"
   ],
   "scripts": {
-    "dev": "bun dev",
+    "dev": "bun vite dev",
     "build": "bun vite build",
     "start": "bun run -b .output/server/index.mjs"
   },

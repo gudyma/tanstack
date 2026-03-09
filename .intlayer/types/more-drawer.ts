@@ -7,12 +7,14 @@ export default {
       "uk": {
         "DensitySettingHeader": "Налаштування густини продукту",
         "ReportHeader": "Звіти",
+        "MolarMassHeader": "Калькулятор молярної маси",
         "AdvancedSettingHeader": "Додаткові налаштування",
         "ChooseLanguageLabel": "Оберіть мову"
       },
       "en": {
         "DensitySettingHeader": "Density settings",
         "ReportHeader": "Reports",
+        "MolarMassHeader": "Molar mass caluclator",
         "AdvancedSettingHeader": "Advanced settings",
         "ChooseLanguageLabel": "Choose language"
       }

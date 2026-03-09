@@ -15,6 +15,13 @@
           "uk": "Звіти"
         }
       },
+      "MolarMassHeader": {
+        "nodeType": "translation",
+        "translation": {
+          "en": "Molar mass caluclator",
+          "uk": "Калькулятор молярної маси"
+        }
+      },
       "AdvancedSettingHeader": {
         "nodeType": "translation",
         "translation": {
