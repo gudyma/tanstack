@@ -38,7 +38,8 @@ function RouteComponent() {
   const loaderData = Route.useLoaderData();
 
   const content = useIntlayer("tankContent");
-  const [tanks, setTanks] = useState<TankMeasurement[]>();
+  const [tanks, setTanks] = useState<TankMeasurement[]>(loaderData);
+
   const sumValues = tanks?.reduce(
     (acc, m) => {
       acc.ObservedVolumeSum += m.total_observed_volume ?? 0;

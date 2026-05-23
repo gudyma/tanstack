@@ -17,13 +17,9 @@ export interface TankParameterData {
   timestamp: Date;
 }
 
-export interface TankMeasurement {
+export interface TankMeasurement extends Tank {
   id: string;
-  value?: string | number | null;
   name?: string | null;
-  label?: string | null;
-  park?: string | null;
-  park_id?: string | null;
   product?: string | null;
   product_id?: string | number | null;
   enabled?: boolean | null;
