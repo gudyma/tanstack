@@ -33,7 +33,7 @@
       ".content.tsx",
       ".content.jsx"
     ],
-    "baseDir": "D:\\tanstack",
+    "baseDir": "D:\\digital\\tanstack",
     "excludedPath": [
       "**/node_modules/**",
       "**/dist/**",
@@ -48,18 +48,18 @@
     ],
     "watch": true,
     "contentDir": [
-      "D:\\tanstack"
+      "D:\\digital\\tanstack"
     ],
-    "moduleAugmentationDir": "D:\\tanstack\\.intlayer\\types",
-    "unmergedDictionariesDir": "D:\\tanstack\\.intlayer\\unmerged_dictionary",
-    "remoteDictionariesDir": "D:\\tanstack\\.intlayer\\remote_dictionary",
-    "dictionariesDir": "D:\\tanstack\\.intlayer\\dictionary",
-    "dynamicDictionariesDir": "D:\\tanstack\\.intlayer\\dynamic_dictionary",
-    "fetchDictionariesDir": "D:\\tanstack\\.intlayer\\fetch_dictionary",
-    "typesDir": "D:\\tanstack\\.intlayer\\types",
-    "mainDir": "D:\\tanstack\\.intlayer\\main",
-    "configDir": "D:\\tanstack\\.intlayer\\config",
-    "cacheDir": "D:\\tanstack\\.intlayer\\cache",
+    "moduleAugmentationDir": "D:\\digital\\tanstack\\.intlayer\\types",
+    "unmergedDictionariesDir": "D:\\digital\\tanstack\\.intlayer\\unmerged_dictionary",
+    "remoteDictionariesDir": "D:\\digital\\tanstack\\.intlayer\\remote_dictionary",
+    "dictionariesDir": "D:\\digital\\tanstack\\.intlayer\\dictionary",
+    "dynamicDictionariesDir": "D:\\digital\\tanstack\\.intlayer\\dynamic_dictionary",
+    "fetchDictionariesDir": "D:\\digital\\tanstack\\.intlayer\\fetch_dictionary",
+    "typesDir": "D:\\digital\\tanstack\\.intlayer\\types",
+    "mainDir": "D:\\digital\\tanstack\\.intlayer\\main",
+    "configDir": "D:\\digital\\tanstack\\.intlayer\\config",
+    "cacheDir": "D:\\digital\\tanstack\\.intlayer\\cache",
     "watchedFilesPattern": [
       "/**/*.content.ts",
       "/**/*.content.js",
@@ -74,19 +74,19 @@
       "/**/*.content.jsx"
     ],
     "watchedFilesPatternWithPath": [
-      "D:/tanstack/**/*.content.ts",
-      "D:/tanstack/**/*.content.js",
-      "D:/tanstack/**/*.content.cjs",
-      "D:/tanstack/**/*.content.cjx",
-      "D:/tanstack/**/*.content.mjs",
-      "D:/tanstack/**/*.content.mjx",
-      "D:/tanstack/**/*.content.json",
-      "D:/tanstack/**/*.content.json5",
-      "D:/tanstack/**/*.content.jsonc",
-      "D:/tanstack/**/*.content.tsx",
-      "D:/tanstack/**/*.content.jsx"
+      "D:/digital/tanstack/**/*.content.ts",
+      "D:/digital/tanstack/**/*.content.js",
+      "D:/digital/tanstack/**/*.content.cjs",
+      "D:/digital/tanstack/**/*.content.cjx",
+      "D:/digital/tanstack/**/*.content.mjs",
+      "D:/digital/tanstack/**/*.content.mjx",
+      "D:/digital/tanstack/**/*.content.json",
+      "D:/digital/tanstack/**/*.content.json5",
+      "D:/digital/tanstack/**/*.content.jsonc",
+      "D:/digital/tanstack/**/*.content.tsx",
+      "D:/digital/tanstack/**/*.content.jsx"
     ],
-    "outputFilesPatternWithPath": "D:/tanstack/.intlayer/dictionary/**/*.json"
+    "outputFilesPatternWithPath": "D:/digital/tanstack/.intlayer/dictionary/**/*.json"
   },
   "editor": {
     "applicationURL": "",

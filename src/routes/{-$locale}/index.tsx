@@ -44,21 +44,24 @@ function RouteComponent() {
     (acc, m) => {
       acc.ObservedVolumeSum += m.total_observed_volume ?? 0;
       acc.FullVolumeSum += m.max_graduration_volume ?? 0;
-      acc.ProductMassSum += (m.product_mass ?? 0) + (m.vapor_gross_mass ?? 0);
+      acc.CombinedProductMassSum +=
+        (m.product_mass ?? 0) + (m.vapor_gross_mass ?? 0);
+      acc.ProductMassSum += m.product_mass ?? 0;
       acc.FullProductMassSum +=
         ((m.max_graduration_volume ?? 0) * (m.product_standard_density ?? 0)) /
         1000.0;
       acc.FreeVolumeSum += m.vapor_gross_observed_volume ?? 0;
       acc.VolumeSpeedSum += m.product_speed_volume ?? 0;
-      acc.LiqMassSum += m.vapor_gross_mass ?? 0;
+      acc.VaporMassSum += m.vapor_gross_mass ?? 0;
       return acc;
     },
     {
       ObservedVolumeSum: 0,
       FullVolumeSum: 0,
+      CombinedProductMassSum: 0,
       ProductMassSum: 0,
       FullProductMassSum: 0,
-      LiqMassSum: 0,
+      VaporMassSum: 0,
       FreeVolumeSum: 0,
       VolumeSpeedSum: 0,
     },
@@ -134,7 +137,7 @@ function RouteComponent() {
             label={`${
               timeDataUpdated ? format(timeDataUpdated, "HH:mm:ss dd.MM") : "-"
             } : Маса `}
-            valueLabel={`${sumValues?.ProductMassSum.toFixed(3) ?? "-"} of ${sumValues?.FullProductMassSum?.toFixed(3) ?? "-"} т`}
+            valueLabel={`${sumValues?.ProductMassSum.toFixed(2) ?? "-"}/${sumValues?.CombinedProductMassSum.toFixed(2) ?? "-"}* of ${sumValues?.FullProductMassSum?.toFixed(2) ?? "-"} т`}
             size="sm"
             color="var(--chart-2)"
             className=""
@@ -142,7 +145,8 @@ function RouteComponent() {
           <div className="flex flex-row w-full justify-between text-sm">
             <div>
               {" "}
-              М<sub>пф</sub>:{` ${sumValues?.LiqMassSum?.toFixed(3) ?? "-"}  т`}
+              М<sub>пф</sub>:
+              {` ${sumValues?.VaporMassSum?.toFixed(3) ?? "-"}  т`}
             </div>
             <div>
               {" "}
