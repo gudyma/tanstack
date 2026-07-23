@@ -155,8 +155,8 @@ export default function TankComponent({
               className={cn(
                 "m-2",
                 values.is_error || values.is_warning ? "visible" : "hidden",
-                values.is_warning ? "text-yellow-400" : "",
-                values.is_error ? "text-red-500" : "",
+                values.is_warning ? "text-amber-500" : "",
+                values.is_error ? "text-red-400" : "",
               )}
             />
           </div>
@@ -204,14 +204,18 @@ export default function TankComponent({
         ) : null}
         {temperatureHangerVisible
           ? temperatureMarkers.map((marker: any, index: number) => (
-              <div
-                key={`temperature-${index}`}
-                style={{ bottom: `${marker.percent}%` }}
-                className="pointer-events-none absolute left-full -translate-x-full translate-y-1/2 whitespace-nowrap text-[10px] font-semibold  drop-shadow-md md:text-xs border p-0.5 bg-muted"
-              >
-                {marker.value}
-              </div>
-            ))
+            <div
+              key={`temperature-${index}`}
+              style={{ bottom: `${marker.percent < 95 ? marker.percent : 96}%` }}
+              className=
+              {cn(
+                "pointer-events-none absolute left-full -translate-x-full translate-y-1/2 whitespace-nowrap text-[10px] font-semibold  drop-shadow-md md:text-xs border p-0.5",
+                (marker.value >= 38) || (marker.value <= -8) ? "bg-yellow-70" : (marker.value >= 40) || (marker.value <= -10) ? "bg-red-80" : "bg-muted",
+              )}
+            >
+              {marker.value}
+            </div>
+          ))
           : null}
         {!temperatureHangerVisible ? (
           <div id="speed" className={speedArrowClass}>
