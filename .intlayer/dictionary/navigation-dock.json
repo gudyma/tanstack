@@ -1,5 +1,4 @@
 {
-  "key": "navigation-dock",
   "content": {
     "nodeType": "translation",
     "translation": {
@@ -17,7 +16,8 @@
       }
     }
   },
-  "localIds": [
-    "navigation-dock::local::src\\contents\\navigation-dock.content.ts"
-  ]
+  "key": "navigation-dock",
+  "location": "local",
+  "localId": "navigation-dock::local::src\\contents\\navigation-dock.content.ts",
+  "filePath": "src\\contents\\navigation-dock.content.ts"
 }

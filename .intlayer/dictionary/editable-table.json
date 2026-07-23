@@ -1,5 +1,4 @@
 {
-  "key": "editable-table",
   "content": {
     "nodeType": "translation",
     "translation": {
@@ -15,7 +14,8 @@
       }
     }
   },
-  "localIds": [
-    "editable-table::local::src\\contents\\editable-table.content.ts"
-  ]
+  "key": "editable-table",
+  "location": "local",
+  "localId": "editable-table::local::src\\contents\\editable-table.content.ts",
+  "filePath": "src\\contents\\editable-table.content.ts"
 }

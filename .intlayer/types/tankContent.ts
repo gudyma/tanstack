@@ -1,6 +1,5 @@
 /* eslint-disable */
 export default {
-  "key": "tankContent",
   "content": {
     "nodeType": "translation",
     "translation": {
@@ -18,7 +17,8 @@ export default {
       }
     }
   },
-  "localIds": [
-    "tankContent::local::src\\contents\\tank.content.ts"
-  ]
+  "key": "tankContent",
+  "location": "local",
+  "localId": "tankContent::local::src\\contents\\tank.content.ts",
+  "filePath": "src\\contents\\tank.content.ts"
 } as const;

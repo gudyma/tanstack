@@ -1,21 +1,21 @@
-const _3Hyf7pL1Ec32ZU8pncOZ = require('../dictionary/editable-table.json');
-const _VeDBomo3Vsp99ef6gLTs = require('../dictionary/indexContent.json');
-const _lFL8CMX9cavo9Ulp1YcS = require('../dictionary/journalContent.json');
-const _icJlmCrPZa1VHnkZExF4 = require('../dictionary/locale-switcher.json');
-const _QwVMBwVNdXHn6kGnTzwO = require('../dictionary/more-drawer.json');
-const _0vDYIZSKe07ldeh9z8Hm = require('../dictionary/navigation-dock.json');
-const _fd6kU1kZMhIb6hWywniG = require('../dictionary/tableContent.json');
-const _hdVROHSPvlHF5nPRhOCN = require('../dictionary/tankContent.json');
+const _is5qsl7nki = require('../dictionary/editable-table.json');
+const _ycd3ihzg6q = require('../dictionary/indexContent.json');
+const _1bc4fbv4vs8 = require('../dictionary/journalContent.json');
+const _exb1ilkxdo = require('../dictionary/locale-switcher.json');
+const _287ukasrbyn = require('../dictionary/more-drawer.json');
+const _2bpfxftndfv = require('../dictionary/navigation-dock.json');
+const _144jhy9sp0b = require('../dictionary/tableContent.json');
+const _gjp7tmeuax = require('../dictionary/tankContent.json');
 
 const dictionaries = {
-  "editable-table": _3Hyf7pL1Ec32ZU8pncOZ,
-  "indexContent": _VeDBomo3Vsp99ef6gLTs,
-  "journalContent": _lFL8CMX9cavo9Ulp1YcS,
-  "locale-switcher": _icJlmCrPZa1VHnkZExF4,
-  "more-drawer": _QwVMBwVNdXHn6kGnTzwO,
-  "navigation-dock": _0vDYIZSKe07ldeh9z8Hm,
-  "tableContent": _fd6kU1kZMhIb6hWywniG,
-  "tankContent": _hdVROHSPvlHF5nPRhOCN
+  "editable-table": _is5qsl7nki,
+  "indexContent": _ycd3ihzg6q,
+  "journalContent": _1bc4fbv4vs8,
+  "locale-switcher": _exb1ilkxdo,
+  "more-drawer": _287ukasrbyn,
+  "navigation-dock": _2bpfxftndfv,
+  "tableContent": _144jhy9sp0b,
+  "tankContent": _gjp7tmeuax
 };
 const getDictionaries = () => dictionaries;
 

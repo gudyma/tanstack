@@ -1,6 +1,5 @@
 /* eslint-disable */
 export default {
-  "key": "locale-switcher",
   "content": {
     "nodeType": "translation",
     "translation": {
@@ -26,7 +25,8 @@ export default {
       }
     }
   },
-  "localIds": [
-    "locale-switcher::local::src\\contents\\locale-switcher.content.ts"
-  ]
+  "key": "locale-switcher",
+  "location": "local",
+  "localId": "locale-switcher::local::src\\contents\\locale-switcher.content.ts",
+  "filePath": "src\\contents\\locale-switcher.content.ts"
 } as const;

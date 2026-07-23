@@ -1,5 +1,4 @@
 {
-  "key": "indexContent",
   "content": {
     "nodeType": "translation",
     "translation": {
@@ -17,7 +16,8 @@
       }
     }
   },
-  "localIds": [
-    "indexContent::local::src\\contents\\index.content.ts"
-  ]
+  "key": "indexContent",
+  "location": "local",
+  "localId": "indexContent::local::src\\contents\\index.content.ts",
+  "filePath": "src\\contents\\index.content.ts"
 }

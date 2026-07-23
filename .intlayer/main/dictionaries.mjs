@@ -1,21 +1,21 @@
-import _3Hyf7pL1Ec32ZU8pncOZ from '../dictionary/editable-table.json' with { type: 'json' };
-import _VeDBomo3Vsp99ef6gLTs from '../dictionary/indexContent.json' with { type: 'json' };
-import _lFL8CMX9cavo9Ulp1YcS from '../dictionary/journalContent.json' with { type: 'json' };
-import _icJlmCrPZa1VHnkZExF4 from '../dictionary/locale-switcher.json' with { type: 'json' };
-import _QwVMBwVNdXHn6kGnTzwO from '../dictionary/more-drawer.json' with { type: 'json' };
-import _0vDYIZSKe07ldeh9z8Hm from '../dictionary/navigation-dock.json' with { type: 'json' };
-import _fd6kU1kZMhIb6hWywniG from '../dictionary/tableContent.json' with { type: 'json' };
-import _hdVROHSPvlHF5nPRhOCN from '../dictionary/tankContent.json' with { type: 'json' };
+import _is5qsl7nki from '../dictionary/editable-table.json' with { type: 'json' };
+import _ycd3ihzg6q from '../dictionary/indexContent.json' with { type: 'json' };
+import _1bc4fbv4vs8 from '../dictionary/journalContent.json' with { type: 'json' };
+import _exb1ilkxdo from '../dictionary/locale-switcher.json' with { type: 'json' };
+import _287ukasrbyn from '../dictionary/more-drawer.json' with { type: 'json' };
+import _2bpfxftndfv from '../dictionary/navigation-dock.json' with { type: 'json' };
+import _144jhy9sp0b from '../dictionary/tableContent.json' with { type: 'json' };
+import _gjp7tmeuax from '../dictionary/tankContent.json' with { type: 'json' };
 
 const dictionaries = {
-  "editable-table": _3Hyf7pL1Ec32ZU8pncOZ,
-  "indexContent": _VeDBomo3Vsp99ef6gLTs,
-  "journalContent": _lFL8CMX9cavo9Ulp1YcS,
-  "locale-switcher": _icJlmCrPZa1VHnkZExF4,
-  "more-drawer": _QwVMBwVNdXHn6kGnTzwO,
-  "navigation-dock": _0vDYIZSKe07ldeh9z8Hm,
-  "tableContent": _fd6kU1kZMhIb6hWywniG,
-  "tankContent": _hdVROHSPvlHF5nPRhOCN
+  "editable-table": _is5qsl7nki,
+  "indexContent": _ycd3ihzg6q,
+  "journalContent": _1bc4fbv4vs8,
+  "locale-switcher": _exb1ilkxdo,
+  "more-drawer": _287ukasrbyn,
+  "navigation-dock": _2bpfxftndfv,
+  "tableContent": _144jhy9sp0b,
+  "tankContent": _gjp7tmeuax
 };
 const getDictionaries = () => dictionaries;
 

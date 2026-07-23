@@ -1,5 +1,4 @@
 {
-  "key": "tableContent",
   "content": {
     "nodeType": "translation",
     "translation": {
@@ -17,7 +16,8 @@
       }
     }
   },
-  "localIds": [
-    "tableContent::local::src\\contents\\table.content.ts"
-  ]
+  "key": "tableContent",
+  "location": "local",
+  "localId": "tableContent::local::src\\contents\\table.content.ts",
+  "filePath": "src\\contents\\table.content.ts"
 }

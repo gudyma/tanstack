@@ -1,6 +1,5 @@
 /* eslint-disable */
 export default {
-  "key": "editable-table",
   "content": {
     "nodeType": "translation",
     "translation": {
@@ -16,7 +15,8 @@ export default {
       }
     }
   },
-  "localIds": [
-    "editable-table::local::src\\contents\\editable-table.content.ts"
-  ]
+  "key": "editable-table",
+  "location": "local",
+  "localId": "editable-table::local::src\\contents\\editable-table.content.ts",
+  "filePath": "src\\contents\\editable-table.content.ts"
 } as const;

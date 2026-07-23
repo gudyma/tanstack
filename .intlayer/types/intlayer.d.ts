@@ -1,23 +1,23 @@
 import "intlayer";
-import _EtGXMFKnoUgE8dTUkBVa from './editable-table.ts';
-import _zJOxECUtOwTdr9E0oLDu from './indexContent.ts';
-import _JOvWcJpISDEiG7VCrbco from './journalContent.ts';
-import _AN5hKK7j80l5Xz7l7LW5 from './locale-switcher.ts';
-import _7GYev7ErSJM0jRnd8tSp from './more-drawer.ts';
-import _3GjQraVitLpg82Lp7oFh from './navigation-dock.ts';
-import _3qb3b0NoGFQPNWU82lI4 from './tableContent.ts';
-import _2hQD5j1nXdmf9wQL4OEw from './tankContent.ts';
+import _1xp63dt21b2 from './editable-table.ts';
+import _23ronxkqkyx from './indexContent.ts';
+import _1eydrxti6yf from './journalContent.ts';
+import _1sj6lo4z33 from './locale-switcher.ts';
+import _a6szrtlob0 from './more-drawer.ts';
+import _j4gjapj24q from './navigation-dock.ts';
+import _nm78urv5c9 from './tableContent.ts';
+import _1tz87cb9svm from './tankContent.ts';
 
 declare module 'intlayer' {
   interface __DictionaryRegistry {
-    "editable-table": typeof _EtGXMFKnoUgE8dTUkBVa;
-    "indexContent": typeof _zJOxECUtOwTdr9E0oLDu;
-    "journalContent": typeof _JOvWcJpISDEiG7VCrbco;
-    "locale-switcher": typeof _AN5hKK7j80l5Xz7l7LW5;
-    "more-drawer": typeof _7GYev7ErSJM0jRnd8tSp;
-    "navigation-dock": typeof _3GjQraVitLpg82Lp7oFh;
-    "tableContent": typeof _3qb3b0NoGFQPNWU82lI4;
-    "tankContent": typeof _2hQD5j1nXdmf9wQL4OEw;
+    "editable-table": typeof _1xp63dt21b2;
+    "indexContent": typeof _23ronxkqkyx;
+    "journalContent": typeof _1eydrxti6yf;
+    "locale-switcher": typeof _1sj6lo4z33;
+    "more-drawer": typeof _a6szrtlob0;
+    "navigation-dock": typeof _j4gjapj24q;
+    "tableContent": typeof _nm78urv5c9;
+    "tankContent": typeof _1tz87cb9svm;
   }
 
   interface __DeclaredLocalesRegistry {
@@ -30,5 +30,13 @@ declare module 'intlayer' {
     "en": 1;
   }
 
+  interface __SchemaRegistry {
+
+  }
+
   interface __StrictModeRegistry { mode: 'inclusive' }
+
+  interface __EditorRegistry { enabled : false }
+
+  interface __RoutingRegistry { mode: 'prefix-no-default'; defaultLocale: 'uk' }
 }

@@ -1,6 +1,5 @@
 /* eslint-disable */
 export default {
-  "key": "tableContent",
   "content": {
     "nodeType": "translation",
     "translation": {
@@ -18,7 +17,8 @@ export default {
       }
     }
   },
-  "localIds": [
-    "tableContent::local::src\\contents\\table.content.ts"
-  ]
+  "key": "tableContent",
+  "location": "local",
+  "localId": "tableContent::local::src\\contents\\table.content.ts",
+  "filePath": "src\\contents\\table.content.ts"
 } as const;

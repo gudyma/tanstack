@@ -1,6 +1,5 @@
 /* eslint-disable */
 export default {
-  "key": "indexContent",
   "content": {
     "nodeType": "translation",
     "translation": {
@@ -18,7 +17,8 @@ export default {
       }
     }
   },
-  "localIds": [
-    "indexContent::local::src\\contents\\index.content.ts"
-  ]
+  "key": "indexContent",
+  "location": "local",
+  "localId": "indexContent::local::src\\contents\\index.content.ts",
+  "filePath": "src\\contents\\index.content.ts"
 } as const;

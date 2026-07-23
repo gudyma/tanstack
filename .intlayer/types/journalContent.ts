@@ -1,6 +1,5 @@
 /* eslint-disable */
 export default {
-  "key": "journalContent",
   "content": {
     "nodeType": "translation",
     "translation": {
@@ -30,7 +29,8 @@ export default {
       }
     }
   },
-  "localIds": [
-    "journalContent::local::src\\contents\\journal.content.ts"
-  ]
+  "key": "journalContent",
+  "location": "local",
+  "localId": "journalContent::local::src\\contents\\journal.content.ts",
+  "filePath": "src\\contents\\journal.content.ts"
 } as const;

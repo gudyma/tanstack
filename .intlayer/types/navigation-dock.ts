@@ -1,6 +1,5 @@
 /* eslint-disable */
 export default {
-  "key": "navigation-dock",
   "content": {
     "nodeType": "translation",
     "translation": {
@@ -18,7 +17,8 @@ export default {
       }
     }
   },
-  "localIds": [
-    "navigation-dock::local::src\\contents\\navigation-dock.content.ts"
-  ]
+  "key": "navigation-dock",
+  "location": "local",
+  "localId": "navigation-dock::local::src\\contents\\navigation-dock.content.ts",
+  "filePath": "src\\contents\\navigation-dock.content.ts"
 } as const;

@@ -1,6 +1,5 @@
 /* eslint-disable */
 export default {
-  "key": "more-drawer",
   "content": {
     "nodeType": "translation",
     "translation": {
@@ -20,7 +19,8 @@ export default {
       }
     }
   },
-  "localIds": [
-    "more-drawer::local::src\\contents\\more-drawer.content.ts"
-  ]
+  "key": "more-drawer",
+  "location": "local",
+  "localId": "more-drawer::local::src\\contents\\more-drawer.content.ts",
+  "filePath": "src\\contents\\more-drawer.content.ts"
 } as const;
