@@ -11,8 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as Char123LocaleChar125RouteRouteImport } from './routes/{-$locale}/route'
 import { Route as Char123LocaleChar125IndexRouteImport } from './routes/{-$locale}/index'
-import { Route as Char123LocaleChar125TableRouteImport } from './routes/{-$locale}/table'
 import { Route as Char123LocaleChar125JournalRouteImport } from './routes/{-$locale}/journal'
+import { Route as Char123LocaleChar125TableRouteImport } from './routes/{-$locale}/table'
 
 const Char123LocaleChar125RouteRoute =
   Char123LocaleChar125RouteRouteImport.update({
@@ -26,16 +26,16 @@ const Char123LocaleChar125IndexRoute =
     path: '/',
     getParentRoute: () => Char123LocaleChar125RouteRoute,
   } as any)
-const Char123LocaleChar125TableRoute =
-  Char123LocaleChar125TableRouteImport.update({
-    id: '/table',
-    path: '/table',
-    getParentRoute: () => Char123LocaleChar125RouteRoute,
-  } as any)
 const Char123LocaleChar125JournalRoute =
   Char123LocaleChar125JournalRouteImport.update({
     id: '/journal',
     path: '/journal',
+    getParentRoute: () => Char123LocaleChar125RouteRoute,
+  } as any)
+const Char123LocaleChar125TableRoute =
+  Char123LocaleChar125TableRouteImport.update({
+    id: '/table',
+    path: '/table',
     getParentRoute: () => Char123LocaleChar125RouteRoute,
   } as any)
 
@@ -94,18 +94,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char123LocaleChar125IndexRouteImport
       parentRoute: typeof Char123LocaleChar125RouteRoute
     }
-    '/{-$locale}/table': {
-      id: '/{-$locale}/table'
-      path: '/table'
-      fullPath: '/{-$locale}/table'
-      preLoaderRoute: typeof Char123LocaleChar125TableRouteImport
-      parentRoute: typeof Char123LocaleChar125RouteRoute
-    }
     '/{-$locale}/journal': {
       id: '/{-$locale}/journal'
       path: '/journal'
       fullPath: '/{-$locale}/journal'
       preLoaderRoute: typeof Char123LocaleChar125JournalRouteImport
+      parentRoute: typeof Char123LocaleChar125RouteRoute
+    }
+    '/{-$locale}/table': {
+      id: '/{-$locale}/table'
+      path: '/table'
+      fullPath: '/{-$locale}/table'
+      preLoaderRoute: typeof Char123LocaleChar125TableRouteImport
       parentRoute: typeof Char123LocaleChar125RouteRoute
     }
   }

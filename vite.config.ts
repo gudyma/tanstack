@@ -1,7 +1,6 @@
 // vite.config.ts
 import path from "path";
 import { defineConfig, loadEnv } from "vite";
-import tsConfigPaths from "vite-tsconfig-paths";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
@@ -13,7 +12,6 @@ export default defineConfig({
     port: 3000,
   },
   plugins: [
-    tsConfigPaths(),
     tanstackStart(),
     tailwindcss(),
     nitro(),
@@ -21,6 +19,7 @@ export default defineConfig({
     intlayer(),
   ],
   resolve: {
+    tsconfigPaths: true,
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
