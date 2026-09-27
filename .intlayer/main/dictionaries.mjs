@@ -1,21 +1,21 @@
-import _is5qsl7nki from '../dictionary/editable-table.json' with { type: 'json' };
-import _ycd3ihzg6q from '../dictionary/indexContent.json' with { type: 'json' };
-import _1bc4fbv4vs8 from '../dictionary/journalContent.json' with { type: 'json' };
-import _exb1ilkxdo from '../dictionary/locale-switcher.json' with { type: 'json' };
-import _287ukasrbyn from '../dictionary/more-drawer.json' with { type: 'json' };
-import _2bpfxftndfv from '../dictionary/navigation-dock.json' with { type: 'json' };
-import _144jhy9sp0b from '../dictionary/tableContent.json' with { type: 'json' };
-import _gjp7tmeuax from '../dictionary/tankContent.json' with { type: 'json' };
+import _2fw7on30na from '../dictionary/editable-table.json' with { type: 'json' };
+import _1neqjg6cn9j from '../dictionary/indexContent.json' with { type: 'json' };
+import _1ht9njrs2wf from '../dictionary/journalContent.json' with { type: 'json' };
+import _fpgb1frr4n from '../dictionary/locale-switcher.json' with { type: 'json' };
+import _oto29ohgju from '../dictionary/more-drawer.json' with { type: 'json' };
+import _19zc3lbt2ge from '../dictionary/navigation-dock.json' with { type: 'json' };
+import _1ers2gh9flc from '../dictionary/tableContent.json' with { type: 'json' };
+import _1kutmv3s3uv from '../dictionary/tankContent.json' with { type: 'json' };
 
 const dictionaries = {
-  "editable-table": _is5qsl7nki,
-  "indexContent": _ycd3ihzg6q,
-  "journalContent": _1bc4fbv4vs8,
-  "locale-switcher": _exb1ilkxdo,
-  "more-drawer": _287ukasrbyn,
-  "navigation-dock": _2bpfxftndfv,
-  "tableContent": _144jhy9sp0b,
-  "tankContent": _gjp7tmeuax
+  "editable-table": _2fw7on30na,
+  "indexContent": _1neqjg6cn9j,
+  "journalContent": _1ht9njrs2wf,
+  "locale-switcher": _fpgb1frr4n,
+  "more-drawer": _oto29ohgju,
+  "navigation-dock": _19zc3lbt2ge,
+  "tableContent": _1ers2gh9flc,
+  "tankContent": _1kutmv3s3uv
 };
 const getDictionaries = () => dictionaries;
 
