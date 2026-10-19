@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -15,7 +14,6 @@ import {
   Drawer,
   DrawerClose,
   DrawerContent,
-  DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
@@ -107,6 +105,7 @@ export default function MoreDrawer({
 }: PropsWithChildren<TankDrawerProps>) {
   const [open, setOpen] = useState(false);
   const isDesktop = !useIsMobile();
+  const { dockMoreLabel } = useIntlayer("navigation-dock");
 
   if (isDesktop) {
     return (
@@ -117,11 +116,14 @@ export default function MoreDrawer({
         >
           {children}
         </DialogTrigger>
-        <DialogHeader className="p-0 m-0">
-          <ModeToggle />
-        </DialogHeader>
-        <DialogTitle></DialogTitle>
-        <DialogContent className="sm:max-w-[800px] h-2/3">
+        <DialogContent
+          className="sm:max-w-[800px] h-2/3"
+          aria-describedby={undefined}
+        >
+          <DialogHeader className="p-0 m-0">
+            <DialogTitle className="sr-only">{dockMoreLabel}</DialogTitle>
+            <ModeToggle />
+          </DialogHeader>
           <TankDrawerElements />
         </DialogContent>
       </Dialog>
@@ -135,10 +137,11 @@ export default function MoreDrawer({
       >
         {children}
       </DrawerTrigger>
-      <DrawerHeader className="p-0 m-0">
-        <ModeToggle />
-      </DrawerHeader>
-      <DrawerContent className="px-2">
+      <DrawerContent className="px-2" aria-describedby={undefined}>
+        <DrawerHeader className="p-0 m-0">
+          <DrawerTitle className="sr-only">{dockMoreLabel}</DrawerTitle>
+          <ModeToggle />
+        </DrawerHeader>
         <TankDrawerElements />
         <DrawerFooter className="pt-2">
           <DrawerClose asChild>

@@ -408,10 +408,9 @@ export default function TankDrawer({
         >
           {children}
         </DialogTrigger>
-        <DialogTitle></DialogTitle>
-        <DialogContent className="sm:max-w-[800px]">
+        <DialogContent className="sm:max-w-[800px]" aria-describedby={undefined}>
           <DialogHeader className="">
-            <DrawerTitle>Tank: {values?.label}</DrawerTitle>
+            <DialogTitle>Tank: {values?.label}</DialogTitle>
           </DialogHeader>
           <TankDrawerElements values={values} />
         </DialogContent>
@@ -426,7 +425,7 @@ export default function TankDrawer({
       >
         {children}
       </DrawerTrigger>
-      <DrawerContent>
+      <DrawerContent aria-describedby={undefined}>
         <DrawerHeader className="px-2 py-0 text-left">
           <DrawerTitle>Tank: {values?.label}</DrawerTitle>
         </DrawerHeader>
