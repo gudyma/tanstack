@@ -6,13 +6,10 @@ import {
   type ColumnDef,
   type ColumnResizeMode,
   type PaginationState,
-  type Table as ReactTable,
   flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  useReactTable,
+  useTable,
 } from "@tanstack/react-table";
+import { journalTableFeatures } from "@/lib/journal-table-features";
 
 import type { TankInfoExtendedWithGrouping } from "@/i18n/dictionaries/columnsInterfaces";
 
@@ -41,7 +38,10 @@ export default function JournalTable({
   startDate?: string;
   endDate?: string;
 }) {
-  const empty: ColumnDef<TankInfoExtendedWithGrouping>[] = [];
+  const empty: ColumnDef<
+    typeof journalTableFeatures,
+    TankInfoExtendedWithGrouping
+  >[] = [];
   const [testcolumns, setColumns] = useState(empty);
   const [columnResizeMode, setColumnResizeMode] =
     useState<ColumnResizeMode>("onChange");
@@ -103,7 +103,8 @@ export default function JournalTable({
     [pageIndex, pageSize],
   );
 
-  const table = useReactTable({
+  const table = useTable({
+    features: journalTableFeatures,
     data: data ?? defaultData,
     columns: testcolumns,
     columnResizeMode,
@@ -118,11 +119,7 @@ export default function JournalTable({
     onRowSelectionChange: setRowSelection,
     onPaginationChange: setPagination,
     onColumnVisibilityChange: setColumnVisibility,
-    // Pipeline
-    getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
     manualPagination: true,
-    //
     debugTable: false,
   });
 

@@ -1,0 +1,42 @@
+import {
+  aggregationFn_extent,
+  aggregationFn_sum,
+  columnGroupingFeature,
+  columnOrderingFeature,
+  columnResizingFeature,
+  columnSizingFeature,
+  columnVisibilityFeature,
+  createExpandedRowModel,
+  createGroupedRowModel,
+  createSortedRowModel,
+  rowAggregationFeature,
+  rowExpandingFeature,
+  rowSortingFeature,
+  sortFn_alphanumeric,
+  sortFn_basic,
+  sortFn_datetime,
+  sortFn_text,
+  tableFeatures,
+} from "@tanstack/react-table";
+
+export const tankTableFeatures = tableFeatures({
+  columnGroupingFeature,
+  columnOrderingFeature,
+  columnSizingFeature,
+  columnResizingFeature,
+  columnVisibilityFeature,
+  rowAggregationFeature,
+  rowExpandingFeature,
+  rowSortingFeature,
+  groupedRowModel: createGroupedRowModel(),
+  sortedRowModel: createSortedRowModel(),
+  expandedRowModel: createExpandedRowModel(),
+  // Preserve automatic sorting for numeric, text, and date values.
+  sortFns: {
+    alphanumeric: sortFn_alphanumeric,
+    basic: sortFn_basic,
+    datetime: sortFn_datetime,
+    text: sortFn_text,
+  },
+  aggregationFns: { sum: aggregationFn_sum, extent: aggregationFn_extent },
+});

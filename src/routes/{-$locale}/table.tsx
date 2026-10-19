@@ -31,12 +31,9 @@ import {
   type GroupingState,
   type SortingState,
   flexRender,
-  getCoreRowModel,
-  getExpandedRowModel,
-  getGroupedRowModel,
-  getSortedRowModel,
-  useReactTable,
+  useTable,
 } from "@tanstack/react-table";
+import { tankTableFeatures } from "@/lib/tank-table-features";
 
 import { getColumns } from "@/i18n/dictionaries/get-dictionary";
 import type { Locale } from "@/i18n/ui";
@@ -78,7 +75,10 @@ function RouteComponent() {
 
   const [animate, setAnimate] = useState(false);
 
-  const empty: ColumnDef<TankInfoExtendedWithGrouping>[] = [];
+  const empty: ColumnDef<
+    typeof tankTableFeatures,
+    TankInfoExtendedWithGrouping
+  >[] = [];
   const [tanks, setTanks] = useState();
   const [selectedTank, setSelectedTank] = useState<TankMeasurement>();
   const clientRef = useRef<mqtt.MqttClient | null>(null);
@@ -162,7 +162,8 @@ function RouteComponent() {
 
   const [columnOrder, setColumnOrder] = useState<ColumnOrderState>([]);
 
-  const table = useReactTable({
+  const table = useTable({
+    features: tankTableFeatures,
     data: tanks ?? defaultData,
     columns: testcolumns,
     columnResizeMode,
@@ -176,10 +177,6 @@ function RouteComponent() {
     onGroupingChange: setGrouping,
     onColumnVisibilityChange: setColumnVisibility,
     onColumnOrderChange: setColumnOrder,
-    getExpandedRowModel: getExpandedRowModel(),
-    getGroupedRowModel: getGroupedRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getCoreRowModel: getCoreRowModel(),
     debugTable: false,
   });
 

@@ -1,8 +1,13 @@
 import type { ColumnDef } from "@tanstack/react-table";
+import type { tankTableFeatures } from "@/lib/tank-table-features";
+import {
+  createJournalColumns,
+  type MeasurementColumnDef,
+} from "./measurement-columns";
 import { formatInTimeZone } from "date-fns-tz";
 import type { TankInfoExtendedWithGrouping } from "./columnsInterfaces";
 
-export const journalColumns: ColumnDef<TankInfoExtendedWithGrouping>[] = [
+const measurementColumns: MeasurementColumnDef[] = [
   {
     accessorKey: "timestamp",
     id: "Datetime",
@@ -323,6 +328,8 @@ export const journalColumns: ColumnDef<TankInfoExtendedWithGrouping>[] = [
   },
 ];
 
+export const journalColumns = createJournalColumns(measurementColumns);
+
 export const journalExportHeaders: string[] = journalColumns.map((item) =>
   item.id ? item.id.toString() : "",
 );
@@ -341,12 +348,11 @@ function Progress({ value, color }: { value: number; color: string }) {
   );
 }
 
-const startColumns: ColumnDef<TankInfoExtendedWithGrouping>[] = [
+const startColumns: MeasurementColumnDef[] = [
   {
     accessorKey: "name",
     id: "Name",
     cell: (info) => info.getValue(),
-    enablePinning: true,
     size: 75,
     minSize: 50,
     header: "Назва",
@@ -427,7 +433,7 @@ const startColumns: ColumnDef<TankInfoExtendedWithGrouping>[] = [
   },
 ];
 
-const endColumns: ColumnDef<TankInfoExtendedWithGrouping>[] = [
+const endColumns: MeasurementColumnDef[] = [
   {
     accessorKey: "time_left",
     id: "TimeLeft",
@@ -446,8 +452,10 @@ const endColumns: ColumnDef<TankInfoExtendedWithGrouping>[] = [
   },
 ];
 
-export const tankTableColumns: ColumnDef<TankInfoExtendedWithGrouping>[] =
-  startColumns.concat(journalColumns).concat(endColumns);
+export const tankTableColumns: ColumnDef<
+  typeof tankTableFeatures,
+  TankInfoExtendedWithGrouping
+>[] = startColumns.concat(measurementColumns).concat(endColumns);
 
 export const tankExportHeaders: string[] = tankTableColumns.map((item) =>
   item.id ? item.id.toString() : "",

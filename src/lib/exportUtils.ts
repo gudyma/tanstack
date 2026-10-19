@@ -1,7 +1,5 @@
 import type { RowInput } from "jspdf-autotable";
 
-import { createColumnHelper } from "@tanstack/react-table";
-
 export async function exportToCSV<gridType>(
   columns: string[],
   gridElement: gridType[],

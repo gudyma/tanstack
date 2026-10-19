@@ -2,7 +2,8 @@ import type {
   TankInfoExtendedWithGrouping,
   TankInfoWithGrouping,
 } from "@/i18n/dictionaries/columnsInterfaces";
-import type { Table as ReactTable } from "@tanstack/react-table";
+import type { ReactTable } from "@tanstack/react-table";
+import type { journalTableFeatures } from "@/lib/journal-table-features";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -18,8 +19,8 @@ export default function TablePagination({
   dictionary,
 }: {
   table:
-    | ReactTable<TankInfoExtendedWithGrouping>
-    | ReactTable<TankInfoWithGrouping>;
+    | ReactTable<typeof journalTableFeatures, TankInfoExtendedWithGrouping>
+    | ReactTable<typeof journalTableFeatures, TankInfoWithGrouping>;
   exportHeaders: string[];
   dictionary: {
     export: string;
@@ -76,7 +77,7 @@ export default function TablePagination({
               type="number"
               min={1}
               max={table?.getPageCount() < 1 ? 1 : table?.getPageCount()}
-              value={table?.getState().pagination.pageIndex + 1}
+              value={table?.state.pagination.pageIndex + 1}
               onChange={(e) => {
                 const page = e.target.value ? Number(e.target.value) - 1 : 0;
                 table?.setPageIndex(page);
@@ -129,7 +130,7 @@ export default function TablePagination({
         </Label>
         <Select
           name="Page number"
-          defaultValue={table?.getState().pagination.pageSize.toString()}
+          defaultValue={table?.state.pagination.pageSize.toString()}
           onValueChange={(e) => {
             table?.setPageSize(Number(e));
           }}

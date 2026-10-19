@@ -1,12 +1,13 @@
 "use client";
 import React, { useState, useMemo, useEffect } from "react";
 import {
-  useReactTable,
-  getCoreRowModel,
+  useTable,
+  tableFeatures,
+  metaHelper,
   flexRender,
   createColumnHelper,
 } from "@tanstack/react-table";
-import type { CellContext, RowData } from "@tanstack/react-table";
+import type { CellContext } from "@tanstack/react-table";
 import {
   Table,
   TableBody,
@@ -62,20 +63,21 @@ type EditedRowChange = {
 };
 
 type EditableCellProps = CellContext<
+  typeof editableTableFeatures,
   TableRowData,
-  TableRowData[EditableColumnKey]
+  number | null
 >;
 
-declare module "@tanstack/react-table" {
-  interface TableMeta<TData extends RowData> {
+const editableTableFeatures = tableFeatures({
+  tableMeta: metaHelper<{
     updateData: (
       rowIndex: number,
-      columnId: keyof TData,
-      value: TData[keyof TData],
+      columnId: EditableColumnKey,
+      value: TableRowData[EditableColumnKey],
     ) => void;
-    validateRow: (row: TData) => boolean;
-  }
-}
+    validateRow: (row: TableRowData) => boolean;
+  }>(),
+});
 
 // Zod schema for row validation
 const rowSchemaBase = z.object({
@@ -176,7 +178,7 @@ const EditableCell = ({ getValue, row, column, table }: EditableCellProps) => {
       <Input
         type="number"
         step={0.1}
-        value={value}
+        value={value ?? ""}
         onChange={onChange}
         onBlur={onBlur}
         className={cn(
@@ -189,7 +191,10 @@ const EditableCell = ({ getValue, row, column, table }: EditableCellProps) => {
   );
 };
 
-const columnHelper = createColumnHelper<TableRowData>();
+const columnHelper = createColumnHelper<
+  typeof editableTableFeatures,
+  TableRowData
+>();
 
 const formatTimestampForDisplay = (value?: string | null) => {
   if (!value) return "";
@@ -275,11 +280,13 @@ export default function EditableTable() {
       }),
     ];
 
-    return isType3
-      ? enterDensity15
-        ? [...baseCols, ...density15Cols, ...gasCols]
-        : [...baseCols, ...densityCols, ...gasCols]
-      : baseCols;
+    return columnHelper.columns(
+      isType3
+        ? enterDensity15
+          ? [...baseCols, ...density15Cols, ...gasCols]
+          : [...baseCols, ...densityCols, ...gasCols]
+        : baseCols,
+    );
   }, [enterDensity15]);
 
   const loadTanks = async () => {
@@ -380,10 +387,10 @@ export default function EditableTable() {
     );
   };
 
-  const table = useReactTable({
+  const table = useTable({
+    features: editableTableFeatures,
     data,
     columns,
-    getCoreRowModel: getCoreRowModel(),
     meta: {
       updateData,
       validateRow,
@@ -552,7 +559,7 @@ export default function EditableTable() {
                     hasError && "bg-red-50",
                   )}
                 >
-                  {row.getVisibleCells().map((cell) => (
+                  {row.getAllCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
