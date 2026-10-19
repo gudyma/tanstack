@@ -137,7 +137,7 @@ function RouteComponent() {
             label={`${
               timeDataUpdated ? format(timeDataUpdated, "HH:mm:ss dd.MM") : "-"
             } : Маса `}
-            valueLabel={`${sumValues?.ProductMassSum.toFixed(2) ?? "-"}/${sumValues?.CombinedProductMassSum.toFixed(2) ?? "-"}* of ${sumValues?.FullProductMassSum?.toFixed(2) ?? "-"} т`}
+            valueLabel={`${sumValues?.CombinedProductMassSum.toFixed(2) ?? "-"} of ${sumValues?.FullProductMassSum?.toFixed(2) ?? "-"} т`}
             size="sm"
             color="var(--chart-2)"
             className=""

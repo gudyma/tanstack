@@ -408,7 +408,11 @@ export default function TankDrawer({
         >
           {children}
         </DialogTrigger>
+<<<<<<< HEAD
         <DialogContent className="sm:max-w-[800px]" aria-describedby={undefined}>
+=======
+        <DialogContent className="sm:max-w-[800px]">
+>>>>>>> 4bea5db4c20ffb87cc9537b98775d7e3378322eb
           <DialogHeader className="">
             <DialogTitle>Tank: {values?.label}</DialogTitle>
           </DialogHeader>

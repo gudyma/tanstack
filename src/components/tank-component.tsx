@@ -89,6 +89,7 @@ export default function TankComponent({
       100,
       Math.max(0, (numericHeight / baseHeight) * 100),
     );
+    
 
     acc.push({
       value: `${numericTemp.toFixed(1)} °C`,
@@ -206,7 +207,7 @@ export default function TankComponent({
           ? temperatureMarkers.map((marker: any, index: number) => (
             <div
               key={`temperature-${index}`}
-              style={{ bottom: `${marker.percent < 95 ? marker.percent : 96}%` }}
+              style={{ bottom: `${marker.percent < 95 ? marker.percent : 97}%` }}
               className=
               {cn(
                 "pointer-events-none absolute left-full -translate-x-full translate-y-1/2 whitespace-nowrap text-[10px] font-semibold  drop-shadow-md md:text-xs border p-0.5",
