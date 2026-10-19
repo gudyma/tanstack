@@ -33,7 +33,8 @@ export function createJournalColumns(
     accessorKey,
     id,
     header,
-    cell,
+    // An explicit undefined overrides TanStack's default value renderer.
+    ...(cell === undefined ? {} : { cell }),
     size,
     minSize,
   }));

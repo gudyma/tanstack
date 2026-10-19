@@ -217,6 +217,65 @@ for (const [locale, dictionary, nameId, parkId, volumeId] of [
     assert.match(markup, /14\.09\.26/);
   });
 
+  test(`${locale}: renders REST measurements with default journal cells`, () => {
+    const measurements = [
+      {
+        product_level: 1234.5,
+        product_temperature: -6.5,
+        sediment_level: 12,
+      },
+      { product_level: 0, product_temperature: 0, sediment_level: 0 },
+      {
+        product_level: "1250.25",
+        product_temperature: "19.5",
+        sediment_level: "2",
+      },
+      {
+        product_level: null,
+        product_temperature: null,
+        sediment_level: null,
+      },
+      {
+        product_level: undefined,
+        product_temperature: undefined,
+        sediment_level: undefined,
+      },
+    ];
+    const table = createJournalTable({
+      columns: dictionary.journalColumns,
+      data: measurements.map((measurement, index) => ({
+        ...data[0],
+        ...measurement,
+        id: String(index),
+      })),
+      manualPagination: true,
+    });
+
+    for (const [index, row] of table.getRowModel().rows.entries()) {
+      for (const accessorKey of [
+        "product_level",
+        "product_temperature",
+        "sediment_level",
+      ] as const) {
+        const cell = row.getVisibleCells().find(
+          ({ column }) =>
+            "accessorKey" in column.columnDef &&
+            column.columnDef.accessorKey === accessorKey,
+        );
+        assert.ok(cell, `Expected a visible ${accessorKey} cell`);
+        const expected = measurements[index][accessorKey];
+        assert.equal(cell.getValue(), expected);
+        assert.equal(
+          renderToStaticMarkup(
+            <>{flexRender(cell.column.columnDef.cell, cell.getContext())}</>,
+          ),
+          expected == null ? "" : String(expected),
+          `${accessorKey} should render its REST value`,
+        );
+      }
+    }
+  });
+
   test(`${locale}: hides, restores, orders and sizes tank columns`, () => {
     const table = createTankTable({ columns: dictionary.tankTableColumns });
     const column = getColumn(table, nameId);
