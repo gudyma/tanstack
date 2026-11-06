@@ -90,6 +90,7 @@ function TankDrawerElements({ values }: { values?: any }) {
             </div>
           </AccordionTrigger>
           <AccordionContent className="flex flex-col gap-4 text-balance">
+            <ModeToggle />
             <Label>{translation.ChooseLanguageLabel}</Label>
             <LocaleSwitcher />
           </AccordionContent>
@@ -117,12 +118,11 @@ export default function MoreDrawer({
           {children}
         </DialogTrigger>
         <DialogContent
-          className="sm:max-w-[800px] h-2/3"
+          className="sm:max-w-200 sm:h-2/3"
           aria-describedby={undefined}
         >
-          <DialogHeader className="p-0 m-0">
+          <DialogHeader className="p-0 m-0 hidden">
             <DialogTitle className="sr-only">{dockMoreLabel}</DialogTitle>
-            <ModeToggle />
           </DialogHeader>
           <TankDrawerElements />
         </DialogContent>
@@ -140,7 +140,6 @@ export default function MoreDrawer({
       <DrawerContent className="px-2" aria-describedby={undefined}>
         <DrawerHeader className="p-0 m-0">
           <DrawerTitle className="sr-only">{dockMoreLabel}</DrawerTitle>
-          <ModeToggle />
         </DrawerHeader>
         <TankDrawerElements />
         <DrawerFooter className="pt-2">
