@@ -44,26 +44,38 @@ function RouteComponent() {
     (acc, m) => {
       acc.ObservedVolumeSum += m.total_observed_volume ?? 0;
       acc.FullVolumeSum += m.max_graduration_volume ?? 0;
-      acc.CombinedProductMassSum +=
-        (m.product_mass ?? 0) + (m.vapor_gross_mass ?? 0);
-      acc.ProductMassSum += m.product_mass ?? 0;
+      acc.FreeVolumeSum += m.vapor_gross_observed_volume ?? 0;
+      acc.VolumeSpeedSum += m.product_speed_volume ?? 0;
       acc.FullProductMassSum +=
         ((m.max_graduration_volume ?? 0) * (m.product_standard_density ?? 0)) /
         1000.0;
-      acc.FreeVolumeSum += m.vapor_gross_observed_volume ?? 0;
-      acc.VolumeSpeedSum += m.product_speed_volume ?? 0;
+
+      acc.CombinedProductMassSum +=
+        (m.product_mass ?? 0) + (m.vapor_gross_mass ?? 0);
+      acc.ProductMassSum += m.product_mass ?? 0;
       acc.VaporMassSum += m.vapor_gross_mass ?? 0;
+
+      acc.CombinedProductMassSumVacuum +=
+        (m.standard_gross_mass_in_vacuume ?? 0) + (m.vapor_gross_mass_in_vacuume ?? 0);
+      acc.ProductMassSumVacuum += m.standard_gross_mass_in_vacuume ?? 0;
+      acc.VaporMassSumVacuum += m.vapor_gross_mass_in_vacuume ?? 0;
       return acc;
     },
     {
       ObservedVolumeSum: 0,
       FullVolumeSum: 0,
-      CombinedProductMassSum: 0,
-      ProductMassSum: 0,
-      FullProductMassSum: 0,
-      VaporMassSum: 0,
       FreeVolumeSum: 0,
       VolumeSpeedSum: 0,
+
+      FullProductMassSum: 0,
+
+      CombinedProductMassSum: 0,
+      ProductMassSum: 0,
+      VaporMassSum: 0,
+
+      CombinedProductMassSumVacuum: 0,
+      ProductMassSumVacuum: 0,
+      VaporMassSumVacuum: 0,
     },
   );
   const [timeDataUpdated, setTimeDataUpdated] = useState<Date>();
@@ -129,34 +141,44 @@ function RouteComponent() {
         ))}
       </div>
 
-      <div className="z-5 m-0 flex h-auto w-full flex-none flex-col-reverse items-center justify-between rounded-b-xl border-x bg-muted/80 px-2 pb-2 font-medium backdrop-blur-2xl supports-backdrop-blur:bg-white/80 supports-backdrop-blur:dark:bg-black/10 md:flex-row xl:h-17 xl:rounded-xl xl:border-none xl:bg-transparent xl:p-0 ">
-        <div className="flex w-full max-w-96 flex-col justify-center gap-2 px-2 py-1">
-          <Meter
-            value={sumValues?.ProductMassSum ?? 0}
-            max={sumValues?.FullProductMassSum ?? 0}
-            label={`${
-              timeDataUpdated ? format(timeDataUpdated, "HH:mm:ss dd.MM") : "-"
-            } : Маса в повітрі `}
-            valueLabel={`${sumValues?.CombinedProductMassSum.toFixed(3) ?? "-"} of ${sumValues?.FullProductMassSum?.toFixed(3) ?? "-"} т`}
-            size="sm"
-            color="var(--chart-2)"
-            className=""
-          />
-          <div className="flex flex-row w-full justify-between text-sm">
-            <div>
-              {" "}
-              М<sub>ПФ пов.</sub>:
-              {` ${sumValues?.VaporMassSum?.toFixed(3) ?? "-"}  т`}
-            </div>
-            <div>
-              {" "}
-              М<sub>РФ пов.</sub>:
-              {` ${sumValues?.ProductMassSum?.toFixed(3) ?? "-"}  т`}
-            </div>
+      <div className="z-5 m-0 flex h-17 w-full flex-none flex-col gap-4 items-center justify-between rounded-b-xl border-x bg-muted/80 px-2 pb-2 font-medium backdrop-blur-2xl supports-backdrop-blur:bg-white/80 supports-backdrop-blur:dark:bg-black/10 md:flex-row xl:h-17 xl:rounded-xl xl:border-none xl:bg-transparent xl:p-0 ">
+        <div className="w-full max-w-96 md:px-2">
+          <div className="overflow-hidden">
+            <table className="w-full border-collapse tabular-nums [&_td]:whitespace-nowrap [&_td]:px-2.5 [&_th]:px-2.5">
+              <thead>
+                <tr className="text-sm">
+                  <th className="text-left font-medium"></th>
+                  <th className="text-right font-medium">ПФ</th>
+                  <th className="text-right font-medium">РФ</th>
+                  <th className="text-md text-right font-bold text-sky-900 bg-sky-500/15 dark:text-sky-200 dark:bg-sky-300/10">
+                    Загалом
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody className="text-sm text-slate-800 dark:text-slate-200">
+                <tr>
+                  <td>Mаса вакуум, т</td>
+                  <td className="text-right">{sumValues?.VaporMassSumVacuum?.toFixed(3) ?? "—"}</td>
+                  <td className="text-right">{sumValues?.ProductMassSumVacuum?.toFixed(3) ?? "—"}</td>
+                  <td className="text-md text-right font-bold text-slate-950 bg-sky-500/15 dark:text-white dark:bg-sky-300/10">
+                    {sumValues?.CombinedProductMassSumVacuum?.toFixed(3) ?? "—"}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Маса повітря, т</td>
+                  <td className="text-right">{sumValues?.VaporMassSum?.toFixed(3) ?? "—"}</td>
+                  <td className="text-right">{sumValues?.ProductMassSum?.toFixed(3) ?? "—"}</td>
+                  <td className="text-md text-right font-bold text-slate-950 bg-sky-500/15 dark:text-white dark:bg-sky-300/10">
+                    {sumValues?.CombinedProductMassSum?.toFixed(3) ?? "—"}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
-        <div className="flex flex-row w-full max-w-96 items-center">
-          <div className="flex w-full max-w-88 flex-col justify-center gap-0.5 px-2 py-1 md:gap-2">
+        <div className="flex flex-row w-full max-w-96 items-center px-2 gap-2">
+          <div className="flex w-full max-w-88 flex-col justify-center gap-1">
             <Meter
               value={sumValues?.ObservedVolumeSum ?? 0}
               max={sumValues?.FullVolumeSum ?? 0}

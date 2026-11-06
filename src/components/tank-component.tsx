@@ -1,7 +1,10 @@
 import { cn } from "@/lib/utils";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useId, useState, type ReactNode } from "react";
 import type { TankMeasurement } from "@/components/tank.types";
 import { TriangleAlertIcon, CircleAlertIcon } from "lucide-react";
+
+const SPEED_ARROW_PATH =
+  "M288.662 352H31.338c-17.818 0-26.741-21.543-14.142-34.142l128.662-128.662c7.81-7.81 20.474-7.81 28.284 0l128.662 128.662c12.6 12.599 3.676 34.142-14.142 34.142z";
 
 export default function TankComponent({
   values,
@@ -18,6 +21,7 @@ export default function TankComponent({
     : "bg-sediment";
 
   const [animate, setAnimate] = useState(false);
+  const speedArrowClipId = useId();
 
   const baseHeight: number = Number(
     values?.max_graduration_level ? values.max_graduration_level : 1,
@@ -156,13 +160,13 @@ export default function TankComponent({
   }, []);
 
   const speedArrowClass = cn({
-    "absolute top-1/2 transform -translate-y-1/2 -translate-x-1/2 left-1/2 w-24 md:w-36 h-auto justify-center": true,
+    "pointer-events-none absolute top-1/2 transform -translate-y-1/2 -translate-x-1/2 left-1/2 w-24 md:w-28 h-auto justify-center": true,
     "rotate-180 -translate-y-2/5":
       values?.product_speed && values?.product_speed < 0,
-    hidden:
-      values?.product_speed === undefined ||
-      values?.product_speed === 0 ||
-      values?.product_speed === null,
+      hidden:
+        values?.product_speed === undefined ||
+        values?.product_speed === 0 ||
+        values?.product_speed === null,
   });
 
   useEffect(() => {
@@ -170,7 +174,7 @@ export default function TankComponent({
   }, [values]);
 
   const speedClass = cn({
-    "absolute top-1/2 transform -translate-y-1/5 left-0 w-full h-auto justify-center": true,
+    "pointer-events-none absolute top-1/2 left-1/2 z-10 -translate-x-1/2 -translate-y-1/5 w-max max-w-full rounded-lg border border-white/40 bg-background/35 px-2 py-1 text-foreground shadow-sm backdrop-blur-md backdrop-saturate-150 dark:border-white/20": true,
     hidden:
       values?.product_speed === undefined ||
       values?.product_speed === 0.0 ||
@@ -275,19 +279,35 @@ export default function TankComponent({
           ))
           : null}
         {!temperatureHangerVisible ? (
-          <div id="speed" className={speedArrowClass}>
+          <div id="speed" className={speedArrowClass} aria-hidden="true">
+            <div
+              className="absolute inset-0 bg-linear-to-br from-white/60 via-white/25 to-white/10 backdrop-blur-md backdrop-saturate-150 dark:from-white/30 dark:via-white/10 dark:to-white/5"
+              style={{ clipPath: `url(#${speedArrowClipId})` }}
+            />
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 320 550"
-              className="fill-muted-foreground opacity-75"
+              className="relative block w-full fill-none stroke-white/70 dark:stroke-white/40"
             >
-              <path d="M288.662 352H31.338c-17.818 0-26.741-21.543-14.142-34.142l128.662-128.662c7.81-7.81 20.474-7.81 28.284 0l128.662 128.662c12.6 12.599 3.676 34.142-14.142 34.142z" />
+              <defs>
+                <clipPath id={speedArrowClipId} clipPathUnits="objectBoundingBox">
+                  <path
+                    d={SPEED_ARROW_PATH}
+                    transform={`scale(${1 / 320} ${1 / 550})`}
+                  />
+                </clipPath>
+              </defs>
+              <path
+                d={SPEED_ARROW_PATH}
+                strokeWidth="1"
+                vectorEffect="non-scaling-stroke"
+              />
             </svg>
           </div>
         ) : null}
         {!temperatureHangerVisible ? (
           <div id="speedValue" className={speedClass}>
-            <div className="flex-col w-full text-center font-bold text-muted">
+            <div className="flex-col w-full text-center font-bold">
               <div>{values?.product_speed_volume?.toFixed(1) ?? "-"} м³/г</div>
               <div>{values?.product_speed_mass?.toFixed(1) ?? "-"} т/г</div>
             </div>
