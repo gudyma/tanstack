@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import type { TankMeasurement } from "@/components/tank.types";
 import { TriangleAlertIcon, CircleAlertIcon } from "lucide-react";
 
@@ -33,38 +33,94 @@ export default function TankComponent({
   const maxLevelPercent = ((maxLevel / baseHeight) * 100).toFixed(2);
   const minLevelPercent = ((minLevel / baseHeight) * 100).toFixed(2);
 
-  const topValues: any[] = [
+  const topValues: ReactNode[] = [
     values?.name ?? values?.label,
-    values?.vapor_gross_observed_volume
-      ? Number(values?.vapor_gross_observed_volume).toFixed(1) + " м³"
-      : "-",
-    values?.free_temperature
-      ? Number(values?.free_temperature).toFixed(1) + " °C"
-      : "-",
-    values?.product_temperature
-      ? Number(values?.product_temperature).toFixed(1) + " °C"
-      : "-",
     values?.product_level
-      ? (Number(values?.product_level) / 1000.0).toFixed(3) + " м"
+      ? "L : "+ (Number(values?.product_level) / 1000.0).toFixed(3) + " м"
       : "-",
-    values?.observed_density
-      ? Number(values?.observed_density).toFixed(4) + " "
-      : "-",
-  ];
-  const bottomValues: any[] = [
     values?.pressure || values?.pressure === 0
-      ? Number(values.pressure).toFixed(3) + " bar"
+      ? "Р : "+ Number(values.pressure).toFixed(3) + " bar"
       : "-",
+    values?.molar_mass
+          ? "Molar : " +Number(values?.molar_mass).toFixed(3)
+          : "-",
+    values?.free_temperature
+        ?  (
+          <>
+            T<sub>ПФ</sub> : {Number(values?.free_temperature).toFixed(1)} °C
+          </>
+        ) : (
+          "-"
+        ),
+    values?.vapor_gross_observed_volume ? (
+      <>
+        V<sub>ПФ</sub> : {Number(values.vapor_gross_observed_volume).toFixed(3)} м³
+      </>
+    ) : (
+      "-"
+    ),
+    values?.vapor_gross_mass_in_vacuume
+        ? (
+          <>
+            M<sub>ПФ вак.</sub> : {Number(values?.vapor_gross_mass_in_vacuume).toFixed(3)} т
+          </>
+        ) : (
+          "-"
+        ),
+
+  ];
+  const bottomValues: ReactNode[] = [
+
+    values?.product_temperature
+    ?  (
+      <>
+        T<sub>РФ</sub> : {Number(values?.product_temperature).toFixed(1)} °C
+      </>
+    ) : (
+      "-"
+    ),
     values?.total_observed_volume
-      ? Number(values?.total_observed_volume).toFixed(3) + " м³"
+      ? "V : " + Number(values?.total_observed_volume).toFixed(3) + " м³"
       : "-",
-    values?.product_mass ? Number(values?.product_mass).toFixed(4) + " т" : "-",
-    values?.vapor_gross_mass
-      ? Number(values?.vapor_gross_mass).toFixed(4) + " т"
-      : "-",
+    values?.standard_gross_volume_at15_c
+      ?  (
+        <>
+          V<sub>15</sub> : {(values?.standard_gross_volume_at15_c).toFixed(3)} м³
+        </>
+      ) : (
+        "-"
+      ),
+    values?.product_standard_density
+        ?  (
+                  <>
+                   ρ<sub>15</sub> : {(values?.product_standard_density / 1000.0).toFixed(4)}  kg/м³
+                  </>
+                ) : (
+                  "-")
+                ,
+    values?.standard_gross_mass_in_vacuume ?  (
+              <>
+               M<sub>РФ вак.</sub> : {Number(values?.standard_gross_mass_in_vacuume).toFixed(3) } т
+              </>
+            ) : (
+              "-"
+    ),
+    values?.vapor_gross_mass_in_vacuume && values?.standard_gross_mass_in_vacuume
+      ?  (
+                <>
+                  M<sub>Σ вак.</sub> : {Number(values?.vapor_gross_mass_in_vacuume + values?.standard_gross_mass_in_vacuume).toFixed(3)} т
+                </>
+              ) : (
+                "-"
+              ),
     values?.gas_product_mass
-      ? Number(values?.gas_product_mass).toFixed(4) + " т"
-      : "-",
+      ?  (
+                <>
+                  M<sub>Σ пов.</sub> : {Number(values?.gas_product_mass).toFixed(3)} т
+                </>
+              ) : (
+                "-"
+              ),
   ];
 
   const temperatureMarkers = [
@@ -89,7 +145,7 @@ export default function TankComponent({
       100,
       Math.max(0, (numericHeight / baseHeight) * 100),
     );
-    
+
 
     acc.push({
       value: `${numericTemp.toFixed(1)} °C`,
@@ -180,7 +236,7 @@ export default function TankComponent({
             id="topParameters"
             className="absolute inset-x-0 top-0 h-16 w-full"
           >
-            {topValues?.map((value: any, index: number) => {
+            {topValues.map((value, index) => {
               return (
                 <div key={`T${index}`} className="w-full text-center font-bold">
                   {value}
@@ -194,10 +250,10 @@ export default function TankComponent({
             id="bottomParameters"
             className="absolute inset-x-0 bottom-0 h-auto w-full"
           >
-            {bottomValues?.map((x: any, index: number) => {
+            {bottomValues.map((value, index) => {
               return (
                 <div key={`B${index}`} className="w-full text-center font-bold">
-                  {x}
+                  {value}
                 </div>
               );
             })}

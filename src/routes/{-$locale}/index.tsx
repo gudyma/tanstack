@@ -136,8 +136,8 @@ function RouteComponent() {
             max={sumValues?.FullProductMassSum ?? 0}
             label={`${
               timeDataUpdated ? format(timeDataUpdated, "HH:mm:ss dd.MM") : "-"
-            } : Маса `}
-            valueLabel={`${sumValues?.CombinedProductMassSum.toFixed(2) ?? "-"} of ${sumValues?.FullProductMassSum?.toFixed(2) ?? "-"} т`}
+            } : Маса в повітрі `}
+            valueLabel={`${sumValues?.CombinedProductMassSum.toFixed(3) ?? "-"} of ${sumValues?.FullProductMassSum?.toFixed(3) ?? "-"} т`}
             size="sm"
             color="var(--chart-2)"
             className=""
@@ -145,12 +145,12 @@ function RouteComponent() {
           <div className="flex flex-row w-full justify-between text-sm">
             <div>
               {" "}
-              М<sub>пф</sub>:
+              М<sub>ПФ пов.</sub>:
               {` ${sumValues?.VaporMassSum?.toFixed(3) ?? "-"}  т`}
             </div>
             <div>
               {" "}
-              М<sub>рф</sub>:
+              М<sub>РФ пов.</sub>:
               {` ${sumValues?.ProductMassSum?.toFixed(3) ?? "-"}  т`}
             </div>
           </div>
@@ -165,7 +165,7 @@ function RouteComponent() {
                   ? format(timeDataUpdated, "HH:mm:ss dd.MM")
                   : "-"
               } : Об'єм `}
-              valueLabel={`${sumValues?.ObservedVolumeSum?.toFixed(2) ?? "-"} из ${sumValues?.FullVolumeSum?.toFixed(2) ?? "-"}  м³`}
+              valueLabel={`${sumValues?.ObservedVolumeSum?.toFixed(3) ?? "-"} из ${sumValues?.FullVolumeSum?.toFixed(3) ?? "-"}  м³`}
               size="sm"
               color="var(--chart-1)"
               className=""
@@ -173,7 +173,7 @@ function RouteComponent() {
             <div className="flex flex-row w-full justify-between text-sm">
               <div>
                 V<sub>віл</sub>:
-                {` ${sumValues?.FreeVolumeSum?.toFixed(2) ?? "-"}  м³`}
+                {` ${sumValues?.FreeVolumeSum?.toFixed(3) ?? "-"}  м³`}
               </div>
               <div>{`Наповн.: ${sumValues?.VolumeSpeedSum?.toFixed(1) ?? "-"}  м³/год`}</div>
             </div>

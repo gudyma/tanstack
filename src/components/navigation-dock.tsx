@@ -28,7 +28,7 @@ export function NavigationDock(props: any) {
             to={"/" as To}
             className={cn(
               buttonVariants({ variant: "ghost", size: "icon" }),
-              "h-12 w-16 rounded-xl",
+              "h-12 w-20 rounded-xl",
               "/" === pathWithoutLocale
                 ? "bg-primary/10 shadow-xl dark:bg-accent-foreground/10"
                 : "",
@@ -45,7 +45,7 @@ export function NavigationDock(props: any) {
             to={"/table" as To}
             className={cn(
               buttonVariants({ variant: "ghost", size: "icon" }),
-              "h-12 w-16 rounded-xl",
+              "h-12 w-20 rounded-xl",
               "/table" === pathWithoutLocale
                 ? " bg-primary/10 shadow-xl dark:bg-accent-foreground/10"
                 : "",
@@ -62,7 +62,7 @@ export function NavigationDock(props: any) {
             to={"/journal" as To}
             className={cn(
               buttonVariants({ variant: "ghost", size: "icon" }),
-              "h-12 w-16 rounded-xl",
+              "h-12 w-20 rounded-xl",
               "/journal" === pathWithoutLocale
                 ? " bg-primary/10 shadow-xl dark:bg-accent-foreground/10"
                 : "",
@@ -82,7 +82,7 @@ export function NavigationDock(props: any) {
             key="More"
             className={cn(
               buttonVariants({ variant: "ghost", size: "icon" }),
-              `h-12 w-16 rounded-xl`,
+              `h-12 w-20 rounded-xl`,
             )}
           >
             <div className="flex flex-col items-center justify-center">
