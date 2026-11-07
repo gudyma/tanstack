@@ -13,7 +13,11 @@ export default {
         "DatetimeStartNote": "Початкова дата:",
         "DatetimeStartPlaceholder": "Оберіть початкову дату:",
         "DatetimeEndNote": "Кінцева дата:",
-        "DatetimeEndPlaceholder": "Оберіть кінцеву дату:"
+        "DatetimeEndPlaceholder": "Оберіть кінцеву дату:",
+        "UpdateData": "Оновити дані",
+        "UpdatingData": "Оновлення…",
+        "InvalidDateRange": "Початкова дата має бути не пізніше кінцевої.",
+        "DataLoadError": "Не вдалося завантажити дані журналу. Спробуйте ще раз."
       },
       "en": {
         "meta": {
@@ -25,7 +29,11 @@ export default {
         "DatetimeStartNote": "Start date:",
         "DatetimeStartPlaceholder": "Select start date:",
         "DatetimeEndNote": "End date:",
-        "DatetimeEndPlaceholder": "Select end date:"
+        "DatetimeEndPlaceholder": "Select end date:",
+        "UpdateData": "Update data",
+        "UpdatingData": "Updating…",
+        "InvalidDateRange": "Start date must be before or equal to end date.",
+        "DataLoadError": "Could not load journal data. Please try again."
       }
     }
   },

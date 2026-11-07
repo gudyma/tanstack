@@ -5,10 +5,8 @@ import { useIntlayer, useLocale } from "react-intlayer";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import MultipleSelector, {
   type Option,
@@ -22,13 +20,21 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useEffect, useRef, useState } from "react";
+import type { PaginationState } from "@tanstack/react-table";
+import { RefreshCw } from "lucide-react";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 import { DateTimePicker } from "@/components/ui/date-range-picker";
 import { Label } from "@/components/ui/label";
 import HooksAppRange from "@/components/uplot/uplot-react-2";
 import HooksApp from "@/components/uplot/uplot-react-example";
 import JournalTable from "@/components/journal-table";
-import { Tank, TankParameterData } from "@/components/tank.types";
+import type { Tank, TankParameterData } from "@/components/tank.types";
+import {
+  JOURNAL_FILTERS_STORAGE_KEY,
+  parseJournalFilters,
+  type JournalFilters,
+} from "@/lib/journal-filters";
 
 const OPTIONS: Option[] = [
   { label: "Рівень продукту, мм", value: "product_level" },
@@ -80,20 +86,74 @@ function RouteComponent() {
   const content = useIntlayer("journalContent");
   const { locale } = useLocale();
 
-  const today: Date = new Date();
-  const yesterday: Date = ((d) => new Date(d.setHours(d.getHours() - 1)))(
-    new Date(),
+  const [endDate, setEndDate] = useState(() => new Date());
+  const [startDate, setStartDate] = useState(
+    () => new Date(endDate.getTime() - 60 * 60 * 1000),
   );
-  const defaultRange: [Date, Date] = [yesterday, today];
-  const [dateRange, setDateRange] = useState(defaultRange);
-  const [startDate, setStartDate] = useState(yesterday);
-  const [endDate, setEndDate] = useState(today);
   const [tank, setTank] = useState("");
-  const [tankList, setTanks] = useState<Tank[]>(loaderData);
+  const [filtersRestored, setFiltersRestored] = useState(false);
+  // Only this snapshot is used for requests; editing the selectors is local.
+  const [appliedFilters, setAppliedFilters] = useState<JournalFilters | null>(null);
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 100,
+  });
+  const [tableLoading, setTableLoading] = useState(false);
+  const [graphLoading, setGraphLoading] = useState(false);
+  const validRange =
+    Number.isFinite(startDate.getTime()) &&
+    Number.isFinite(endDate.getTime()) &&
+    startDate <= endDate;
+
+  useEffect(() => {
+    try {
+      const saved = parseJournalFilters(
+        localStorage.getItem(JOURNAL_FILTERS_STORAGE_KEY),
+      );
+      if (saved) {
+        setStartDate(new Date(saved.startDate));
+        setEndDate(new Date(saved.endDate));
+        if (loaderData.some((item) => item.value === saved.tank)) {
+          setTank(saved.tank);
+          setAppliedFilters(saved);
+        }
+      }
+    } catch (error) {
+      console.warn("Could not restore journal filters:", error);
+    }
+    setFiltersRestored(true);
+  }, []);
+
+  useEffect(() => {
+    if (!filtersRestored || !validRange) return;
+
+    try {
+      localStorage.setItem(
+        JOURNAL_FILTERS_STORAGE_KEY,
+        JSON.stringify({
+          tank,
+          startDate: startDate.toISOString(),
+          endDate: endDate.toISOString(),
+        } satisfies JournalFilters),
+      );
+    } catch (error) {
+      console.warn("Could not save journal filters:", error);
+    }
+  }, [filtersRestored, tank, startDate, endDate, validRange]);
+
+  function updateData() {
+    if (!tank || !validRange) return;
+
+    setPagination((previous) => ({ ...previous, pageIndex: 0 }));
+    // A new snapshot also refreshes requests when the values have not changed.
+    setAppliedFilters({
+      tank,
+      startDate: startDate.toISOString(),
+      endDate: endDate.toISOString(),
+    });
+  }
 
   const [parameters, setParameters] = useState<Option[]>([]);
-  const [firstParameterName, setFirstParameterName] = useState<string>();
-  const [secondParameterName, setSecondParameterName] = useState<string>();
   const [firstParameterData, setFirstParameterData] = useState<
     TankParameterData[]
   >([]);
@@ -101,43 +161,55 @@ function RouteComponent() {
     TankParameterData[]
   >([]);
   const baseURL = process.env.API_URL || "http://localhost:5000";
-  function graphParametersChange() {
-    if (tank && parameters) {
-      toast.info("Отримую дані");
-
-      try {
-        if (parameters[0]?.value) {
-          fetch(
-            `${baseURL}/api/tankDataByParameter?tank=${tank}&start=${startDate.toISOString()}&end=${endDate.toISOString()}&parameter=${parameters[0]?.value}`,
-          )
-            .then((res) => (res.ok ? res.json() : Promise.reject()))
-            .then((rows) => {
-              setFirstParameterData(rows);
-            });
-          setFirstParameterName(parameters[0]?.label);
-        }
-        if (parameters[1]?.value) {
-          fetch(
-            `${baseURL}/api/tankDataByParameter?tank=${tank}&start=${startDate.toISOString()}&end=${endDate.toISOString()}&parameter=${parameters[1]?.value}`,
-          )
-            .then((res) => (res.ok ? res.json() : Promise.reject()))
-            .then((rows: TankParameterData[]) => {
-              setSecondParameterData(rows);
-            });
-          setSecondParameterName(parameters[1]?.label);
-        }
-        toast.info("Дані отримано");
-      } catch (error) {
-        toast.warning(`Error loading parameter data :`, error);
-      }
-    } else {
-      toast.warning("Не обрано резервуар");
-    }
-  }
+  const dataLoadError = content.DataLoadError.value;
 
   useEffect(() => {
-    graphParametersChange();
-  }, [tank, startDate, endDate, parameters]);
+    setFirstParameterData([]);
+    setSecondParameterData([]);
+    if (!appliedFilters || parameters.length === 0) {
+      setGraphLoading(false);
+      return;
+    }
+
+    const { tank, startDate, endDate } = appliedFilters;
+    const controller = new AbortController();
+    setGraphLoading(true);
+
+    async function loadGraphData() {
+      try {
+        const rows = await Promise.all(
+          parameters.slice(0, 2).map(async (parameter) => {
+            const query = new URLSearchParams({
+              tank,
+              start: startDate,
+              end: endDate,
+              parameter: parameter.value,
+            });
+            const response = await fetch(
+              `${baseURL}/api/tankDataByParameter?${query}`,
+              { signal: controller.signal },
+            );
+            if (!response.ok) throw new Error("Failed to fetch parameter data");
+            return (await response.json()) as TankParameterData[];
+          }),
+        );
+        if (!controller.signal.aborted) {
+          setFirstParameterData(rows[0] ?? []);
+          setSecondParameterData(rows[1] ?? []);
+        }
+      } catch (error) {
+        if (!controller.signal.aborted) {
+          console.error("Error loading parameter data:", error);
+          toast.error(dataLoadError);
+        }
+      } finally {
+        if (!controller.signal.aborted) setGraphLoading(false);
+      }
+    }
+
+    void loadGraphData();
+    return () => controller.abort();
+  }, [appliedFilters, parameters, baseURL, dataLoadError]);
 
   const boxRef = useRef<any>(null);
   const [width, setWidth] = useState(0);
@@ -162,18 +234,18 @@ function RouteComponent() {
 
   return (
     <div className="relative my-1 h-full w-full overflow-auto md:mb-0">
-      <div className="fixed top-0 z-50 w-full items-center justify-center border-x border-b bg-muted/60 backdrop-blur-sm">
+      <div className="sticky top-0 z-50 w-full items-center justify-center border-x border-b bg-muted/60 backdrop-blur-sm">
         <div className="flex flex-row flex-wrap items-center justify-center gap-2 px-2 py-2 md:px-4">
           <div className="flex w-full flex-row sm:w-auto">
             <Label className="mr-2" htmlFor="tankSelect">
               {content.TankSelectHeader}
             </Label>
-            <Select name="Tank name" onValueChange={(value) => setTank(value)}>
+            <Select name="Tank name" value={tank} onValueChange={setTank}>
               <SelectTrigger className="w-full" id="tankSelect">
                 <SelectValue placeholder={content.SelectTankPlaceholder} />
               </SelectTrigger>
               <SelectContent>
-                {tankList?.map((tank, index) => {
+                {loaderData?.map((tank, index) => {
                   return (
                     <SelectItem key={index} value={tank?.value}>
                       {tank?.label}
@@ -191,7 +263,9 @@ function RouteComponent() {
               className="w-auto text-foreground max-w-96 md:w-auto"
               placeholder=""
               value={startDate}
-              onChange={(newValue: Date) => setStartDate(newValue)}
+              onChange={(newValue) => {
+                if (newValue) setStartDate(newValue);
+              }}
             />
           </div>
 
@@ -202,17 +276,45 @@ function RouteComponent() {
               className="w-auto text-foreground max-w-96 md:w-auto"
               placeholder=""
               value={endDate}
-              onChange={(newValue: Date) => setEndDate(newValue)}
+              onChange={(newValue) => {
+                if (newValue) setEndDate(newValue);
+              }}
             />
           </div>
+          <Button
+            type="button"
+            onClick={updateData}
+            disabled={
+              !filtersRestored ||
+              !tank ||
+              !validRange ||
+              tableLoading ||
+              graphLoading
+            }
+            aria-busy={tableLoading || graphLoading}
+          >
+            <RefreshCw
+              aria-hidden="true"
+              className={tableLoading || graphLoading ? "animate-spin" : undefined}
+            />
+            {tableLoading || graphLoading
+              ? content.UpdatingData
+              : content.UpdateData}
+          </Button>
+          {!validRange && (
+            <p role="alert" className="w-full text-center text-sm text-destructive">
+              {content.InvalidDateRange}
+            </p>
+          )}
         </div>
       </div>
-      <div className="w-full px-2 pt-36 sm:pt-14">
+      <div className="w-full px-2 pt-2">
         <JournalTable
           lang={locale}
-          tank={tank}
-          startDate={startDate.toISOString()}
-          endDate={endDate.toISOString()}
+          filters={appliedFilters}
+          pagination={pagination}
+          onPaginationChange={setPagination}
+          onLoadingChange={setTableLoading}
         />
       </div>
       <div className="mt-4 mb-18 w-full px-1">
@@ -254,7 +356,7 @@ function RouteComponent() {
                     x={firstParameterData?.map((item) =>
                       Math.floor(new Date(item.timestamp).getTime() / 1000),
                     )}
-                    labely1={firstParameterName ?? ""}
+                    labely1={parameters[0]?.label ?? ""}
                     y1={firstParameterData?.map((item) =>
                       Number(item.parameter),
                     )}

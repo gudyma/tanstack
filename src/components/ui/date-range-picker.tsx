@@ -760,6 +760,7 @@ const DateTimePicker = React.forwardRef<
      */
     React.useEffect(() => {
       setDisplayDate(value);
+      if (value) setMonth(value);
     }, [value]);
 
     /**

@@ -5,11 +5,14 @@ import { format } from "date-fns";
 import {
   type ColumnDef,
   type ColumnResizeMode,
+  type OnChangeFn,
   type PaginationState,
   flexRender,
   useTable,
 } from "@tanstack/react-table";
 import { journalTableFeatures } from "@/lib/journal-table-features";
+import type { JournalFilters } from "@/lib/journal-filters";
+import { useIntlayer } from "react-intlayer";
 
 import type { TankInfoExtendedWithGrouping } from "@/i18n/dictionaries/columnsInterfaces";
 
@@ -28,16 +31,20 @@ const VISIBILITY_STORAGE_KEY = "journal-table-column-visibility";
 export default function JournalTable({
   dictionary,
   lang,
-  tank,
-  startDate,
-  endDate,
+  filters,
+  pagination,
+  onPaginationChange,
+  onLoadingChange,
 }: {
   dictionary?: any;
   lang: any;
-  tank?: string;
-  startDate?: string;
-  endDate?: string;
+  filters: JournalFilters | null;
+  pagination: PaginationState;
+  onPaginationChange: OnChangeFn<PaginationState>;
+  onLoadingChange: (loading: boolean) => void;
 }) {
+  const content = useIntlayer("journalContent");
+  const dataLoadError = content.DataLoadError.value;
   const empty: ColumnDef<
     typeof journalTableFeatures,
     TankInfoExtendedWithGrouping
@@ -46,10 +53,7 @@ export default function JournalTable({
   const [columnResizeMode, setColumnResizeMode] =
     useState<ColumnResizeMode>("onChange");
 
-  const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
-    pageIndex: 0,
-    pageSize: 100,
-  });
+  const { pageIndex, pageSize } = pagination;
 
   const [rowSelection, setRowSelection] = useState({});
 
@@ -66,7 +70,7 @@ export default function JournalTable({
   const [columnVisibility, setColumnVisibility] = useState<
     Record<string, boolean>
   >(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === "undefined") return { park: false, product: false };
     try {
       const stored = localStorage.getItem(VISIBILITY_STORAGE_KEY);
       if (stored) {
@@ -79,29 +83,25 @@ export default function JournalTable({
         `Error loading localStorage key "${VISIBILITY_STORAGE_KEY}":`,
         error,
       );
-      return;
+      return { park: false, product: false };
     }
   });
 
   // Save visibility whenever it changes
   useEffect(() => {
-    localStorage.setItem(
-      VISIBILITY_STORAGE_KEY,
-      JSON.stringify(columnVisibility),
-    );
+    try {
+      localStorage.setItem(
+        VISIBILITY_STORAGE_KEY,
+        JSON.stringify(columnVisibility),
+      );
+    } catch (error) {
+      console.warn("Could not save journal column visibility:", error);
+    }
   }, [columnVisibility]);
 
   const defaultData = useMemo(() => {
     return [];
   }, []);
-
-  const pagination = useMemo(
-    () => ({
-      pageIndex,
-      pageSize,
-    }),
-    [pageIndex, pageSize],
-  );
 
   const table = useTable({
     features: journalTableFeatures,
@@ -117,7 +117,7 @@ export default function JournalTable({
     enableRowSelection: true,
     enableMultiRowSelection: false,
     onRowSelectionChange: setRowSelection,
-    onPaginationChange: setPagination,
+    onPaginationChange,
     onColumnVisibilityChange: setColumnVisibility,
     manualPagination: true,
     debugTable: false,
@@ -126,36 +126,59 @@ export default function JournalTable({
   const baseURL = process.env.API_URL || "http://localhost:5000";
 
   useEffect(() => {
-    if (tank) {
-      fetch(
-        `${baseURL}/api/tankDataCount?tank=${tank}&start=${startDate}&end=${endDate}`,
-      )
-        .then((res) => {
-          if (!res.ok) throw new Error("Failed to fetch count");
-          return res.json();
-        })
-        .then((cres) => {
-          const count = cres;
-          const query = `${baseURL}/api/tankData?tank=${tank}&start=${startDate}&end=${endDate}&limit=${pageSize}&offset=${pageSize * pageIndex}`;
-          return fetch(query)
-            .then((res) => {
-              if (!res.ok) throw new Error("Failed to fetch tank data");
-              return res.json();
-            })
-            .then((data) => {
-              console.log(
-                `Fetched info for ${tank} from ${startDate} to ${endDate}`,
-              );
-              toast.info(`${format(Date(), "HH:mm:ss")}: Дані оновлено`);
-              setData(data);
-              setPageCount(Math.ceil(count / pageSize));
-            });
-        })
-        .catch((err) => {
-          console.error("Error:", err);
-        });
+    setData(undefined);
+    setRowSelection({});
+    setTankData(undefined);
+    if (!filters) {
+      setPageCount(0);
+      onLoadingChange(false);
+      return;
     }
-  }, [tank, startDate, endDate, pageIndex, pageSize]);
+
+    const { tank, startDate, endDate } = filters;
+    const controller = new AbortController();
+    onLoadingChange(true);
+
+    async function loadTableData() {
+      try {
+        const query = new URLSearchParams({
+          tank,
+          start: startDate,
+          end: endDate,
+        });
+        const countResponse = await fetch(`${baseURL}/api/tankDataCount?${query}`, {
+          signal: controller.signal,
+        });
+        if (!countResponse.ok) throw new Error("Failed to fetch count");
+        const count = await countResponse.json();
+
+        query.set("limit", String(pageSize));
+        query.set("offset", String(pageSize * pageIndex));
+        const response = await fetch(`${baseURL}/api/tankData?${query}`, {
+          signal: controller.signal,
+        });
+        if (!response.ok) throw new Error("Failed to fetch tank data");
+        const rows = await response.json();
+
+        if (!controller.signal.aborted) {
+          setData(rows);
+          setPageCount(Math.ceil(count / pageSize));
+          toast.info(`${format(Date(), "HH:mm:ss")}: Дані оновлено`);
+        }
+      } catch (error) {
+        if (!controller.signal.aborted) {
+          console.error("Error loading journal data:", error);
+          setPageCount(0);
+          toast.error(dataLoadError);
+        }
+      } finally {
+        if (!controller.signal.aborted) onLoadingChange(false);
+      }
+    }
+
+    void loadTableData();
+    return () => controller.abort();
+  }, [filters, pageIndex, pageSize, baseURL, onLoadingChange, dataLoadError]);
 
   return (
     <div className="flex w-full flex-wrap">
