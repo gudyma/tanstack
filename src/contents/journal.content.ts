@@ -53,6 +53,10 @@ const journalPageContent = {
       en: "Could not load journal data. Please try again.",
       uk: "Не вдалося завантажити дані журналу. Спробуйте ще раз.",
     }),
+    ParameterDataLoadError: t({
+      en: "Could not load data for these parameters:",
+      uk: "Не вдалося завантажити дані для цих параметрів:",
+    }),
     LeftYAxis: t({
       en: "Left Y axis",
       uk: "Ліва вісь Y",

@@ -36,6 +36,7 @@ import {
 } from "@/lib/journal-filters";
 import {
   getJournalAxisOptions,
+  loadJournalGraphData,
   setJournalAxisParameters,
   type JournalAxisParameters,
   type JournalGraphParameter,
@@ -184,6 +185,7 @@ function RouteComponent() {
   );
   const baseURL = process.env.API_URL || "http://localhost:5000";
   const dataLoadError = content.DataLoadError.value;
+  const parameterLoadError = content.ParameterDataLoadError.value;
 
   useEffect(() => {
     setParameterData({});
@@ -192,33 +194,28 @@ function RouteComponent() {
       return;
     }
 
-    const { tank, startDate, endDate } = appliedFilters;
+    const filters = appliedFilters;
     const controller = new AbortController();
     setGraphLoading(true);
 
     async function loadGraphData() {
       try {
-        const rows = await Promise.all(
-          parameters.map(async (parameter) => {
-            const query = new URLSearchParams({
-              tank,
-              start: startDate,
-              end: endDate,
-              parameter: parameter.value,
-            });
-            const response = await fetch(
-              `${baseURL}/api/tankDataByParameter?${query}`,
-              { signal: controller.signal },
-            );
-            if (!response.ok) throw new Error("Failed to fetch parameter data");
-            return [
-              parameter.value,
-              (await response.json()) as TankParameterData[],
-            ] as const;
-          }),
+        const { data, failures } = await loadJournalGraphData(
+          baseURL,
+          filters,
+          parameters,
+          controller.signal,
         );
         if (!controller.signal.aborted) {
-          setParameterData(Object.fromEntries(rows));
+          setParameterData(data);
+          if (failures.length > 0) {
+            failures.forEach(({ parameter, error }) => {
+              console.error(`Error loading ${parameter.value}:`, error);
+            });
+            toast.error(parameterLoadError, {
+              description: failures.map(({ parameter }) => parameter.label).join(", "),
+            });
+          }
         }
       } catch (error) {
         if (!controller.signal.aborted) {
@@ -232,7 +229,7 @@ function RouteComponent() {
 
     void loadGraphData();
     return () => controller.abort();
-  }, [appliedFilters, parameters, baseURL, dataLoadError]);
+  }, [appliedFilters, parameters, baseURL, dataLoadError, parameterLoadError]);
 
   const boxRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
