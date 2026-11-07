@@ -16,7 +16,12 @@
         "UpdateData": "Оновити дані",
         "UpdatingData": "Оновлення…",
         "InvalidDateRange": "Початкова дата має бути не пізніше кінцевої.",
-        "DataLoadError": "Не вдалося завантажити дані журналу. Спробуйте ще раз."
+        "DataLoadError": "Не вдалося завантажити дані журналу. Спробуйте ще раз.",
+        "LeftYAxis": "Ліва вісь Y",
+        "RightYAxis": "Права вісь Y",
+        "SelectGraphParameters": "Оберіть до двох параметрів",
+        "MaxAxisParameters": "Для кожної осі можна обрати до двох параметрів.",
+        "NoParametersFound": "Параметрів не знайдено."
       },
       "en": {
         "meta": {
@@ -32,7 +37,12 @@
         "UpdateData": "Update data",
         "UpdatingData": "Updating…",
         "InvalidDateRange": "Start date must be before or equal to end date.",
-        "DataLoadError": "Could not load journal data. Please try again."
+        "DataLoadError": "Could not load journal data. Please try again.",
+        "LeftYAxis": "Left Y axis",
+        "RightYAxis": "Right Y axis",
+        "SelectGraphParameters": "Select up to two parameters",
+        "MaxAxisParameters": "You can select up to two parameters per axis.",
+        "NoParametersFound": "No parameters found."
       }
     }
   },

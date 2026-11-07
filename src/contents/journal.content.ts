@@ -53,6 +53,26 @@ const journalPageContent = {
       en: "Could not load journal data. Please try again.",
       uk: "Не вдалося завантажити дані журналу. Спробуйте ще раз.",
     }),
+    LeftYAxis: t({
+      en: "Left Y axis",
+      uk: "Ліва вісь Y",
+    }),
+    RightYAxis: t({
+      en: "Right Y axis",
+      uk: "Права вісь Y",
+    }),
+    SelectGraphParameters: t({
+      en: "Select up to two parameters",
+      uk: "Оберіть до двох параметрів",
+    }),
+    MaxAxisParameters: t({
+      en: "You can select up to two parameters per axis.",
+      uk: "Для кожної осі можна обрати до двох параметрів.",
+    }),
+    NoParametersFound: t({
+      en: "No parameters found.",
+      uk: "Параметрів не знайдено.",
+    }),
   },
 
   key: "journalContent",

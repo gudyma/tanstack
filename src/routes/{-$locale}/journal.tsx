@@ -19,14 +19,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { PaginationState } from "@tanstack/react-table";
 import { RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { DateTimePicker } from "@/components/ui/date-range-picker";
 import { Label } from "@/components/ui/label";
-import HooksAppRange from "@/components/uplot/uplot-react-2";
 import HooksApp from "@/components/uplot/uplot-react-example";
 import JournalTable from "@/components/journal-table";
 import type { Tank, TankParameterData } from "@/components/tank.types";
@@ -35,6 +34,12 @@ import {
   parseJournalFilters,
   type JournalFilters,
 } from "@/lib/journal-filters";
+import {
+  getJournalAxisOptions,
+  setJournalAxisParameters,
+  type JournalAxisParameters,
+  type JournalGraphParameter,
+} from "@/lib/journal-graph";
 
 const OPTIONS: Option[] = [
   { label: "Рівень продукту, мм", value: "product_level" },
@@ -153,19 +158,35 @@ function RouteComponent() {
     });
   }
 
-  const [parameters, setParameters] = useState<Option[]>([]);
-  const [firstParameterData, setFirstParameterData] = useState<
-    TankParameterData[]
-  >([]);
-  const [secondParameterData, setSecondParameterData] = useState<
-    TankParameterData[]
-  >([]);
+  const [axisParameters, setAxisParameters] = useState<JournalAxisParameters>({
+    left: [],
+    right: [],
+  });
+  const parameters = useMemo<JournalGraphParameter[]>(() => [
+    ...axisParameters.left.map((parameter) => ({
+      ...parameter,
+      axis: "left" as const,
+    })),
+    ...axisParameters.right.map((parameter) => ({
+      ...parameter,
+      axis: "right" as const,
+    })),
+  ], [axisParameters]);
+  const [parameterData, setParameterData] = useState<
+    Record<string, TankParameterData[]>
+  >({});
+  const graphSeries = useMemo(
+    () => parameters.map((parameter) => ({
+      ...parameter,
+      data: parameterData[parameter.value] ?? [],
+    })),
+    [parameters, parameterData],
+  );
   const baseURL = process.env.API_URL || "http://localhost:5000";
   const dataLoadError = content.DataLoadError.value;
 
   useEffect(() => {
-    setFirstParameterData([]);
-    setSecondParameterData([]);
+    setParameterData({});
     if (!appliedFilters || parameters.length === 0) {
       setGraphLoading(false);
       return;
@@ -178,7 +199,7 @@ function RouteComponent() {
     async function loadGraphData() {
       try {
         const rows = await Promise.all(
-          parameters.slice(0, 2).map(async (parameter) => {
+          parameters.map(async (parameter) => {
             const query = new URLSearchParams({
               tank,
               start: startDate,
@@ -190,12 +211,14 @@ function RouteComponent() {
               { signal: controller.signal },
             );
             if (!response.ok) throw new Error("Failed to fetch parameter data");
-            return (await response.json()) as TankParameterData[];
+            return [
+              parameter.value,
+              (await response.json()) as TankParameterData[],
+            ] as const;
           }),
         );
         if (!controller.signal.aborted) {
-          setFirstParameterData(rows[0] ?? []);
-          setSecondParameterData(rows[1] ?? []);
+          setParameterData(Object.fromEntries(rows));
         }
       } catch (error) {
         if (!controller.signal.aborted) {
@@ -211,25 +234,22 @@ function RouteComponent() {
     return () => controller.abort();
   }, [appliedFilters, parameters, baseURL, dataLoadError]);
 
-  const boxRef = useRef<any>(null);
+  const boxRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
 
   useEffect(() => {
-    // on initial render
-    setTimeout(() => {
-      updateSize();
-    }, 0);
-    // gets the size and updates state
-    function updateSize() {
-      const { width, height } = boxRef.current.getBoundingClientRect();
+    const box = boxRef.current;
+    if (!box) return;
+    const updateSize = () => {
+      const { width, height } = box.getBoundingClientRect();
       setWidth(width);
-      setHeight(height - 50);
-    }
-    // event listener
-    window.addEventListener("resize", updateSize);
-    // remove the event listener before the component gets unmounted
-    return () => window.removeEventListener("resize", updateSize);
+      setHeight(Math.max(0, height - 50));
+    };
+    updateSize();
+    const observer = new ResizeObserver(updateSize);
+    observer.observe(box);
+    return () => observer.disconnect();
   }, []);
 
   return (
@@ -325,62 +345,50 @@ function RouteComponent() {
           <TabsContent value="main">
             <Card className="h-[80vh] p-0">
               <CardHeader />
-              <CardContent className="m-0 flex h-full w-full touch-none flex-col">
-                <div className="flex h-auto w-full flex-col justify-between gap-2  md:flex-row md:gap-0">
-                  <div className="w-full flex-col items-center px-4">
-                    <MultipleSelector
-                      maxSelected={1}
-                      onMaxSelected={(maxLimit) => {
-                        toast.warning("Parameters select", {
-                          description: `Ви обрали максимальну кількість: ${maxLimit}`,
-                        });
-                      }}
-                      value={parameters}
-                      onChange={(value) => {
-                        setParameters(value);
-                      }}
-                      defaultOptions={OPTIONS}
-                      placeholder="Оберіть параметр"
-                      emptyIndicator={
-                        <p className="text-center text-gray-600 text-lg leading-10 dark:text-gray-400">
-                          no results found.
-                        </p>
-                      }
+              <CardContent className="m-0 flex h-full min-h-0 w-full flex-col">
+                <div className="grid w-full shrink-0 grid-cols-1 gap-4 px-4 md:grid-cols-2">
+                  {(["left", "right"] as const).map((axis) => (
+                    <div key={axis} className="min-w-0 space-y-2">
+                      <Label htmlFor={`journal-${axis}-parameters`}>
+                        {axis === "left" ? content.LeftYAxis : content.RightYAxis}
+                      </Label>
+                      <MultipleSelector
+                        maxSelected={2}
+                        onMaxSelected={() => {
+                          toast.warning(content.MaxAxisParameters.value);
+                        }}
+                        value={axisParameters[axis]}
+                        onChange={(value) => {
+                          setAxisParameters((current) =>
+                            setJournalAxisParameters(current, axis, value),
+                          );
+                        }}
+                        options={getJournalAxisOptions(
+                          OPTIONS,
+                          axisParameters[axis === "left" ? "right" : "left"],
+                        )}
+                        inputProps={{ id: `journal-${axis}-parameters` }}
+                        placeholder={content.SelectGraphParameters.value}
+                        emptyIndicator={
+                          <p className="py-2 text-center text-sm text-muted-foreground">
+                            {content.NoParametersFound}
+                          </p>
+                        }
+                      />
+                    </div>
+                  ))}
+                </div>
+                <div ref={boxRef} className="flex min-h-0 w-full flex-1 touch-none">
+                  {width > 0 && height > 0 && (
+                    <HooksApp
+                      width={width}
+                      height={height}
+                      series={graphSeries}
+                      leftAxisLabel={content.LeftYAxis.value}
+                      rightAxisLabel={content.RightYAxis.value}
                     />
-                  </div>
+                  )}
                 </div>
-                <div ref={boxRef} className="flex h-full w-full ">
-                  <HooksApp
-                    width={width}
-                    height={height}
-                    x={firstParameterData?.map((item) =>
-                      Math.floor(new Date(item.timestamp).getTime() / 1000),
-                    )}
-                    labely1={parameters[0]?.label ?? ""}
-                    y1={firstParameterData?.map((item) =>
-                      Number(item.parameter),
-                    )}
-                    labely2={""}
-                    y2={[]}
-                  />
-                </div>
-              </CardContent>
-
-              <CardFooter />
-            </Card>
-          </TabsContent>
-          <TabsContent value="full">
-            <Card className="h-[80vh] p-0">
-              <CardHeader />
-              <CardContent
-                className="m-0 w-full p-0"
-                style={{ pointerEvents: "all" }}
-              >
-                <HooksAppRange
-                  x={firstParameterData?.map((item) => item.timestamp)}
-                  y1={firstParameterData?.map((item) => item.parameter)}
-                  y2={secondParameterData?.map((item) => item.parameter)}
-                />
               </CardContent>
 
               <CardFooter />

@@ -13,8 +13,8 @@ export interface Tank {
 }
 
 export interface TankParameterData {
-  parameter: string;
-  timestamp: Date;
+  parameter: string | number | null;
+  timestamp: Date | string;
 }
 
 export interface TankMeasurement extends Tank {

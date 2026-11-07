@@ -47,12 +47,13 @@ export default function UplotReact({
 	// componentDidUpdate
 	const prevProps = useRef({ options, data, target }).current;
 	useEffect(() => {
-		const chart = chartRef.current;
+		let chart = chartRef.current;
 		if (prevProps.options !== options) {
 			const optionsState = optionsUpdateState(prevProps.options, options);
 			if (!chart || optionsState === "create") {
 				destroy(chart);
 				create();
+				chart = chartRef.current;
 			} else if (optionsState === "update") {
 				chart.setSize({ width: options.width, height: options.height });
 			}
