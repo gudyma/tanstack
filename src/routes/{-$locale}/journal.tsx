@@ -45,19 +45,20 @@ import {
 const OPTIONS: Option[] = [
   { label: "Рівень продукту, мм", value: "product_level" },
   { label: "Рівень осаду, мм", value: "sediment_level" },
-  { label: "Температура продукту, С", value: "product_temperature" },
-  { label: "Температура ПФ, С", value: "free_temperature" },
+  { label: "Температура продукту, °С", value: "product_temperature" },
+  { label: "Температура ПФ, °С", value: "free_temperature" },
   { label: "Тиск, бар", value: "pressure" },
   { label: "Швидкість, мм/хв", value: "product_speed" },
-  { label: "Об'єм, м3", value: "total_observed_volume" },
-  { label: "Об'єм продукту, м3", value: "gross_observed_volume" },
-  { label: "Об'єм ПФ, м3", value: "vapor_gross_observed_volume" },
-  { label: "Об'єм осаду, м3", value: "sediment_volume" },
-  { label: "Об'єм 15 С, м3", value: "standard_gross_volume_at15c" },
-  { label: "Густина, ", value: "observed_density" },
+  { label: "Об'єм, м³", value: "total_observed_volume" },
+  { label: "Об'єм продукту, м³", value: "gross_observed_volume" },
+  { label: "Об'єм ПФ, м³", value: "vapor_gross_observed_volume" },
+  { label: "Об'єм осаду, м³", value: "sediment_volume" },
+  { label: "Об'єм 15 °С, м³", value: "standard_gross_volume_at15c" },
+  { label: "Густина, кг/м³", value: "observed_density" },
+  { label: "Густина 15 °С, кг/м³", value: "round(standard_gross_mass_in_vacuume/standard_gross_volume_at15c, 4)" },
   { label: "Маса продукту (вак.), т", value: "standard_gross_mass_in_vacuume" },
   { label: "Маса продукту, т", value: "product_mass" },
-  { label: "Маса ПФ (вак.), т", value: "vapor_gross_mass_in_vacuum" },
+  { label: "Маса ПФ (вак.), т", value: "vapor_gross_mass_in_vacuume" },
   { label: "Маса ПФ, т", value: "vapor_gross_mass" },
   { label: "Загальна маса", value: "gas_product_mass" },
   { label: "Т1", value: "t1" },
@@ -381,8 +382,12 @@ function RouteComponent() {
                       width={width}
                       height={height}
                       series={graphSeries}
-                      leftAxisLabel={content.LeftYAxis.value}
-                      rightAxisLabel={content.RightYAxis.value}
+                      leftAxisLabel={axisParameters.left
+                        .map((parameter) => parameter.label)
+                        .join(" / ")}
+                      rightAxisLabel={axisParameters.right
+                        .map((parameter) => parameter.label)
+                        .join(" / ")}
                     />
                   )}
                 </div>

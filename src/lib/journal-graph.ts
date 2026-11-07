@@ -111,6 +111,6 @@ export function getJournalPlotSeries(parameters: JournalGraphParameter[]): uPlot
     stroke: colors[parameter.axis][index[parameter.axis]++],
     width: 1.5,
     spanGaps: false,
-    value: (_chart, value) => value == null ? "--" : value.toFixed(2),
+    value: (_chart, value) => value == null ? "--" : value.toFixed(4),
   }));
 }
