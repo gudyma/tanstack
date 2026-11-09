@@ -146,10 +146,10 @@ function RouteComponent() {
           <div className="overflow-hidden">
             <table className="w-full border-collapse tabular-nums [&_td]:whitespace-nowrap [&_td]:px-2.5 [&_th]:px-2.5">
               <thead>
-                <tr className="text-sm">
-                  <th className="text-left font-medium"></th>
-                  <th className="text-right font-medium">ПФ</th>
-                  <th className="text-right font-medium">РФ</th>
+                <tr className="">
+                  <th className="text-center font-black text-md">{tanks[0]?.park ?? "-"}</th>
+                  <th className="text-right font-medium text-sm">ПФ</th>
+                  <th className="text-right font-medium text-sm">РФ</th>
                   <th className="text-md text-right font-bold text-sky-900 bg-sky-500/15 dark:text-sky-200 dark:bg-sky-300/10">
                     Загалом
                   </th>

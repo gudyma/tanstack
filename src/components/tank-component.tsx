@@ -51,7 +51,7 @@ export default function TankComponent({
     values?.free_temperature
         ?  (
           <>
-            T<sub>ПФ</sub> : {Number(values?.free_temperature).toFixed(1)} °C
+            T<sub>ПФ</sub> : {Number(values?.free_temperature).toFixed(2)} °C
           </>
         ) : (
           "-"
@@ -78,7 +78,7 @@ export default function TankComponent({
     values?.product_temperature
     ?  (
       <>
-        T<sub>РФ</sub> : {Number(values?.product_temperature).toFixed(1)} °C
+        T<sub>РФ</sub> : {Number(values?.product_temperature).toFixed(2)} °C
       </>
     ) : (
       "-"
