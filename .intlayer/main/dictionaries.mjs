@@ -1,3 +1,4 @@
+import _pe1l0tv9t0 from '../dictionary/date-time-range-picker.json' with { type: 'json' };
 import _is5qsl7nki from '../dictionary/editable-table.json' with { type: 'json' };
 import _ycd3ihzg6q from '../dictionary/indexContent.json' with { type: 'json' };
 import _1bc4fbv4vs8 from '../dictionary/journalContent.json' with { type: 'json' };
@@ -8,6 +9,7 @@ import _144jhy9sp0b from '../dictionary/tableContent.json' with { type: 'json' }
 import _gjp7tmeuax from '../dictionary/tankContent.json' with { type: 'json' };
 
 const dictionaries = {
+  "date-time-range-picker": _pe1l0tv9t0,
   "editable-table": _is5qsl7nki,
   "indexContent": _ycd3ihzg6q,
   "journalContent": _1bc4fbv4vs8,

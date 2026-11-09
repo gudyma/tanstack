@@ -1,4 +1,5 @@
 import "intlayer";
+import _1n386hxzc5x from './date-time-range-picker.ts';
 import _1xp63dt21b2 from './editable-table.ts';
 import _23ronxkqkyx from './indexContent.ts';
 import _1eydrxti6yf from './journalContent.ts';
@@ -10,6 +11,7 @@ import _1tz87cb9svm from './tankContent.ts';
 
 declare module 'intlayer' {
   interface __DictionaryRegistry {
+    "date-time-range-picker": typeof _1n386hxzc5x;
     "editable-table": typeof _1xp63dt21b2;
     "indexContent": typeof _23ronxkqkyx;
     "journalContent": typeof _1eydrxti6yf;

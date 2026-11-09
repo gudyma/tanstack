@@ -590,6 +590,7 @@ interface TimePickerProps {
    * Default is 'second'.
    * */
   granularity?: Granularity;
+  labels?: { hours: string; minutes: string; seconds?: string };
 }
 
 interface TimePickerRef {
@@ -599,7 +600,8 @@ interface TimePickerRef {
 }
 
 const TimePicker = React.forwardRef<TimePickerRef, TimePickerProps>(
-  ({ date, onChange, hourCycle = 24, granularity = "second" }, ref) => {
+  ({ date, onChange, hourCycle = 24, granularity = "second", labels }, ref) => {
+    const id = React.useId();
     const minuteRef = React.useRef<HTMLInputElement>(null);
     const hourRef = React.useRef<HTMLInputElement>(null);
     const secondRef = React.useRef<HTMLInputElement>(null);
@@ -620,13 +622,14 @@ const TimePicker = React.forwardRef<TimePickerRef, TimePickerProps>(
     );
     return (
       <div className="flex items-center justify-center gap-2">
-        <label htmlFor="datetime-picker-hour-input" className="cursor-pointer">
-          <Clock className="mr-2 h-4 w-4" />
+        <label htmlFor={`${id}-hours`} className="cursor-pointer">
+          <Clock aria-hidden="true" className="mr-2 h-4 w-4" />
         </label>
         <TimePickerInput
           picker={hourCycle === 24 ? "hours" : "12hours"}
           date={date}
-          id="datetime-picker-hour-input"
+          id={`${id}-hours`}
+          aria-label={labels?.hours}
           onDateChange={onChange}
           ref={hourRef}
           period={period}
@@ -637,6 +640,8 @@ const TimePicker = React.forwardRef<TimePickerRef, TimePickerProps>(
             :
             <TimePickerInput
               picker="minutes"
+              id={`${id}-minutes`}
+              aria-label={labels?.minutes}
               date={date}
               onDateChange={onChange}
               ref={minuteRef}
@@ -650,6 +655,8 @@ const TimePicker = React.forwardRef<TimePickerRef, TimePickerProps>(
             :
             <TimePickerInput
               picker="seconds"
+              id={`${id}-seconds`}
+              aria-label={labels?.seconds}
               date={date}
               onDateChange={onChange}
               ref={secondRef}

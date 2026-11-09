@@ -24,7 +24,7 @@ import type { PaginationState } from "@tanstack/react-table";
 import { RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { DateTimePicker } from "@/components/ui/date-range-picker";
+import { DateTimeRangePicker } from "@/components/ui/date-time-range-picker";
 import { Label } from "@/components/ui/label";
 import HooksApp from "@/components/uplot/uplot-react-example";
 import JournalTable from "@/components/journal-table";
@@ -99,7 +99,7 @@ function RouteComponent() {
   );
   const [tank, setTank] = useState("");
   const [filtersRestored, setFiltersRestored] = useState(false);
-  // Only this snapshot is used for requests; editing the selectors is local.
+  // Requests use the snapshot confirmed by Apply or Update data.
   const [appliedFilters, setAppliedFilters] = useState<JournalFilters | null>(null);
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
@@ -148,15 +148,21 @@ function RouteComponent() {
     }
   }, [filtersRestored, tank, startDate, endDate, validRange]);
 
-  function updateData() {
-    if (!tank || !validRange) return;
+  function updateData(from = startDate, to = endDate) {
+    if (
+      !filtersRestored ||
+      !tank ||
+      !Number.isFinite(from.getTime()) ||
+      !Number.isFinite(to.getTime()) ||
+      from > to
+    ) return;
 
     setPagination((previous) => ({ ...previous, pageIndex: 0 }));
     // A new snapshot also refreshes requests when the values have not changed.
     setAppliedFilters({
       tank,
-      startDate: startDate.toISOString(),
-      endDate: endDate.toISOString(),
+      startDate: from.toISOString(),
+      endDate: to.toISOString(),
     });
   }
 
@@ -274,34 +280,18 @@ function RouteComponent() {
             </Select>
           </div>
 
-          <div className="flex w-full flex-row sm:w-auto justify-between sm:max-w-96 md:w-auto">
-            <Label className="pr-2">{content.DatetimeStartNote}</Label>
-            <DateTimePicker
-              granularity="minute"
-              className="w-auto text-foreground max-w-96 md:w-auto"
-              placeholder=""
-              value={startDate}
-              onChange={(newValue) => {
-                if (newValue) setStartDate(newValue);
-              }}
-            />
-          </div>
-
-          <div className="flex w-full flex-row sm:w-auto justify-between sm:max-w-96 md:w-auto">
-            <Label className="pr-2">{content.DatetimeEndNote}</Label>
-            <DateTimePicker
-              granularity="minute"
-              className="w-auto text-foreground max-w-96 md:w-auto"
-              placeholder=""
-              value={endDate}
-              onChange={(newValue) => {
-                if (newValue) setEndDate(newValue);
-              }}
-            />
-          </div>
+          <DateTimeRangePicker
+            value={{ from: startDate, to: endDate }}
+            disabled={!filtersRestored}
+            onChange={({ from, to }) => {
+              setStartDate(from);
+              setEndDate(to);
+              updateData(from, to);
+            }}
+          />
           <Button
             type="button"
-            onClick={updateData}
+            onClick={() => updateData()}
             disabled={
               !filtersRestored ||
               !tank ||

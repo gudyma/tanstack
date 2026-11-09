@@ -1,3 +1,4 @@
+const _pe1l0tv9t0 = require('../dictionary/date-time-range-picker.json');
 const _is5qsl7nki = require('../dictionary/editable-table.json');
 const _ycd3ihzg6q = require('../dictionary/indexContent.json');
 const _1bc4fbv4vs8 = require('../dictionary/journalContent.json');
@@ -8,6 +9,7 @@ const _144jhy9sp0b = require('../dictionary/tableContent.json');
 const _gjp7tmeuax = require('../dictionary/tankContent.json');
 
 const dictionaries = {
+  "date-time-range-picker": _pe1l0tv9t0,
   "editable-table": _is5qsl7nki,
   "indexContent": _ycd3ihzg6q,
   "journalContent": _1bc4fbv4vs8,
