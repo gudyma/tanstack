@@ -22,7 +22,9 @@ export interface DateTimeRange {
 }
 
 export const DATE_RANGE_PRESET_GROUPS = [
-  ["today", "yesterday", "lastMonth", "thisWeek", "thisMonth", "previousMonth"],
+  ["today", "yesterday", "lastMonth"],
+  ["thisWeek"],
+  ["thisMonth", "previousMonth"],
   ["quarter4", "quarter3", "quarter2", "quarter1"],
   ["thisYear", "previousYear"],
 ] as const;

@@ -28,7 +28,7 @@ const dateTimeRangePickerContent = {
     navigation: t({ en: "Calendar navigation", uk: "Навігація календарем" }),
     previousCalendarMonth: t({ en: "Previous month", uk: "Попередній місяць" }),
     nextCalendarMonth: t({ en: "Next month", uk: "Наступний місяць" }),
-    selected: t({ en: "selected", uk: "вибрано" }),
+    selected: t({ en: "selected", uk: "обрано" }),
     cancel: t({ en: "Cancel", uk: "Скасувати" }),
     apply: t({ en: "Apply", uk: "Застосувати" }),
     invalidDate: t({

@@ -127,7 +127,7 @@ function DateTimeRangePicker({ value, onChange, disabled, className, id }: DateT
         aria-label={content.range.value}
         className="flex max-h-[var(--radix-popover-content-available-height)] w-[min(47.5rem,calc(100vw-2rem))] flex-col overflow-hidden p-0"
       >
-        <div className="min-h-0 overflow-y-auto overscroll-contain md:grid md:grid-cols-[10.5rem_minmax(0,1fr)]">
+        <div className="min-h-0 overflow-y-auto overscroll-contain md:grid md:grid-cols-[12rem_minmax(0,1fr)]">
           <div role="group" aria-label={content.presets.value} className="hidden border-r p-2 md:block">
             {DATE_RANGE_PRESET_GROUPS.map((group, index) => (
               <Fragment key={group[0]}>
@@ -223,8 +223,8 @@ function DateTimeRangePicker({ value, onChange, disabled, className, id }: DateT
                       }}
                     />
                     <Separator />
-                    <div role="group" aria-labelledby={`${uid}-${endpoint}-time`} className="space-y-3">
-                      <p id={`${uid}-${endpoint}-time`} className="text-center text-sm font-medium">{timeLabel}</p>
+                    <div role="group" aria-labelledby={`${uid}-${endpoint}-time`} className="space-x-3 flex flex-row">
+                      <div id={`${uid}-${endpoint}-time`} className="text-center text-sm font-medium content-center">{timeLabel}</div>
                       <TimePicker
                         date={draft[endpoint]}
                         hourCycle={24}
