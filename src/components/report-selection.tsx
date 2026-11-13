@@ -13,10 +13,7 @@ import { useEffect, useState } from "react";
 import { DateTimePicker } from "@/components/ui/date-range-picker";
 import { generateBulkReport } from "@/lib/getSingleTankDiff";
 import { createDiffReportPdf, TankDiffReport } from "@/lib/createDiffReportPdf";
-import {
-  createSnapshotReportPdf,
-  formatDate,
-} from "@/lib/createSnapshotReportPdf";
+import { createSnapshotReportPdf } from "@/lib/createSnapshotReportPdf";
 import { Label } from "@/components/ui/label";
 import { TankMeasurement } from "./tank.types";
 
@@ -49,8 +46,8 @@ export default function ReportsSelection() {
               <div className="flex w-full flex-row justify-between gap-2">
                 <Label className="flex-none">Обрана дата</Label>
                 <DateTimePicker
-                  value={endDate}
-                  onChange={(value: Date) => setBaseDate(value)}
+                  value={baseDate}
+                  onChange={(value) => value && setBaseDate(value)}
                   granularity="minute"
                   className="w-auto flex-1 text-foreground max-w-96"
                   placeholder="Оберіть дату"
@@ -68,7 +65,7 @@ export default function ReportsSelection() {
                     )
                       .then((res) => (res.ok ? res.json() : Promise.reject()))
                       .then((rows: TankMeasurement[]) => {
-                        createSnapshotReportPdf(rows, formatDate(baseDate));
+                        return createSnapshotReportPdf(rows, baseDate);
                       });
                   } catch (error) {
                     console.error(
