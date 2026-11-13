@@ -12,10 +12,8 @@ import {
   type TankMeasurement,
 } from "@/components/tank.types";
 import { initializeTanksAndMqtt } from "@/lib/mqtt";
-import { sumVolumesAndMass } from "@/lib/sumVolumeAndMass";
 import { Button } from "@/components/ui/button";
 import { Volume2Icon, VolumeOffIcon } from "lucide-react";
-import { createServerFn, useServerFn } from "@tanstack/react-start";
 import { getTanks } from "@/lib/serverFunctions";
 
 export const Route = createFileRoute("/{-$locale}/")({
@@ -107,7 +105,6 @@ function RouteComponent() {
       try {
         const audio = new Audio("/audio/warning.mp3");
         audio.play().catch((err) => console.error("Error:", err));
-        console.log("Warning Alarm playing");
       } catch (error) {
         console.error("Failed to play alarm:", error);
       }
@@ -116,7 +113,6 @@ function RouteComponent() {
       try {
         const audio = new Audio("/audio/critical.mp3");
         audio.play().catch((err) => console.error("Error:", err));
-        console.log("Critical Alarm playing");
       } catch (error) {
         console.error("Failed to play alarm:", error);
       }

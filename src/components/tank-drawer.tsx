@@ -121,8 +121,6 @@ function TankDrawerElements({ values }: TankDrawerProps) {
       if (savedVolume !== null && savedVolume !== undefined) {
         url.searchParams.set("saved_volume", String(savedVolume));
       }
-      console.log(url);
-
       try {
         const response = await fetch(url, { method: "POST" });
         if (!response.ok) {

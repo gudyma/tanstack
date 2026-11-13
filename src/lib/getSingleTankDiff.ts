@@ -125,9 +125,6 @@ export function generateBulkReport(
       if (includeUnchanged || Object.keys(report.changes).length > 0) {
         reports.push(report);
       }
-    } else {
-      // Optional: Handle case where tank exists in B but not A (New Tank)
-      console.log(`Tank ${rowB.id} found in second date but not first.`);
     }
   });
 

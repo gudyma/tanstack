@@ -35,22 +35,15 @@ export async function initializeTanksAndMqtt(
 
     // 3. MQTT event listeners
     client.on("connect", () => {
-      console.log("Connected to MQTT broker");
       setIsConnected(true);
       const topic = (import.meta.env.VITE_MQTT_TOPIC || "calcdata") + "/#";
-      console.log("Subscribing to topic:", topic);
       client.subscribe(topic, (err) => {
-        if (err) {
-          console.error("Subscription error:", err);
-        } else {
-          console.log("Subscribed to calcdata topic");
-        }
+        if (err) console.error("Subscription error:", err);
       });
     });
 
-    client.on("message", (topic, message) => {
+    client.on("message", (_topic, message) => {
       const tankData = JSON.parse(message.toString());
-      console.log("Message received:", topic);
       setTanks(() => {
         const extended = tankData.map((item) => {
           const maxLevel = item.max_graduration_level ?? 0;

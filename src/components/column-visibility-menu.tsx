@@ -41,7 +41,6 @@ export function ColumnVisibilityMenu<
         <Button
           variant="outline"
           size="sm"
-          onClick={() => console.log("Click")}
         >
           <EyeIcon className="h-4 w-4 mr-1" />
           Колонки

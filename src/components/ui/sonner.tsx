@@ -7,15 +7,32 @@ import {
   OctagonXIcon,
   TriangleAlertIcon,
 } from "lucide-react"
-import { useTheme } from "next-themes"
+import { useEffect, useState } from "react"
 import { Toaster as Sonner, type ToasterProps } from "sonner"
 
+// The app toggles the "dark" class on <html> (see mode-toggle.tsx), so follow it.
+function useDocumentTheme(): ToasterProps["theme"] {
+  const [theme, setTheme] = useState<ToasterProps["theme"]>("light")
+
+  useEffect(() => {
+    const root = document.documentElement
+    const update = () =>
+      setTheme(root.classList.contains("dark") ? "dark" : "light")
+    update()
+    const observer = new MutationObserver(update)
+    observer.observe(root, { attributes: true, attributeFilter: ["class"] })
+    return () => observer.disconnect()
+  }, [])
+
+  return theme
+}
+
 const Toaster = ({ ...props }: ToasterProps) => {
-  const { theme = "system" } = useTheme()
+  const theme = useDocumentTheme()
 
   return (
     <Sonner
-      theme={theme as ToasterProps["theme"]}
+      theme={theme}
       className="toaster group"
       icons={{
         success: <CircleCheckIcon className="size-4" />,

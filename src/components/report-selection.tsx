@@ -68,12 +68,10 @@ export default function ReportsSelection() {
                     )
                       .then((res) => (res.ok ? res.json() : Promise.reject()))
                       .then((rows: TankMeasurement[]) => {
-                        console.log(rows);
-                        console.log(baseDate);
                         createSnapshotReportPdf(rows, formatDate(baseDate));
                       });
                   } catch (error) {
-                    console.log(
+                    console.error(
                       `Error loading /api/report/nearestTankData: ${error}`,
                     );
                   }
@@ -134,7 +132,7 @@ export default function ReportsSelection() {
                         startData = rows;
                       });
                   } catch (error) {
-                    console.log(
+                    console.error(
                       `Error loading /api/report/nearestTankData: ${error}`,
                     );
                   }
@@ -148,7 +146,7 @@ export default function ReportsSelection() {
                         endData = rows;
                       });
                   } catch (error) {
-                    console.log(
+                    console.error(
                       `Error loading /api/report/nearestTankData: ${error}`,
                     );
                   }

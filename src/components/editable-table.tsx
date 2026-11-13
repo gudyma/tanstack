@@ -295,7 +295,6 @@ export default function EditableTable() {
       if (!res.ok) throw new Error("Failed to fetch tank content info");
 
       const rows: TanksContentApiRow[] = await res.json();
-      console.log(rows);
       const mapped = rows.map(mapApiRowToTableRow);
       setData(mapped);
       setOriginalData(mapped.map((row) => ({ ...row })));
@@ -309,12 +308,6 @@ export default function EditableTable() {
   useEffect(() => {
     loadTanks();
   }, []);
-
-  useEffect(() => {
-    if (validationErrors.size > 0) {
-      console.log("Помилки:", validationErrors);
-    }
-  }, [validationErrors]);
 
   const validateRow = (row: TableRowData) => {
     try {

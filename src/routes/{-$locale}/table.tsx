@@ -36,9 +36,6 @@ import {
 import { tankTableFeatures } from "@/lib/tank-table-features";
 
 import { getColumns } from "@/i18n/dictionaries/get-dictionary";
-import type { Locale } from "@/i18n/ui";
-
-import { useTranslations } from "@/i18n/utils";
 import TankDrawer from "@/components/tank-drawer";
 import { ColumnVisibilityMenu } from "@/components/column-visibility-menu";
 import { Button } from "@/components/ui/button";
@@ -89,7 +86,6 @@ function RouteComponent() {
   useEffect(() => {
     if (clientRef.current) return;
     initializeTanksAndMqtt(setTanks, setIsConnected, clientRef);
-    console.log("Init");
     return () => {
       // cleanup when leaving the page
       clientRef.current?.removeAllListeners();
@@ -106,7 +102,6 @@ function RouteComponent() {
       try {
         const audio = new Audio("/audio/warning.mp3");
         audio.play().catch((err) => console.error("Error:", err));
-        console.log("Alarm playing");
       } catch (error) {
         console.error("Failed to play alarm:", error);
       }
@@ -115,7 +110,6 @@ function RouteComponent() {
       try {
         const audio = new Audio("/audio/critical.mp3");
         audio.play().catch((err) => console.error("Error:", err));
-        console.log("Alarm playing");
       } catch (error) {
         console.error("Failed to play alarm:", error);
       }
