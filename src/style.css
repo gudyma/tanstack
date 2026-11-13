@@ -412,6 +412,26 @@ input[type="number"] {
 }
 
 @layer utilities {
+  @keyframes downloadDown {
+    0% {
+      transform: translateY(-4px);
+      opacity: 0;
+    }
+    25%, 75% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(4px);
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .animate-download-down {
+      animation: downloadDown 0.9s ease-in-out infinite;
+    }
+  }
+
   @keyframes borderFade {
     0% {
       border-color: rgba(59, 130, 246, 1); /* blue-500 */

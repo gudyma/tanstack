@@ -10,7 +10,9 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState } from "react";
+import { Download } from "lucide-react";
 import { DateTimePicker } from "@/components/ui/date-range-picker";
+import { DateTimeRangePicker } from "@/components/ui/date-time-range-picker";
 import { createDiffReportPdf } from "@/lib/createDiffReportPdf";
 import { createSnapshotReportPdf } from "@/lib/createSnapshotReportPdf";
 import { Label } from "@/components/ui/label";
@@ -25,6 +27,8 @@ export default function ReportsSelection() {
   const [baseDate, setBaseDate] = useState(today);
   const [startDate, setStartDate] = useState(yesterday);
   const [endDate, setEndDate] = useState(today);
+  const [isGeneratingBaseReport, setIsGeneratingBaseReport] = useState(false);
+  const [isGeneratingDiffReport, setIsGeneratingDiffReport] = useState(false);
   return (
     <div className="flex h-auto w-full flex-col items-center justify-center  md:flex-row">
       <Tabs defaultValue="daily" className="h-62 w-full">
@@ -55,8 +59,13 @@ export default function ReportsSelection() {
             </CardContent>
             <CardFooter className="justify-between gap-4">
               <Button
+                type="button"
                 className="bg-red-800"
+                disabled={isGeneratingBaseReport}
+                aria-busy={isGeneratingBaseReport}
                 onClick={async () => {
+                  if (isGeneratingBaseReport) return;
+                  setIsGeneratingBaseReport(true);
                   try {
                     await fetch(
                       baseUrl +
@@ -70,10 +79,16 @@ export default function ReportsSelection() {
                     console.error(
                       `Error loading /api/report/nearestTankData: ${error}`,
                     );
+                  } finally {
+                    setIsGeneratingBaseReport(false);
                   }
                 }}
               >
-                Сформувати PDF
+                <Download
+                  aria-hidden="true"
+                  className={isGeneratingBaseReport ? "animate-download-down" : undefined}
+                />
+                {isGeneratingBaseReport ? "Формування PDF…" : "Сформувати PDF"}
               </Button>
               <Button className="bg-green-800" hidden={true}>
                 Create Excel
@@ -91,32 +106,24 @@ export default function ReportsSelection() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-2">
-              <div className="flex w-full flex-row justify-between gap-2">
-                <Label>Початкова дата</Label>
-                <DateTimePicker
-                  granularity="minute"
-                  value={startDate}
-                  onChange={(value) => value && setStartDate(value)}
-                  className="w-auto flex-1 text-foreground max-w-96"
-                  placeholder="Оберіть початкову дату"
-                />
-              </div>
-              <div className="flex w-full flex-row justify-between gap-2">
-                <Label>Кінцева дата</Label>
-                <DateTimePicker
-                  granularity="minute"
-                  value={endDate}
-                  onChange={(value) => value && setEndDate(value)}
-                  className="w-auto flex-1 text-foreground max-w-96"
-                  placeholder="Оберіть кінцеву дату"
-                />
-              </div>
+              <DateTimeRangePicker
+                value={{ from: startDate, to: endDate }}
+                onChange={({ from, to }) => {
+                  setStartDate(from);
+                  setEndDate(to);
+                }}
+                className="w-full sm:w-full"
+              />
             </CardContent>
             <CardFooter className="justify-between gap-4">
               <Button
+                type="button"
                 className="bg-red-800"
-                disabled={startDate > endDate}
+                disabled={isGeneratingDiffReport || startDate > endDate}
+                aria-busy={isGeneratingDiffReport}
                 onClick={async () => {
+                  if (isGeneratingDiffReport) return;
+                  setIsGeneratingDiffReport(true);
                   try {
                     const [startData, endData] = await Promise.all(
                       [startDate, endDate].map(async (date): Promise<TankMeasurement[]> => {
@@ -132,10 +139,16 @@ export default function ReportsSelection() {
                     await createDiffReportPdf(startData, endData, startDate, endDate);
                   } catch (error) {
                     console.error(`Error creating period report: ${error}`);
+                  } finally {
+                    setIsGeneratingDiffReport(false);
                   }
                 }}
               >
-                Сформувати PDF
+                <Download
+                  aria-hidden="true"
+                  className={isGeneratingDiffReport ? "animate-download-down" : undefined}
+                />
+                {isGeneratingDiffReport ? "Формування PDF…" : "Сформувати PDF"}
               </Button>
               <Button className="bg-green-800" hidden={true}>
                 Create Excel
