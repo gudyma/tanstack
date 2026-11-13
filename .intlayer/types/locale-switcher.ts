@@ -27,6 +27,6 @@ export default {
   },
   "key": "locale-switcher",
   "location": "local",
-  "localId": "locale-switcher::local::src\\contents\\locale-switcher.content.ts",
-  "filePath": "src\\contents\\locale-switcher.content.ts"
+  "localId": "locale-switcher::local::src/contents/locale-switcher.content.ts",
+  "filePath": "src/contents/locale-switcher.content.ts"
 } as const;

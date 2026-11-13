@@ -1,25 +1,25 @@
 import "intlayer";
-import _1n386hxzc5x from './date-time-range-picker.ts';
-import _1xp63dt21b2 from './editable-table.ts';
-import _23ronxkqkyx from './indexContent.ts';
-import _1eydrxti6yf from './journalContent.ts';
-import _1sj6lo4z33 from './locale-switcher.ts';
-import _a6szrtlob0 from './more-drawer.ts';
-import _j4gjapj24q from './navigation-dock.ts';
-import _nm78urv5c9 from './tableContent.ts';
-import _1tz87cb9svm from './tankContent.ts';
+import _1uyykdeguti from './date-time-range-picker.ts';
+import _1c1gwjvwk2e from './editable-table.ts';
+import _4izxcy1o3m from './indexContent.ts';
+import _1qzsiv5u24y from './journalContent.ts';
+import _1buu80xh2qu from './locale-switcher.ts';
+import _njkdyj9q2 from './more-drawer.ts';
+import _rwbtcx6ld9 from './navigation-dock.ts';
+import _pert5tqqgp from './tableContent.ts';
+import _17domwazptv from './tankContent.ts';
 
 declare module 'intlayer' {
   interface __DictionaryRegistry {
-    "date-time-range-picker": typeof _1n386hxzc5x;
-    "editable-table": typeof _1xp63dt21b2;
-    "indexContent": typeof _23ronxkqkyx;
-    "journalContent": typeof _1eydrxti6yf;
-    "locale-switcher": typeof _1sj6lo4z33;
-    "more-drawer": typeof _a6szrtlob0;
-    "navigation-dock": typeof _j4gjapj24q;
-    "tableContent": typeof _nm78urv5c9;
-    "tankContent": typeof _1tz87cb9svm;
+    "date-time-range-picker": typeof _1uyykdeguti;
+    "editable-table": typeof _1c1gwjvwk2e;
+    "indexContent": typeof _4izxcy1o3m;
+    "journalContent": typeof _1qzsiv5u24y;
+    "locale-switcher": typeof _1buu80xh2qu;
+    "more-drawer": typeof _njkdyj9q2;
+    "navigation-dock": typeof _rwbtcx6ld9;
+    "tableContent": typeof _pert5tqqgp;
+    "tankContent": typeof _17domwazptv;
   }
 
   interface __DeclaredLocalesRegistry {

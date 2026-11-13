@@ -51,6 +51,6 @@ export default {
   },
   "key": "journalContent",
   "location": "local",
-  "localId": "journalContent::local::src\\contents\\journal.content.ts",
-  "filePath": "src\\contents\\journal.content.ts"
+  "localId": "journalContent::local::src/contents/journal.content.ts",
+  "filePath": "src/contents/journal.content.ts"
 } as const;

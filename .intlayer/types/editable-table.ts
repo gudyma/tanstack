@@ -17,6 +17,6 @@ export default {
   },
   "key": "editable-table",
   "location": "local",
-  "localId": "editable-table::local::src\\contents\\editable-table.content.ts",
-  "filePath": "src\\contents\\editable-table.content.ts"
+  "localId": "editable-table::local::src/contents/editable-table.content.ts",
+  "filePath": "src/contents/editable-table.content.ts"
 } as const;

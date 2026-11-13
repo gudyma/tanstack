@@ -19,6 +19,6 @@ export default {
   },
   "key": "indexContent",
   "location": "local",
-  "localId": "indexContent::local::src\\contents\\index.content.ts",
-  "filePath": "src\\contents\\index.content.ts"
+  "localId": "indexContent::local::src/contents/index.content.ts",
+  "filePath": "src/contents/index.content.ts"
 } as const;

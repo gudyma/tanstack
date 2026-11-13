@@ -19,6 +19,6 @@ export default {
   },
   "key": "navigation-dock",
   "location": "local",
-  "localId": "navigation-dock::local::src\\contents\\navigation-dock.content.ts",
-  "filePath": "src\\contents\\navigation-dock.content.ts"
+  "localId": "navigation-dock::local::src/contents/navigation-dock.content.ts",
+  "filePath": "src/contents/navigation-dock.content.ts"
 } as const;

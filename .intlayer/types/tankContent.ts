@@ -19,6 +19,6 @@ export default {
   },
   "key": "tankContent",
   "location": "local",
-  "localId": "tankContent::local::src\\contents\\tank.content.ts",
-  "filePath": "src\\contents\\tank.content.ts"
+  "localId": "tankContent::local::src/contents/tank.content.ts",
+  "filePath": "src/contents/tank.content.ts"
 } as const;

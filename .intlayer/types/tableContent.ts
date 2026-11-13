@@ -19,6 +19,6 @@ export default {
   },
   "key": "tableContent",
   "location": "local",
-  "localId": "tableContent::local::src\\contents\\table.content.ts",
-  "filePath": "src\\contents\\table.content.ts"
+  "localId": "tableContent::local::src/contents/table.content.ts",
+  "filePath": "src/contents/table.content.ts"
 } as const;

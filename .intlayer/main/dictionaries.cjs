@@ -1,23 +1,23 @@
-const _pe1l0tv9t0 = require('../dictionary/date-time-range-picker.json');
-const _is5qsl7nki = require('../dictionary/editable-table.json');
-const _ycd3ihzg6q = require('../dictionary/indexContent.json');
-const _1bc4fbv4vs8 = require('../dictionary/journalContent.json');
-const _exb1ilkxdo = require('../dictionary/locale-switcher.json');
-const _287ukasrbyn = require('../dictionary/more-drawer.json');
-const _2bpfxftndfv = require('../dictionary/navigation-dock.json');
-const _144jhy9sp0b = require('../dictionary/tableContent.json');
-const _gjp7tmeuax = require('../dictionary/tankContent.json');
+const _1duhvrukbgo = require('../dictionary/date-time-range-picker.json');
+const _8qe9dghgmb = require('../dictionary/editable-table.json');
+const _2gkmhz6ua6l = require('../dictionary/indexContent.json');
+const _yp61u98k9t = require('../dictionary/journalContent.json');
+const _d5974q0mb1 = require('../dictionary/locale-switcher.json');
+const _1q2hywn2a53 = require('../dictionary/more-drawer.json');
+const _6vwmc7uz49 = require('../dictionary/navigation-dock.json');
+const _102frq26xrc = require('../dictionary/tableContent.json');
+const _26ki9qdehzc = require('../dictionary/tankContent.json');
 
 const dictionaries = {
-  "date-time-range-picker": _pe1l0tv9t0,
-  "editable-table": _is5qsl7nki,
-  "indexContent": _ycd3ihzg6q,
-  "journalContent": _1bc4fbv4vs8,
-  "locale-switcher": _exb1ilkxdo,
-  "more-drawer": _287ukasrbyn,
-  "navigation-dock": _2bpfxftndfv,
-  "tableContent": _144jhy9sp0b,
-  "tankContent": _gjp7tmeuax
+  "date-time-range-picker": _1duhvrukbgo,
+  "editable-table": _8qe9dghgmb,
+  "indexContent": _2gkmhz6ua6l,
+  "journalContent": _yp61u98k9t,
+  "locale-switcher": _d5974q0mb1,
+  "more-drawer": _1q2hywn2a53,
+  "navigation-dock": _6vwmc7uz49,
+  "tableContent": _102frq26xrc,
+  "tankContent": _26ki9qdehzc
 };
 const getDictionaries = () => dictionaries;
 

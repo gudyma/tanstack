@@ -21,6 +21,6 @@ export default {
   },
   "key": "more-drawer",
   "location": "local",
-  "localId": "more-drawer::local::src\\contents\\more-drawer.content.ts",
-  "filePath": "src\\contents\\more-drawer.content.ts"
+  "localId": "more-drawer::local::src/contents/more-drawer.content.ts",
+  "filePath": "src/contents/more-drawer.content.ts"
 } as const;
