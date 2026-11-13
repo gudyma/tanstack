@@ -9,10 +9,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { DateTimePicker } from "@/components/ui/date-range-picker";
-import { generateBulkReport } from "@/lib/getSingleTankDiff";
-import { createDiffReportPdf, TankDiffReport } from "@/lib/createDiffReportPdf";
+import { createDiffReportPdf } from "@/lib/createDiffReportPdf";
 import { createSnapshotReportPdf } from "@/lib/createSnapshotReportPdf";
 import { Label } from "@/components/ui/label";
 import { TankMeasurement } from "./tank.types";
@@ -96,8 +95,8 @@ export default function ReportsSelection() {
                 <Label>Початкова дата</Label>
                 <DateTimePicker
                   granularity="minute"
-                  value={baseDate}
-                  onChange={(value: Date) => setStartDate(value)}
+                  value={startDate}
+                  onChange={(value) => value && setStartDate(value)}
                   className="w-auto flex-1 text-foreground max-w-96"
                   placeholder="Оберіть початкову дату"
                 />
@@ -107,7 +106,7 @@ export default function ReportsSelection() {
                 <DateTimePicker
                   granularity="minute"
                   value={endDate}
-                  onChange={(value: Date) => setEndDate(value)}
+                  onChange={(value) => value && setEndDate(value)}
                   className="w-auto flex-1 text-foreground max-w-96"
                   placeholder="Оберіть кінцеву дату"
                 />
@@ -116,44 +115,24 @@ export default function ReportsSelection() {
             <CardFooter className="justify-between gap-4">
               <Button
                 className="bg-red-800"
+                disabled={startDate > endDate}
                 onClick={async () => {
-                  let startData: TankMeasurement[] = [],
-                    endData: TankMeasurement[] = [];
                   try {
-                    await fetch(
-                      baseUrl +
-                        `/api/report/nearestTankData?date=${startDate.toISOString()}`,
-                    )
-                      .then((res) => (res.ok ? res.json() : Promise.reject()))
-                      .then((rows: TankMeasurement[]) => {
-                        startData = rows;
-                      });
-                  } catch (error) {
-                    console.error(
-                      `Error loading /api/report/nearestTankData: ${error}`,
+                    const [startData, endData] = await Promise.all(
+                      [startDate, endDate].map(async (date): Promise<TankMeasurement[]> => {
+                        const response = await fetch(
+                          baseUrl + `/api/report/nearestTankData?date=${date.toISOString()}`,
+                        );
+                        if (!response.ok) {
+                          throw new Error(`Cannot load report data: ${response.status}`);
+                        }
+                        return response.json();
+                      }),
                     );
-                  }
-                  try {
-                    await fetch(
-                      baseUrl +
-                        `/api/report/nearestTankData?date=${endDate.toISOString()}`,
-                    )
-                      .then((res) => (res.ok ? res.json() : Promise.reject()))
-                      .then((rows: TankMeasurement[]) => {
-                        endData = rows;
-                      });
+                    await createDiffReportPdf(startData, endData, startDate, endDate);
                   } catch (error) {
-                    console.error(
-                      `Error loading /api/report/nearestTankData: ${error}`,
-                    );
+                    console.error(`Error creating period report: ${error}`);
                   }
-                  const report: TankDiffReport[] = generateBulkReport(
-                    startData,
-                    endData,
-                  );
-
-                  // Run generator
-                  createDiffReportPdf(report, "weekly_diff_report.pdf");
                 }}
               >
                 Сформувати PDF

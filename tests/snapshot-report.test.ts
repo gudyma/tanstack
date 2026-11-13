@@ -7,6 +7,7 @@ import { buildSnapshotReportDefinition } from "../src/lib/createSnapshotReportPd
 const date = new Date(2026, 9, 19, 14, 20);
 const tank: TankMeasurement = {
   id: "tank-1", name: "1", label: "Tank 1", value: "tank-1", park: "Test", park_id: "test",
+  timestamp: new Date(2026, 9, 19, 14, 19, 42).toISOString(),
   product_level: 3546,
   product_temperature: 17.1,
   total_observed_volume: 283.496,
@@ -47,6 +48,8 @@ function rowValues(rows: TableCell[][], label: string): string[] {
 test("base report uses the reference's fields, precision, local date and tank columns without comments", () => {
   const { definition, pages, rows } = report([tank]);
   assert.deepEqual(rowValues(rows, "Tank Name"), ["1"]);
+  assert.equal(text(rows[1][0]), "Measured Time");
+  assert.deepEqual(rowValues(rows, "Measured Time"), ["19.10.2026\n14:19:42"]);
   assert.deepEqual(rowValues(rows, "Liquid Level (mm)"), ["3546"]);
   assert.deepEqual(rowValues(rows, "Temperature (°C)"), ["17.10"]);
   assert.deepEqual(rowValues(rows, "Liquid Volume (m³)"), ["283.496"]);
@@ -62,7 +65,7 @@ test("base report uses the reference's fields, precision, local date and tank co
   assert.deepEqual(rowValues(rows, "Totals"), ["143.635"]);
   const header = (pages[0].stack[1] as ContentTable).table.body[0].map(text);
   assert.deepEqual(header, ["Date / Loc. Time", "19.10.2026", "at", "14:20", "hrs."]);
-  assert.equal(rows.length, 16);
+  assert.equal(rows.length, 17);
   assert.ok(rows.every((row) => row.length === 2));
   assert.doesNotMatch(JSON.stringify(definition), /Comment|standard_gross|gas_product_mass/);
 });
@@ -117,6 +120,9 @@ test("zero readings remain visible and missing readings do not produce misleadin
     if (invalid !== 0) {
       assert.deepEqual(rowValues(report([{ ...tank, standard_gross_volume_at15_c: invalid }]).rows, "V.C.F. (T-54E) MPMS 11.2.4"), ["-"]);
     }
+  }
+  for (const timestamp of [null, undefined, "", "not-a-date"]) {
+    assert.deepEqual(rowValues(report([{ ...tank, timestamp }]).rows, "Measured Time"), ["-"]);
   }
 });
 

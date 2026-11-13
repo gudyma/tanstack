@@ -1,7 +1,9 @@
+import type { TankMeasurement } from "@/components/tank.types";
+import { buildTankReportDefinition } from "@/lib/createSnapshotReportPdf";
 import { format } from "date-fns-tz";
-import { TDocumentDefinitions, Content } from "pdfmake/interfaces";
+import type { Content, ContentStack, TDocumentDefinitions } from "pdfmake/interfaces";
 
-// Interfaces (Same as before)
+// Kept for consumers of the single-tank comparison helper.
 export interface ParamDiff {
   oldValue: number | null;
   newValue: number | null;
@@ -17,155 +19,84 @@ export interface TankDiffReport {
   changes: Partial<Record<string, ParamDiff>>;
 }
 
-export const createDiffReportPdf = async (reports: TankDiffReport[]) => {
-  // 1. Dynamic Imports
+export const createDiffReportPdf = async (
+  startData: TankMeasurement[],
+  endData: TankMeasurement[],
+  startDate: Date,
+  endDate: Date,
+) => {
+  const definition = buildDiffReportDefinition(startData, endData, startDate, endDate);
   const pdfMakeModule = await import("pdfmake/build/pdfmake");
   const pdfFontsModule = await import("pdfmake/build/vfs_fonts");
-
-  // 2. Handle ES Module Default Exports
   const pdfMake = pdfMakeModule.default || pdfMakeModule;
   const pdfFonts = pdfFontsModule.default || pdfFontsModule;
 
-  // 3. Register Fonts (VFS)
-  // @ts-ignore: handling diverse internal structures of vfs_fonts
-  pdfMake.vfs = pdfFonts.pdfMake ? pdfFonts.pdfMake.vfs : pdfFonts.vfs;
-
-  // 1. Build the Document Content (Logic is exactly the same)
-  const docDefinition: TDocumentDefinitions = {
-    content: [
-      { text: "Звіт", style: "header" },
-      {
-        text: `Згенеровано: ${formatDate(new Date())}`,
-        style: "subheader",
-      },
-      { text: "\n" },
-      ...buildReportContent(reports),
-    ],
-    styles: {
-      header: { fontSize: 18, bold: true, margin: [0, 0, 0, 10] },
-      subheader: { fontSize: 12, italics: true, color: "gray" },
-      tankHeader: {
-        fontSize: 14,
-        bold: true,
-        margin: [0, 15, 0, 5],
-        color: "#2c3e50",
-      },
-      tableHeader: {
-        bold: true,
-        fontSize: 10,
-        color: "black",
-        fillColor: "#eeeeee",
-      },
-      diffPositive: { color: "green", bold: true },
-      diffNegative: { color: "red", bold: true },
-    },
-    defaultStyle: { fontSize: 10 },
-    // Колонтитули (Footer) з номерами сторінок
-    footer: function (currentPage, pageCount) {
-      return {
-        text: `Сторінка ${currentPage} з ${pageCount}`,
-        alignment: "center",
-        fontSize: 8,
-        margin: [0, 10, 0, 0],
-      };
-    },
-  };
-
-  // 2. Generate and Download in Browser (The Fix)
-  // Instead of fs.createWriteStream, we use .download()
-  pdfMake
-    .createPdf(docDefinition)
-    .download(`base_report_${format(new Date(), "dd.MM.yy_HH-mm")}.pdf`);
+  pdfMake.addVirtualFileSystem(pdfFonts);
+  await pdfMake.createPdf(definition)
+    .download(`diff_report_${format(new Date(), "dd.MM.yy_HH-mm")}.pdf`);
 };
 
-// ==========================================
-// Helper Functions (Unchanged)
-// ==========================================
-
-function buildReportContent(reports: TankDiffReport[]): Content[] {
-  const content: Content[] = [];
-
-  if (reports.length === 0) {
-    content.push({
-      text: "No changes detected between the selected dates.",
-      italics: true,
-    });
-    return content;
+export function buildDiffReportDefinition(
+  startData: TankMeasurement[],
+  endData: TankMeasurement[],
+  startDate: Date,
+  endDate: Date,
+): TDocumentDefinitions {
+  if (!Number.isFinite(startDate.getTime()) || !Number.isFinite(endDate.getTime()) || startDate > endDate) {
+    throw new RangeError("The report needs valid start and end dates in chronological order.");
   }
 
-  reports.forEach((report, index) => {
-    content.push({
-      text: `Резервуар: ${report.tank_name}`,
-      style: "tankHeader",
-    });
-    content.push({
-      text: `Порівняння між датами: ${formatDate(report.timestampFrom)} та ${formatDate(report.timestampTo)}`,
-      fontSize: 9,
-      margin: [0, 0, 0, 5],
-    });
-
-    const tableBody = [
-      [
-        { text: "Параметр", style: "tableHeader" },
-        { text: "Було", style: "tableHeader" },
-        { text: "Стало", style: "tableHeader" },
-        { text: "Різниця", style: "tableHeader" },
-        { text: "% Змн", style: "tableHeader" },
-      ],
-    ];
-
-    Object.entries(report.changes).forEach(([paramName, diff]) => {
-      if (!diff) return;
-
-      // Safe access to delta
-      const deltaVal = diff.delta ?? 0;
-      const deltaStyle =
-        deltaVal > 0 ? "diffPositive" : deltaVal < 0 ? "diffNegative" : "";
-
-      tableBody.push([
-        { text: formatParamName(paramName), style: "" },
-        { text: formatNumber(diff.oldValue), style: "" },
-        { text: formatNumber(diff.newValue), style: "" },
-        { text: formatNumber(diff.delta, true), style: deltaStyle },
-        {
-          text: diff.percentChange !== null ? `${diff.percentChange}%` : "-",
-          style: "",
-        },
-      ]);
-    });
-
-    content.push({
-      table: {
-        headerRows: 1,
-        widths: ["*", "auto", "auto", "auto", "auto"],
-        body: tableBody,
-      },
-      layout: "lightHorizontalLines",
-      pageBreak:
-        index % 2 === 0 || index === reports.length - 1 ? undefined : "after",
-    });
+  const startById = new Map(startData.map((tank) => [tank.id, tank]));
+  const endById = new Map(endData.map((tank) => [tank.id, tank]));
+  // Keep identical columns in all sections, including tanks missing at either date.
+  const tanks = [...new Map([...startData, ...endData].map((tank) => [tank.id, tank])).values()];
+  const start = buildTankReportDefinition(tanks, {
+    title: "Base report (start)",
+    dates: [{ label: "Date / Loc. Time", date: startDate }],
+    storedTimes: [{ label: "Measured Time", timestamp: (tank) => startById.get(tank.id)?.timestamp }],
+    readValue: (tank, value) => {
+      const reading = startById.get(tank.id);
+      return reading ? value(reading) : null;
+    },
+  });
+  const end = buildTankReportDefinition(tanks, {
+    title: "Base report (end)",
+    dates: [{ label: "Date / Loc. Time", date: endDate }],
+    storedTimes: [{ label: "Measured Time", timestamp: (tank) => endById.get(tank.id)?.timestamp }],
+    readValue: (tank, value) => {
+      const reading = endById.get(tank.id);
+      return reading ? value(reading) : null;
+    },
+  });
+  const difference = buildTankReportDefinition(tanks, {
+    title: "Difference (end - start)",
+    dates: [
+      { label: "Start / Loc. Time", date: startDate },
+      { label: "End / Loc. Time", date: endDate },
+    ],
+    storedTimes: [
+      { label: "Start Measured Time", timestamp: (tank) => startById.get(tank.id)?.timestamp },
+      { label: "End Measured Time", timestamp: (tank) => endById.get(tank.id)?.timestamp },
+    ],
+    readValue: (tank, value) => {
+      const before = startById.get(tank.id);
+      const after = endById.get(tank.id);
+      if (!before || !after) return null;
+      // Evaluate derived values (VCF, density, total weight) at each date first.
+      const oldValue = value(before);
+      const newValue = value(after);
+      return typeof oldValue === "number" && Number.isFinite(oldValue)
+        && typeof newValue === "number" && Number.isFinite(newValue)
+        ? newValue - oldValue
+        : null;
+    },
   });
 
-  return content;
-}
-
-function formatDate(date: string | Date): string {
-  return new Date(date).toLocaleString("uk-UA", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-  });
-}
-
-function formatNumber(num: number | null, showSign: boolean = false): string {
-  if (num === null || num === undefined) return "-";
-  const str = num.toFixed(4);
-  return showSign && num > 0 ? `+${str}` : str;
-}
-
-function formatParamName(key: string): string {
-  return key.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
+  return {
+    ...start,
+    content: [start, end, difference].map((section, index): ContentStack => ({
+      stack: section.content as Content[],
+      pageBreak: index === 0 ? undefined : "before",
+    })),
+  };
 }

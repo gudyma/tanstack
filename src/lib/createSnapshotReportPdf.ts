@@ -23,6 +23,23 @@ const tableLayout: CustomTableLayout = {
 };
 
 type MeasurementValue = number | null | undefined;
+type MeasurementReader = (
+  tank: TankMeasurement,
+  value: (tank: TankMeasurement) => MeasurementValue,
+) => MeasurementValue;
+
+type StoredTimeRow = {
+  label: string;
+  timestamp: (tank: TankMeasurement) => TankMeasurement["timestamp"];
+};
+
+interface TankReportOptions {
+  title: string;
+  dates: { label: string; date: Date }[];
+  readValue?: MeasurementReader;
+  storedTimes?: StoredTimeRow[];
+}
+
 type ReportRow = {
   label: string;
   value: (tank: TankMeasurement) => MeasurementValue;
@@ -106,12 +123,27 @@ export function buildSnapshotReportDefinition(
   data: TankMeasurement[],
   targetDate: Date,
 ): TDocumentDefinitions {
+
+  return buildTankReportDefinition(data, {
+    title: "Base report",
+    dates: [{ label: "Date / Loc. Time", date: targetDate }],
+  });
+}
+
+export function buildTankReportDefinition(
+  data: TankMeasurement[],
+  {
+    title,
+    dates,
+    readValue = (tank, value) => value(tank),
+    storedTimes = [{ label: "Measured Time", timestamp: (tank) => tank.timestamp }],
+  }: TankReportOptions,
+): TDocumentDefinitions {
   const content: Content[] = [];
-  console.log(data)
   const parkName = [...new Set(data.map((tank) => tank.park?.trim()).filter(Boolean))].join(", ");
 
   if (data.length === 0) {
-    content.push(buildReportHeading(parkName), buildDateHeader(targetDate), {
+    content.push(buildReportHeading(parkName, title), buildDateHeader(dates), {
       text: "No data available for the selected date.",
       italics: true,
       margin: [0, 8, 0, 0],
@@ -121,12 +153,12 @@ export function buildSnapshotReportDefinition(
   for (let index = 0; index < data.length; index += TANKS_PER_PAGE) {
     const tanks = data.slice(index, index + TANKS_PER_PAGE);
     content.push({
-      stack: [buildReportHeading(parkName), buildDateHeader(targetDate), buildTankTable(tanks)],
+      stack: [buildReportHeading(parkName, title), buildDateHeader(dates), buildTankTable(tanks, readValue, storedTimes)],
       pageBreak: index === 0 ? undefined : "before",
     });
   }
 
-  if (data.length > 0) content.push(buildSummary(data));
+  if (data.length > 0) content.push(buildSummary(data, readValue));
 
   return {
     pageSize: "A4",
@@ -143,32 +175,36 @@ export function buildSnapshotReportDefinition(
   };
 }
 
-function buildReportHeading(parkName: string): Content {
+function buildReportHeading(parkName: string, title: string): Content {
   return {
-    text: parkName ? `Base report - ${parkName}` : "Base report",
+    text: parkName ? `${title} - ${parkName}` : title,
     fontSize: 22,
     bold: true,
     margin: [0, 0, 0, 12],
   };
 }
 
-function buildDateHeader(targetDate: Date): Content {
+function buildDateHeader(dates: TankReportOptions["dates"]): Content {
   return {
     table: {
       widths: [LABEL_WIDTH, 105, 35, 65, "*"],
-      body: [[
-        { text: "Date / Loc. Time" },
-        { text: format(targetDate, "dd.MM.yyyy"), alignment: "center" },
+      body: dates.map(({ label, date }) => [
+        { text: label },
+        { text: format(date, "dd.MM.yyyy"), alignment: "center" },
         { text: "at", alignment: "center" },
-        { text: format(targetDate, "HH:mm"), alignment: "center" },
+        { text: format(date, "HH:mm"), alignment: "center" },
         { text: "hrs." },
-      ]],
+      ]),
     },
     layout: tableLayout,
   };
 }
 
-function buildTankTable(tanks: TankMeasurement[]): Content {
+function buildTankTable(
+  tanks: TankMeasurement[],
+  readValue: MeasurementReader,
+  storedTimes: StoredTimeRow[],
+): Content {
   const compact = tanks.length > 12;
   const tankPadding = compact ? 2 : 4;
   // Fixed widths prevent a long reading from widening every tank column.
@@ -187,7 +223,7 @@ function buildTankTable(tanks: TankMeasurement[]): Content {
     ({ label, value, decimals }) => [
       { text: label },
       ...tanks.map((tank): TableCell => {
-        const text = formatNum(value(tank), decimals);
+        const text = formatNum(readValue(tank, value), decimals);
         return {
           text,
           alignment: "center",
@@ -200,7 +236,7 @@ function buildTankTable(tanks: TankMeasurement[]): Content {
   return {
     table: {
       widths: [LABEL_WIDTH, ...tanks.map(() => tankWidth)],
-      headerRows: 1,
+      headerRows: 1 + storedTimes.length,
       dontBreakRows: true,
       body: [
         [
@@ -212,6 +248,15 @@ function buildTankTable(tanks: TankMeasurement[]): Content {
             fontSize: compact ? 8 : 9,
           })),
         ],
+        ...storedTimes.map(({ label, timestamp }): TableCell[] => [
+          { text: label },
+          ...tanks.map((tank): TableCell => ({
+            text: formatStoredTime(timestamp(tank)),
+            alignment: "center",
+            // Fit the full date beneath each name, even with 16 tank columns.
+            fontSize: Math.min(compact ? 8 : 9, tankWidth / 5.2),
+          })),
+        ]),
         section("Liquid Phase"),
         ...rows(liquidRows),
         section("Vapour Phase"),
@@ -227,10 +272,18 @@ function buildTankTable(tanks: TankMeasurement[]): Content {
   };
 }
 
-function buildSummary(tanks: TankMeasurement[]): Content {
-  const liquid = sumMeasurements(tanks.map((tank) => tank.standard_gross_mass_in_vacuume));
-  const vapour = sumMeasurements(tanks.map((tank) => tank.vapor_gross_mass_in_vacuume));
-  const air = sumMeasurements(tanks.map((tank) => tank.gas_product_mass));
+function formatStoredTime(timestamp: TankMeasurement["timestamp"]): string {
+  if (!timestamp) return "-";
+  const date = new Date(timestamp);
+  return Number.isFinite(date.getTime())
+    ? `${format(date, "dd.MM.yyyy")}\n${format(date, "HH:mm:ss")}`
+    : "-";
+}
+
+function buildSummary(tanks: TankMeasurement[], readValue: MeasurementReader): Content {
+  const liquid = sumMeasurements(tanks.map((tank) => readValue(tank, (reading) => reading.standard_gross_mass_in_vacuume)));
+  const vapour = sumMeasurements(tanks.map((tank) => readValue(tank, (reading) => reading.vapor_gross_mass_in_vacuume)));
+  const air = sumMeasurements(tanks.map((tank) => readValue(tank, (reading) => reading.gas_product_mass)));
   const weight = (value: MeasurementValue, unit: string): TableCell => ({
     text: `${formatNum(value, 3)} ${unit}`,
     alignment: "center",
@@ -270,7 +323,9 @@ function sumMeasurements(values: MeasurementValue[]): number | null {
 }
 
 function formatNum(value: MeasurementValue, decimals: number): string {
-  return isNumber(value) ? value.toFixed(decimals) : "-";
+  if (!isNumber(value)) return "-";
+  const formatted = value.toFixed(decimals);
+  return Number(formatted) === 0 ? (0).toFixed(decimals) : formatted;
 }
 
 export function formatDate(date: string | Date): string {

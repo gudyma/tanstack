@@ -137,7 +137,7 @@ function RouteComponent() {
         ))}
       </div>
 
-      <div className="z-5 m-0 flex h-17 w-full flex-none flex-col gap-4 items-center justify-between rounded-b-xl border-x bg-muted/80 px-2 pb-2 font-medium backdrop-blur-2xl supports-backdrop-blur:bg-white/80 supports-backdrop-blur:dark:bg-black/10 md:flex-row xl:h-17 xl:rounded-xl xl:border-none xl:bg-transparent xl:p-0 ">
+      <div className="z-5 m-0 flex h-auto w-full flex-none flex-col gap-4 items-center justify-between rounded-b-xl border-x bg-muted/80 px-2 pb-2 font-medium backdrop-blur-2xl supports-backdrop-blur:bg-white/80 supports-backdrop-blur:dark:bg-black/10 md:flex-row xl:h-17 xl:rounded-xl xl:border-none xl:bg-transparent xl:p-0 ">
         <div className="w-full max-w-96 md:px-2">
           <div className="overflow-hidden">
             <table className="w-full border-collapse tabular-nums [&_td]:whitespace-nowrap [&_td]:px-2.5 [&_th]:px-2.5">
